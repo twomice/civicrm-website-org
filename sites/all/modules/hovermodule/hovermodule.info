@@ -1,0 +1,4 @@
+name = Hover Module
+description = A jQuery-based hover content for Colorbox.
+core = 7.x
+

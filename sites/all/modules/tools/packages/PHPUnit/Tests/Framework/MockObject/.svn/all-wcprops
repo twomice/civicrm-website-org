@@ -1,0 +1,125 @@
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/Framework/MockObject
+END
+class.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/Framework/MockObject/class.phpt
+END
+class_implementing_interface_call_parent_constructor.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 126
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/Framework/MockObject/class_implementing_interface_call_parent_constructor.phpt
+END
+namespaced_class_call_parent_clone.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/Framework/MockObject/namespaced_class_call_parent_clone.phpt
+END
+namespaced_class_implementing_interface_dont_call_parent_constructor.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 142
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/Framework/MockObject/namespaced_class_implementing_interface_dont_call_parent_constructor.phpt
+END
+wsdl_class_partial.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/Framework/MockObject/wsdl_class_partial.phpt
+END
+class_dont_call_parent_clone.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/Framework/MockObject/class_dont_call_parent_clone.phpt
+END
+class_call_parent_constructor.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/Framework/MockObject/class_call_parent_constructor.phpt
+END
+namespaced_interface.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/Framework/MockObject/namespaced_interface.phpt
+END
+class_partial.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/Framework/MockObject/class_partial.phpt
+END
+namespaced_class_dont_call_parent_constructor.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/Framework/MockObject/namespaced_class_dont_call_parent_constructor.phpt
+END
+namespaced_class.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/Framework/MockObject/namespaced_class.phpt
+END
+namespaced_class_implementing_interface_call_parent_constructor.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 137
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/Framework/MockObject/namespaced_class_implementing_interface_call_parent_constructor.phpt
+END
+class_call_parent_clone.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/Framework/MockObject/class_call_parent_clone.phpt
+END
+class_implementing_interface_dont_call_parent_constructor.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 131
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/Framework/MockObject/class_implementing_interface_dont_call_parent_constructor.phpt
+END
+namespaced_class_dont_call_parent_clone.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/Framework/MockObject/namespaced_class_dont_call_parent_clone.phpt
+END
+namespaced_class_call_parent_constructor.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/Framework/MockObject/namespaced_class_call_parent_constructor.phpt
+END
+wsdl_class.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/Framework/MockObject/wsdl_class.phpt
+END
+interface.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/Framework/MockObject/interface.phpt
+END
+namespaced_class_partial.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/Framework/MockObject/namespaced_class_partial.phpt
+END
+class_dont_call_parent_constructor.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/Framework/MockObject/class_dont_call_parent_constructor.phpt
+END

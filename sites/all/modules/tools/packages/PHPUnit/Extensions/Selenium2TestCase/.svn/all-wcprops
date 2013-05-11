@@ -1,0 +1,77 @@
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Extensions/Selenium2TestCase
+END
+Element.php
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Extensions/Selenium2TestCase/Element.php
+END
+Driver.php
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Extensions/Selenium2TestCase/Driver.php
+END
+ElementCriteria.php
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Extensions/Selenium2TestCase/ElementCriteria.php
+END
+Exception.php
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Extensions/Selenium2TestCase/Exception.php
+END
+Response.php
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Extensions/Selenium2TestCase/Response.php
+END
+Command.php
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Extensions/Selenium2TestCase/Command.php
+END
+CommandsHolder.php
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Extensions/Selenium2TestCase/CommandsHolder.php
+END
+StateCommand.php
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Extensions/Selenium2TestCase/StateCommand.php
+END
+URL.php
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Extensions/Selenium2TestCase/URL.php
+END
+Session.php
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Extensions/Selenium2TestCase/Session.php
+END
+SessionStrategy.php
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Extensions/Selenium2TestCase/SessionStrategy.php
+END
+Window.php
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Extensions/Selenium2TestCase/Window.php
+END

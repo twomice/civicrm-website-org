@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/Regression/783
+END
+TwoTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/Regression/783/TwoTest.php
+END
+ChildSuite.php
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/Regression/783/ChildSuite.php
+END
+OneTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/Regression/783/OneTest.php
+END
+ParentSuite.php
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/Regression/783/ParentSuite.php
+END

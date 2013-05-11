@@ -1,0 +1,413 @@
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/_files
+END
+TestIterator.php
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/_files/TestIterator.php
+END
+foo.xml
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/_files/foo.xml
+END
+CoverageMethodTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/_files/CoverageMethodTest.php
+END
+StackTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/_files/StackTest.php
+END
+CoverageProtectedTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/_files/CoverageProtectedTest.php
+END
+structureWrongNumberOfNodes.xml
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/_files/structureWrongNumberOfNodes.xml
+END
+SelectorAssertionsFixture.html
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/_files/SelectorAssertionsFixture.html
+END
+Failure.php
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/_files/Failure.php
+END
+structureIsSameButDataIsNot.xml
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/_files/structureIsSameButDataIsNot.xml
+END
+FunctionCallback.php
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/_files/FunctionCallback.php
+END
+CoverageClassExtendedTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/_files/CoverageClassExtendedTest.php
+END
+AbstractMockTestClass.php
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/_files/AbstractMockTestClass.php
+END
+SampleClass.php
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/_files/SampleClass.php
+END
+InheritedTestCase.php
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/_files/InheritedTestCase.php
+END
+CoverageNotPrivateTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/_files/CoverageNotPrivateTest.php
+END
+Success.php
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/_files/Success.php
+END
+OverrideTestCase.php
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/_files/OverrideTestCase.php
+END
+CoverageNotPublicTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/_files/CoverageNotPublicTest.php
+END
+bar.xml
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/_files/bar.xml
+END
+CoveredClass.php
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/_files/CoveredClass.php
+END
+WasRun.php
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/_files/WasRun.php
+END
+AnInterface.php
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/_files/AnInterface.php
+END
+CoverageClassTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/_files/CoverageClassTest.php
+END
+ExceptionInTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/_files/ExceptionInTest.php
+END
+CoveragePrivateTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/_files/CoveragePrivateTest.php
+END
+CoverageNotProtectedTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/_files/CoverageNotProtectedTest.php
+END
+DependencyFailureTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/_files/DependencyFailureTest.php
+END
+DependencyTestSuite.php
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/_files/DependencyTestSuite.php
+END
+Calculator.php
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/_files/Calculator.php
+END
+NoTestCases.php
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/_files/NoTestCases.php
+END
+structureWrongNumberOfAttributes.xml
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/_files/structureWrongNumberOfAttributes.xml
+END
+structureExpected.xml
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/_files/structureExpected.xml
+END
+NotPublicTestCase.php
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/_files/NotPublicTestCase.php
+END
+PartialMockTestClass.php
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/_files/PartialMockTestClass.php
+END
+OutputTestCase.php
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/_files/OutputTestCase.php
+END
+CoveredFunction.php
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/_files/CoveredFunction.php
+END
+CoverageFunctionTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/_files/CoverageFunctionTest.php
+END
+NonStatic.php
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/_files/NonStatic.php
+END
+ConcreteTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/_files/ConcreteTest.php
+END
+AbstractTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/_files/AbstractTest.php
+END
+DependencySuccessTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/_files/DependencySuccessTest.php
+END
+SleepTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/_files/SleepTest.php
+END
+ExceptionInAssertPreConditionsTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/_files/ExceptionInAssertPreConditionsTest.php
+END
+structureIgnoreTextNodes.xml
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/_files/structureIgnoreTextNodes.xml
+END
+OneTestCase.php
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/_files/OneTestCase.php
+END
+ThrowExceptionTestCase.php
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/_files/ThrowExceptionTestCase.php
+END
+MockRunner.php
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/_files/MockRunner.php
+END
+DataProviderTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/_files/DataProviderTest.php
+END
+FailureTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/_files/FailureTest.php
+END
+MultiDependencyTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/_files/MultiDependencyTest.php
+END
+Error.php
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/_files/Error.php
+END
+ExceptionInTearDownTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/_files/ExceptionInTearDownTest.php
+END
+CoveragePublicTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/_files/CoveragePublicTest.php
+END
+EmptyTestCaseTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/_files/EmptyTestCaseTest.php
+END
+MethodCallback.php
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/_files/MethodCallback.php
+END
+NoTestCaseClass.php
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/_files/NoTestCaseClass.php
+END
+Singleton.php
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/_files/Singleton.php
+END
+NoArgTestCaseTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/_files/NoArgTestCaseTest.php
+END
+DoubleTestCase.php
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/_files/DoubleTestCase.php
+END
+ExceptionInSetUpTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/_files/ExceptionInSetUpTest.php
+END
+ExceptionInAssertPostConditionsTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/_files/ExceptionInAssertPostConditionsTest.php
+END
+ThrowNoExceptionTestCase.php
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/_files/ThrowNoExceptionTestCase.php
+END
+NotVoidTestCase.php
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/_files/NotVoidTestCase.php
+END
+configuration.xml
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/_files/configuration.xml
+END
+structureAttributesAreSameButValuesAreNot.xml
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/_files/structureAttributesAreSameButValuesAreNot.xml
+END
+ClassWithNonPublicAttributes.php
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/_files/ClassWithNonPublicAttributes.php
+END
+Struct.php
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/_files/Struct.php
+END
+GoogleSearch.wsdl
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/_files/GoogleSearch.wsdl
+END

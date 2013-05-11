@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Runner
+END
+TestSuiteLoader.php
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Runner/TestSuiteLoader.php
+END
+StandardTestSuiteLoader.php
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Runner/StandardTestSuiteLoader.php
+END
+BaseTestRunner.php
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Runner/BaseTestRunner.php
+END
+Version.php
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Runner/Version.php
+END
+TestCollector.php
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Runner/TestCollector.php
+END
+IncludePathTestCollector.php
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Runner/IncludePathTestCollector.php
+END

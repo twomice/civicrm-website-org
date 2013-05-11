@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Util/Metrics
+END
+File.php
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Util/Metrics/File.php
+END
+Class.php
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Util/Metrics/Class.php
+END
+Function.php
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Util/Metrics/Function.php
+END
+Project.php
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Util/Metrics/Project.php
+END

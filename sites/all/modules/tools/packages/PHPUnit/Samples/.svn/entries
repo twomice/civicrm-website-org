@@ -1,0 +1,40 @@
+10
+
+dir
+567
+http://svn.civicrm.org/tools/trunk/packages/PHPUnit/Samples
+http://svn.civicrm.org/tools
+
+
+
+2009-12-10T20:04:03.972768Z
+87
+mover
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+768ce0d8-0a5f-4d3e-a850-92636cea8c4e
+
+Money
+dir
+
+BankAccount
+dir
+
+BowlingGame
+dir
+
+BankAccountDB
+dir
+

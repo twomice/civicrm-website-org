@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Extensions/SeleniumTestCase
+END
+Driver.php
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Extensions/SeleniumTestCase/Driver.php
+END
+prepend.php
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Extensions/SeleniumTestCase/prepend.php
+END
+phpunit_coverage.php
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Extensions/SeleniumTestCase/phpunit_coverage.php
+END
+append.php
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Extensions/SeleniumTestCase/append.php
+END
+Autoload.php
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Extensions/SeleniumTestCase/Autoload.php
+END

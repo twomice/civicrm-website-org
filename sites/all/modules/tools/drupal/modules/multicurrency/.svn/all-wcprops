@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/tools/!svn/ver/515/trunk/drupal/modules/multicurrency
+END
+multicurrency.info
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/tools/!svn/ver/394/trunk/drupal/modules/multicurrency/multicurrency.info
+END
+multicurrency.module.discount
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/tools/!svn/ver/25/trunk/drupal/modules/multicurrency/multicurrency.module.discount
+END
+multicurrency.module
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/tools/!svn/ver/515/trunk/drupal/modules/multicurrency/multicurrency.module
+END
+multicurrency.module.original
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/tools/!svn/ver/25/trunk/drupal/modules/multicurrency/multicurrency.module.original
+END

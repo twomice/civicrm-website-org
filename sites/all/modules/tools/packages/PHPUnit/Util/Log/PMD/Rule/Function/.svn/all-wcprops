@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Util/Log/PMD/Rule/Function
+END
+ExcessiveParameterList.php
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Util/Log/PMD/Rule/Function/ExcessiveParameterList.php
+END
+ExcessiveMethodLength.php
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Util/Log/PMD/Rule/Function/ExcessiveMethodLength.php
+END
+CRAP.php
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Util/Log/PMD/Rule/Function/CRAP.php
+END
+CyclomaticComplexity.php
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Util/Log/PMD/Rule/Function/CyclomaticComplexity.php
+END
+CodeCoverage.php
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Util/Log/PMD/Rule/Function/CodeCoverage.php
+END
+NPathComplexity.php
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Util/Log/PMD/Rule/Function/NPathComplexity.php
+END

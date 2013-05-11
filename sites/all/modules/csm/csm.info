@@ -1,0 +1,12 @@
+; $Id: csm.info,v 1.1 2010/01/30 18:09:26 jim0203 Exp $
+name = "Custom submit messages"
+description = "Allows users to change the message that is displayed when a node is submitted."
+core = 6.x
+package = Other
+dependencies[] = token
+; Information added by drupal.org packaging script on 2010-03-26
+version = "6.x-1.0-alpha4"
+core = "6.x"
+project = "csm"
+datestamp = "1269620410"
+

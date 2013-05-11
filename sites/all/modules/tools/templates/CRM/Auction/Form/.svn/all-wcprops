@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/tools/!svn/ver/487/trunk/templates/CRM/Auction/Form
+END
+Auction.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/tools/!svn/ver/487/trunk/templates/CRM/Auction/Form/Auction.tpl
+END
+SearchItem.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/tools/!svn/ver/487/trunk/templates/CRM/Auction/Form/SearchItem.tpl
+END
+SearchAuction.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/tools/!svn/ver/487/trunk/templates/CRM/Auction/Form/SearchAuction.tpl
+END
+ItemAccount.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/tools/!svn/ver/487/trunk/templates/CRM/Auction/Form/ItemAccount.tpl
+END
+Item.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/tools/!svn/ver/487/trunk/templates/CRM/Auction/Form/Item.tpl
+END

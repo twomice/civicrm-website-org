@@ -1,0 +1,173 @@
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Extensions/Database/DataSet
+END
+DefaultDataSet.php
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Extensions/Database/DataSet/DefaultDataSet.php
+END
+AbstractXmlDataSet.php
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Extensions/Database/DataSet/AbstractXmlDataSet.php
+END
+DataSetFilter.php
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Extensions/Database/DataSet/DataSetFilter.php
+END
+DefaultTable.php
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Extensions/Database/DataSet/DefaultTable.php
+END
+MysqlXmlDataSet.php
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Extensions/Database/DataSet/MysqlXmlDataSet.php
+END
+DefaultTableMetaData.php
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Extensions/Database/DataSet/DefaultTableMetaData.php
+END
+TableFilter.php
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Extensions/Database/DataSet/TableFilter.php
+END
+IDataSet.php
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Extensions/Database/DataSet/IDataSet.php
+END
+TableMetaDataFilter.php
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Extensions/Database/DataSet/TableMetaDataFilter.php
+END
+ITable.php
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Extensions/Database/DataSet/ITable.php
+END
+CsvDataSet.php
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Extensions/Database/DataSet/CsvDataSet.php
+END
+ITableMetaData.php
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Extensions/Database/DataSet/ITableMetaData.php
+END
+ISpec.php
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Extensions/Database/DataSet/ISpec.php
+END
+ReplacementDataSet.php
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Extensions/Database/DataSet/ReplacementDataSet.php
+END
+DefaultTableIterator.php
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Extensions/Database/DataSet/DefaultTableIterator.php
+END
+XmlDataSet.php
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Extensions/Database/DataSet/XmlDataSet.php
+END
+ReplacementTable.php
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Extensions/Database/DataSet/ReplacementTable.php
+END
+CompositeDataSet.php
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Extensions/Database/DataSet/CompositeDataSet.php
+END
+YamlDataSet.php
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Extensions/Database/DataSet/YamlDataSet.php
+END
+AbstractDataSet.php
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Extensions/Database/DataSet/AbstractDataSet.php
+END
+ITableIterator.php
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Extensions/Database/DataSet/ITableIterator.php
+END
+AbstractTable.php
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Extensions/Database/DataSet/AbstractTable.php
+END
+QueryDataSet.php
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Extensions/Database/DataSet/QueryDataSet.php
+END
+AbstractTableMetaData.php
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Extensions/Database/DataSet/AbstractTableMetaData.php
+END
+FlatXmlDataSet.php
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Extensions/Database/DataSet/FlatXmlDataSet.php
+END
+QueryTable.php
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Extensions/Database/DataSet/QueryTable.php
+END
+ReplacementTableIterator.php
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Extensions/Database/DataSet/ReplacementTableIterator.php
+END
+IPersistable.php
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Extensions/Database/DataSet/IPersistable.php
+END

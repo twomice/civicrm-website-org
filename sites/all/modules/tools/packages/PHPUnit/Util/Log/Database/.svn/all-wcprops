@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Util/Log/Database
+END
+SQLite3.sql
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Util/Log/Database/SQLite3.sql
+END
+MySQL.sql
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Util/Log/Database/MySQL.sql
+END

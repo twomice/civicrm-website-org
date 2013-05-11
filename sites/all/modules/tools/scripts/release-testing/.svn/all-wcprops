@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/tools/!svn/ver/482/trunk/scripts/release-testing
+END
+upgrader.sh.txt
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/tools/!svn/ver/462/trunk/scripts/release-testing/upgrader.sh.txt
+END
+simpleupgradetest.sh
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/tools/!svn/ver/482/trunk/scripts/release-testing/simpleupgradetest.sh
+END
+schemaverificationtest.sh
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/tools/!svn/ver/462/trunk/scripts/release-testing/schemaverificationtest.sh
+END

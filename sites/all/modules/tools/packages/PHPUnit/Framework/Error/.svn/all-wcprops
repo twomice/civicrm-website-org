@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Framework/Error
+END
+Deprecated.php
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Framework/Error/Deprecated.php
+END
+Notice.php
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Framework/Error/Notice.php
+END
+Warning.php
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Framework/Error/Warning.php
+END

@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/tools/!svn/ver/257/trunk/other/iphone_1.0/CiviCRM/build/iphone/Classes/AFOpenFlow
+END
+AFOpenFlowView.h
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/tools/!svn/ver/257/trunk/other/iphone_1.0/CiviCRM/build/iphone/Classes/AFOpenFlow/AFOpenFlowView.h
+END
+AFOpenFlowConstants.h
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/tools/!svn/ver/257/trunk/other/iphone_1.0/CiviCRM/build/iphone/Classes/AFOpenFlow/AFOpenFlowConstants.h
+END
+AFItemView.h
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/tools/!svn/ver/257/trunk/other/iphone_1.0/CiviCRM/build/iphone/Classes/AFOpenFlow/AFItemView.h
+END
+AFOpenFlowView.m
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/tools/!svn/ver/257/trunk/other/iphone_1.0/CiviCRM/build/iphone/Classes/AFOpenFlow/AFOpenFlowView.m
+END
+AFUIImageReflection.h
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/tools/!svn/ver/257/trunk/other/iphone_1.0/CiviCRM/build/iphone/Classes/AFOpenFlow/AFUIImageReflection.h
+END
+AFItemView.m
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/tools/!svn/ver/257/trunk/other/iphone_1.0/CiviCRM/build/iphone/Classes/AFOpenFlow/AFItemView.m
+END
+AFUIImageReflection.m
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/tools/!svn/ver/257/trunk/other/iphone_1.0/CiviCRM/build/iphone/Classes/AFOpenFlow/AFUIImageReflection.m
+END

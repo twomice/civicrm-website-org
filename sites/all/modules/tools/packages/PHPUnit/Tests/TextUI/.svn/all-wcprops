@@ -1,0 +1,401 @@
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/TextUI
+END
+coverage-clover-not-protected.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/TextUI/coverage-clover-not-protected.phpt
+END
+log-graphviz.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/TextUI/log-graphviz.phpt
+END
+help2.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/TextUI/help2.phpt
+END
+coverage-clover-protected.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/TextUI/coverage-clover-protected.phpt
+END
+story-isolation.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/TextUI/story-isolation.phpt
+END
+log-xml.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/TextUI/log-xml.phpt
+END
+coverage-clover-class-extended.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/TextUI/coverage-clover-class-extended.phpt
+END
+dependencies-isolation.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/TextUI/dependencies-isolation.phpt
+END
+coverage-clover-not-private-isolation.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/TextUI/coverage-clover-not-private-isolation.phpt
+END
+failure-verbose-isolation.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/TextUI/failure-verbose-isolation.phpt
+END
+coverage-clover-not-private.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/TextUI/coverage-clover-not-private.phpt
+END
+coverage-source.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/TextUI/coverage-source.phpt
+END
+coverage-clover-private-isolation.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/TextUI/coverage-clover-private-isolation.phpt
+END
+group-isolation.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/TextUI/group-isolation.phpt
+END
+coverage-clover-private.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/TextUI/coverage-clover-private.phpt
+END
+coverage-clover-public-isolation.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/TextUI/coverage-clover-public-isolation.phpt
+END
+coverage-clover-public.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/TextUI/coverage-clover-public.phpt
+END
+verbose-isolation.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/TextUI/verbose-isolation.phpt
+END
+verbose.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/TextUI/verbose.phpt
+END
+coverage-clover-function.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/TextUI/coverage-clover-function.phpt
+END
+dependencies2.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/TextUI/dependencies2.phpt
+END
+testdox-text.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/TextUI/testdox-text.phpt
+END
+concrete-test-class.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/TextUI/concrete-test-class.phpt
+END
+abstract-test-class.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/TextUI/abstract-test-class.phpt
+END
+skeleton.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/TextUI/skeleton.phpt
+END
+default.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/TextUI/default.phpt
+END
+coverage-clover-class.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/TextUI/coverage-clover-class.phpt
+END
+filter-class-isolation.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/TextUI/filter-class-isolation.phpt
+END
+log-json.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/TextUI/log-json.phpt
+END
+list-groups.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/TextUI/list-groups.phpt
+END
+empty-testcase.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/TextUI/empty-testcase.phpt
+END
+coverage-clover-not-protected-isolation.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/TextUI/coverage-clover-not-protected-isolation.phpt
+END
+dependencies3-isolation.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/TextUI/dependencies3-isolation.phpt
+END
+dependencies3.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/TextUI/dependencies3.phpt
+END
+coverage-clover-protected-isolation.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/TextUI/coverage-clover-protected-isolation.phpt
+END
+dataprovider-testdox.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/TextUI/dataprovider-testdox.phpt
+END
+story.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/TextUI/story.phpt
+END
+coverage-clover-isolation.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/TextUI/coverage-clover-isolation.phpt
+END
+coverage-clover-class-extended-isolation.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/TextUI/coverage-clover-class-extended-isolation.phpt
+END
+coverage-clover.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/TextUI/coverage-clover.phpt
+END
+debug.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/TextUI/debug.phpt
+END
+dependencies.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/TextUI/dependencies.phpt
+END
+testdox.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/TextUI/testdox.phpt
+END
+failure-verbose.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/TextUI/failure-verbose.phpt
+END
+group.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/TextUI/group.phpt
+END
+coverage-clover-not-public-isolation.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/TextUI/coverage-clover-not-public-isolation.phpt
+END
+coverage-clover-not-public.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/TextUI/coverage-clover-not-public.phpt
+END
+empty-testcase-coverage.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/TextUI/empty-testcase-coverage.phpt
+END
+dependencies2-isolation.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/TextUI/dependencies2-isolation.phpt
+END
+exclude-group-isolation.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/TextUI/exclude-group-isolation.phpt
+END
+exclude-group.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/TextUI/exclude-group.phpt
+END
+default-isolation.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/TextUI/default-isolation.phpt
+END
+tap.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/TextUI/tap.phpt
+END
+coverage-clover-class-isolation.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/TextUI/coverage-clover-class-isolation.phpt
+END
+failure-isolation.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/TextUI/failure-isolation.phpt
+END
+failure.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/TextUI/failure.phpt
+END
+help.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/TextUI/help.phpt
+END
+filter-class.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/TextUI/filter-class.phpt
+END
+testdox-html.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/TextUI/testdox-html.phpt
+END
+coverage-clover-method-isolation.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/TextUI/coverage-clover-method-isolation.phpt
+END
+dataprovider-log-xml-isolation.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/TextUI/dataprovider-log-xml-isolation.phpt
+END
+coverage-clover-method.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/TextUI/coverage-clover-method.phpt
+END
+dataprovider-log-xml.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/TextUI/dataprovider-log-xml.phpt
+END
+filter-method-isolation.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/TextUI/filter-method-isolation.phpt
+END
+log-tap.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/TextUI/log-tap.phpt
+END
+filter-method.phpt
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/TextUI/filter-method.phpt
+END

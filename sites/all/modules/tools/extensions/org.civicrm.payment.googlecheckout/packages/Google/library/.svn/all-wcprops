@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/tools/!svn/ver/515/trunk/extensions/org.civicrm.payment.googlecheckout/packages/Google/library
+END
+googleitem.php
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/tools/!svn/ver/515/trunk/extensions/org.civicrm.payment.googlecheckout/packages/Google/library/googleitem.php
+END
+googleresponse.php
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/tools/!svn/ver/515/trunk/extensions/org.civicrm.payment.googlecheckout/packages/Google/library/googleresponse.php
+END
+googleresult.php
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/tools/!svn/ver/515/trunk/extensions/org.civicrm.payment.googlecheckout/packages/Google/library/googleresult.php
+END
+googleshipping.php
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/tools/!svn/ver/515/trunk/extensions/org.civicrm.payment.googlecheckout/packages/Google/library/googleshipping.php
+END
+googlemerchantcalculations.php
+K 25
+svn:wc:ra_dav:version-url
+V 126
+/tools/!svn/ver/515/trunk/extensions/org.civicrm.payment.googlecheckout/packages/Google/library/googlemerchantcalculations.php
+END
+googletaxrule.php
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/tools/!svn/ver/515/trunk/extensions/org.civicrm.payment.googlecheckout/packages/Google/library/googletaxrule.php
+END
+googletaxtable.php
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/tools/!svn/ver/515/trunk/extensions/org.civicrm.payment.googlecheckout/packages/Google/library/googletaxtable.php
+END
+googlecart.php
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/tools/!svn/ver/515/trunk/extensions/org.civicrm.payment.googlecheckout/packages/Google/library/googlecart.php
+END

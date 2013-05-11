@@ -1,0 +1,11 @@
+<?php
+
+/**
+ * Implements hook_init().
+ **/
+
+function hovermodule_init() {
+    drupal_add_js(drupal_get_path('module', 'hovermodule') .'/hovertrial.js');
+}
+
+

@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Extensions/Database/DB/MetaData
+END
+Oci.php
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Extensions/Database/DB/MetaData/Oci.php
+END
+SqlSrv.php
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Extensions/Database/DB/MetaData/SqlSrv.php
+END
+Sqlite.php
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Extensions/Database/DB/MetaData/Sqlite.php
+END
+MySQL.php
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Extensions/Database/DB/MetaData/MySQL.php
+END
+InformationSchema.php
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Extensions/Database/DB/MetaData/InformationSchema.php
+END
+PgSQL.php
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Extensions/Database/DB/MetaData/PgSQL.php
+END

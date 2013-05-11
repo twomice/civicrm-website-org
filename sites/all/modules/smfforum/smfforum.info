@@ -1,0 +1,16 @@
+; $Id: smfforum.info,v 1.3 2008/04/02 18:13:02 vb Exp $
+name = "Smfforum"
+description = Integrates Drupal with SMF: Simple Machines Forum.
+core = 7.x
+
+; Information added by drupal.org packaging script on 2007-02-23
+version = "7.x-1.x-dev"
+project = "smfforum"
+
+
+; Information added by drupal.org packaging script on 2009-09-02
+version = "7.x-1.23"
+core = "7.x"
+project = "smfforum"
+datestamp = "1251913892"
+

@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Util/Log/PMD/Rule
+END
+File.php
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Util/Log/PMD/Rule/File.php
+END
+Class.php
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Util/Log/PMD/Rule/Class.php
+END
+Function.php
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Util/Log/PMD/Rule/Function.php
+END
+Project.php
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Util/Log/PMD/Rule/Project.php
+END

@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Framework/MockObject/Builder
+END
+Identity.php
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Framework/MockObject/Builder/Identity.php
+END
+InvocationMocker.php
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Framework/MockObject/Builder/InvocationMocker.php
+END
+Match.php
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Framework/MockObject/Builder/Match.php
+END
+Namespace.php
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Framework/MockObject/Builder/Namespace.php
+END
+Stub.php
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Framework/MockObject/Builder/Stub.php
+END
+MethodNameMatch.php
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Framework/MockObject/Builder/MethodNameMatch.php
+END
+ParametersMatch.php
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Framework/MockObject/Builder/ParametersMatch.php
+END

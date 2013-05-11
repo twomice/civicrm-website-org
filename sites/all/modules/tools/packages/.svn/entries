@@ -1,0 +1,52 @@
+10
+
+dir
+567
+http://svn.civicrm.org/tools/trunk/packages
+http://svn.civicrm.org/tools
+
+
+
+2012-04-30T16:02:07.110856Z
+527
+daved
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+768ce0d8-0a5f-4d3e-a850-92636cea8c4e
+
+File
+dir
+
+Text
+dir
+
+SeleniumRC
+dir
+
+PHP
+dir
+
+PHPUnit
+dir
+
+PhpDocumentor
+dir
+
+SymfonyComponents
+dir
+
+amavisd-new
+dir
+

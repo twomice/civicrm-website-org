@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Samples/BankAccountDB
+END
+BankAccountDBTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Samples/BankAccountDB/BankAccountDBTest.php
+END
+BankAccountDBTestMySQL.php
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Samples/BankAccountDB/BankAccountDBTestMySQL.php
+END
+BankAccount.php
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Samples/BankAccountDB/BankAccount.php
+END

@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/tools/!svn/ver/515/trunk/drupal/modules/civicrm_van
+END
+civicrm_van.module
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/tools/!svn/ver/515/trunk/drupal/modules/civicrm_van/civicrm_van.module
+END
+civicrm_van.info
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/tools/!svn/ver/394/trunk/drupal/modules/civicrm_van/civicrm_van.info
+END
+run.php
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/tools/!svn/ver/515/trunk/drupal/modules/civicrm_van/run.php
+END

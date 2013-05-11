@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/tools/!svn/ver/257/trunk/drupal/modules/civicrm_regsite/templates/Mail/RegSite
+END
+Message.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/tools/!svn/ver/257/trunk/drupal/modules/civicrm_regsite/templates/Mail/RegSite/Message.tpl
+END
+Subject.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/tools/!svn/ver/257/trunk/drupal/modules/civicrm_regsite/templates/Mail/RegSite/Subject.tpl
+END

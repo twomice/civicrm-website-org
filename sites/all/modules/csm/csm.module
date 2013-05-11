@@ -1,0 +1,265 @@
+<?php
+
+/**
+ * Implementation of hook_form_alter().
+ */
+function csm_form_alter(&$form, $form_state, $form_id) {
+
+  if ($form_id == 'node_type_form' && isset($form['identity']['type'])) {
+    $form['csm'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Submit message settings'),
+      '#collapsible' => TRUE,
+      '#collapsed' => TRUE,
+    );
+
+    global $language;
+    $current_lang = $language->language;
+
+    // Add submit message subsections for each language
+    foreach (language_list() as $lang => $details) {
+      $form['csm'][$lang] = _csm_lang_fieldsets($lang, $form['#node_type']->type);
+      $form['csm'][$lang]['#title'] = t($details->name);
+      if ($lang == $current_lang) {
+        $form['csm'][$lang]['#collapsed'] = FALSE;
+      }
+    }
+
+    $form['create_form_title'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Node creation page title'),
+      '#collapsible' => TRUE,
+      '#collapsed' => TRUE,
+    );
+
+    // Add create form title subsections for each language
+    foreach (language_list() as $lang => $details) {
+      $form['create_form_title'][$lang] = _csm_lang_fieldsets($lang, $form['#node_type']->type, 'title');
+      $form['create_form_title'][$lang]['#title'] = t($details->name);
+      if ($lang == $current_lang) {
+        $form['create_form_title'][$lang]['#collapsed'] = FALSE;
+      }
+    }
+
+    $form['create_form_title']['view']['token_help'] = $form['csm']['view']['token_help'] = array(
+      '#title' => t('Replacement patterns'),
+      '#type' => 'fieldset',
+      '#collapsible' => TRUE,
+      '#collapsed' => TRUE,
+      );
+
+    $form['create_form_title']['view']['token_help']['help'] = $form['csm']['view']['token_help']['help'] = array(
+      '#value' => theme('token_help', 'node'),
+      );
+  }
+  elseif ($form['#id'] == 'node-form' && $form['nid']['#value'] == NULL) {
+
+    global $language;
+
+    // The node that the form refers to has been partly built. hook_nodeapi() has stored it in
+    // the variable table. We need to retrieve it to get
+    // token_replace to play nicely.
+    $node = variable_get('csm_node_temp', NULL);
+    variable_del('csm_node_temp');
+    $title = variable_get('csm_form_title_' . $language->language . '_' . $form['type']['#value'], 'Create [type-name]');
+    if ($title) {
+      $title = token_replace($title, 'node', $node);
+      drupal_set_title($title);
+    }
+  }
+  return;
+}
+
+/**
+ * Implementation of hook_theme_registry_alter().
+ */
+function csm_theme_registry_alter(&$theme_registry) {
+  $theme_registry['status_messages']['function'] = 'csm_theme_status_messages';
+  $Arr = $theme_registry;
+  return;
+}
+
+/**
+ * Implementation of hook_nodeapi().
+ */
+function csm_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
+  if ($op == 'insert' || $op == 'update' || $op == 'delete') {
+    $node->op = $op;
+    variable_set('csm_node_temp', $node);
+  }
+  elseif ($op == 'prepare' && !isset($node->nid)) {
+    // Adding a new node. Store the node in the variable table so that it can be retrieved
+    // by hook_form_alter and token substitutions can be done properly on the title of
+    // the page.
+    variable_set('csm_node_temp', $node);
+  }
+  return;
+}
+
+/**
+ * Provide the form sub-section for a given language.
+ */
+function _csm_lang_fieldsets($lang = NULL, $form_type, $type = 'message') {
+
+  if ($lang == NULL) {
+    global $language;
+    $lang = $language->language;
+  }
+
+  $fields = array(
+    '#type' => 'fieldset',
+    '#title' => t($lang),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+    );
+
+  switch ($type) {
+    case 'message':
+      $fields['csm_create_msg_' . $lang] = array(
+        '#type' => 'textfield',
+        '#title' => t('Create message'),
+        '#default_value' => t(variable_get('csm_create_msg_' . $lang . '_' . $form_type, '[type-name] <em>[title]</em> has been created.')),
+        '#description' => 'Enter the message you want to be shown to your users when they create a node of this type.',
+        '#size' => 60,
+        '#maxlength' => 128,
+        '#required' => TRUE,
+      );
+
+      $fields['csm_update_msg_' . $lang] = array(
+        '#type' => 'textfield',
+        '#title' => t('Update message'),
+        '#default_value' => t(variable_get('csm_update_msg_'. $lang . '_' . $form_type, '[type-name] <em>[title]</em> has been updated.')),
+        '#description' => 'Enter the message you want to be shown to your users when they edit a node of this type.',
+        '#size' => 60,
+        '#maxlength' => 128,
+        '#required' => TRUE,
+      );
+
+      $fields['csm_delete_msg_' . $lang] = array(
+        '#type' => 'textfield',
+        '#title' => t('Delete message'),
+        '#default_value' => t(variable_get('csm_delete_msg_'. $lang . '_' . $form_type, '[type-name] <em>[title]</em> has been deleted.')),
+        '#description' => 'Enter the message you want to be shown to your users when they delete a node of this type.',
+        '#size' => 60,
+        '#maxlength' => 128,
+        '#required' => TRUE,
+      );
+
+      return $fields;
+      break;
+    case 'title':
+      $fields['csm_form_title_' . $lang] = array(
+        '#type' => 'textfield',
+        '#title' => t('Node create form title'),
+        '#default_value' => t(variable_get('csm_form_title_' . $lang . '_' . $form_type, 'Create [type-name]')),
+        '#description' => 'Enter the title you want to be shown to your users on the node creation page.',
+        '#size' => 60,
+        '#maxlength' => 128,
+        '#required' => TRUE,
+      );
+
+      return $fields;
+      break;
+  }
+}
+
+/**
+ * Parses through the set messages and calls other functions that
+ * make the required changes to messages.
+ */
+function _csm_kill_status_messages(&$messages) {
+  // If there are no status messages set then there's nothing to do.
+  if (!isset($messages['status'])) {
+    return FALSE;
+  }
+
+  // Parse through the status messages. If you come across a submit message,
+  // change it.
+  foreach ($messages['status'] as $delta => $message) {
+    if ($msg_type = _csm_is_submit_message($message)) {
+
+      // Load the node that we saved in csm_nodeapi().
+      $node = variable_get('csm_node_temp', NULL);
+      variable_del('csm_node_temp');
+
+      // Need to stick a bit in here that checks the active language then loads the msg based on that.
+      global $language;
+
+      // Change the status message to the custom status message.
+      $messages['status'][$delta] = variable_get('csm_' . $msg_type . '_msg_' . $language->language . '_' . $node->type, $messages['status'][$delta]);
+      $messages['status'][$delta] = token_replace($messages['status'][$delta], 'node', $node);
+    }
+  }
+  return;
+}
+
+/**
+ * Pass a message as an argument. If the message is from a node creation, the function
+ * returns 'create'. If the message is from a node update, the function returns
+ * 'update'. If the message is not a node submit message, the function returns FALSE.
+ *
+ * Now that the $node is saved with variable_set(), this function only needs to return
+ * TRUE or FALSE. This will be changed in future releases.
+ */
+function _csm_is_submit_message($message) {
+
+  if (strpos($message, '</em> has been created.') && !strpos($message, 'The content type <em>')) {
+    return 'create';
+  }
+  elseif (strpos($message, '</em> has been updated.') && !strpos($message, 'The content type <em>')) {
+    return 'update';
+  }
+  elseif (strpos($message, '</em> has been deleted.') && !strpos($message, 'The content type <em>')) {
+    return 'delete';
+  }
+  else {
+    return FALSE;
+  }
+}
+
+/**
+ * Returns the nid of the $node that is being submitted.
+ * Now that the $node is saved via variable_set(), this
+ * code is no longer used. It will eventually be removed.
+ */
+function _csm_referring_nid($HR, $msg_type = 'update') {
+  if ($msg_type == 'update' || $msg_type == 'delete') {
+    // $HR looks like this: http://example.com/node/33/edit or
+    // http://example.com/node/33/delete
+    global $base_url;
+    $Arr = explode('/', str_replace($base_url . '/node/', '', $HR));
+    return $Arr[0];
+  }
+  elseif ($msg_type == 'create') {
+    // In this case the function has been passed a string that looks
+    // like node/66, or whatever the nid is like.
+    $Arr = explode('/', $HR);
+    return $Arr[1];
+  }
+}
+
+/**
+ * Custom replacement for theme_status_messages(). Calls a function that
+ * changes any node submit messages. Then carries on as per
+ * theme_status_messages().
+ */
+function csm_theme_status_messages($display = NULL) {
+  $dgm = drupal_get_messages($display);
+  _csm_kill_status_messages($dgm);
+  $output = '';
+  foreach ($dgm as $type => $messages) {
+    $output .= "<div class=\"messages $type\">\n";
+    if (count($messages) > 1) {
+      $output .= " <ul>\n";
+      foreach ($messages as $message) {
+        $output .= '  <li>'. $message ."</li>\n";
+      }
+      $output .= " </ul>\n";
+    }
+    else {
+      $output .= $messages[0];
+    }
+    $output .= "</div>\n";
+  }
+  return $output;
+}

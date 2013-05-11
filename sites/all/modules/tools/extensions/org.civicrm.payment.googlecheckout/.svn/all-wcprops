@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/tools/!svn/ver/515/trunk/extensions/org.civicrm.payment.googlecheckout
+END
+GoogleCheckout.php
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/tools/!svn/ver/515/trunk/extensions/org.civicrm.payment.googlecheckout/GoogleCheckout.php
+END
+GoogleIPN.php
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/tools/!svn/ver/515/trunk/extensions/org.civicrm.payment.googlecheckout/GoogleIPN.php
+END
+info.xml
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/tools/!svn/ver/374/trunk/extensions/org.civicrm.payment.googlecheckout/info.xml
+END
+googleNotify.php
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/tools/!svn/ver/515/trunk/extensions/org.civicrm.payment.googlecheckout/googleNotify.php
+END

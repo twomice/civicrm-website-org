@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/Extensions/Database/Operation
+END
+AllTests.php
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/Extensions/Database/Operation/AllTests.php
+END
+OperationsTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/Extensions/Database/Operation/OperationsTest.php
+END
+RowBasedTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/Extensions/Database/Operation/RowBasedTest.php
+END

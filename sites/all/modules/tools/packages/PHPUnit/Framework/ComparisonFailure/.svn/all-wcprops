@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Framework/ComparisonFailure
+END
+Array.php
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Framework/ComparisonFailure/Array.php
+END
+Type.php
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Framework/ComparisonFailure/Type.php
+END
+Scalar.php
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Framework/ComparisonFailure/Scalar.php
+END
+Object.php
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Framework/ComparisonFailure/Object.php
+END
+String.php
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Framework/ComparisonFailure/String.php
+END

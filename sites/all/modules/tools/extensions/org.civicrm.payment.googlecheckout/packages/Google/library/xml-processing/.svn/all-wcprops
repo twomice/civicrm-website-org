@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/tools/!svn/ver/515/trunk/extensions/org.civicrm.payment.googlecheckout/packages/Google/library/xml-processing
+END
+xmlparser.php
+K 25
+svn:wc:ra_dav:version-url
+V 124
+/tools/!svn/ver/515/trunk/extensions/org.civicrm.payment.googlecheckout/packages/Google/library/xml-processing/xmlparser.php
+END
+xmlbuilder.php
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/tools/!svn/ver/515/trunk/extensions/org.civicrm.payment.googlecheckout/packages/Google/library/xml-processing/xmlbuilder.php
+END

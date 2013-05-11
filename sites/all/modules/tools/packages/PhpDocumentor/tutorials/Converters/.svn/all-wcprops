@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/tools/!svn/ver/4/trunk/packages/PhpDocumentor/tutorials/Converters
+END
+Converter.cls.ini
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/tools/!svn/ver/4/trunk/packages/PhpDocumentor/tutorials/Converters/Converter.cls.ini
+END
+template.vars.cls
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/tools/!svn/ver/4/trunk/packages/PhpDocumentor/tutorials/Converters/template.vars.cls
+END
+Converter.cls
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/tools/!svn/ver/4/trunk/packages/PhpDocumentor/tutorials/Converters/Converter.cls
+END
+Converter.methods.cls
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/tools/!svn/ver/4/trunk/packages/PhpDocumentor/tutorials/Converters/Converter.methods.cls
+END
+Converters.pkg
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/tools/!svn/ver/4/trunk/packages/PhpDocumentor/tutorials/Converters/Converters.pkg
+END

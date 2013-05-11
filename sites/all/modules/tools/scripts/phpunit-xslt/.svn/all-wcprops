@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/tools/!svn/ver/528/trunk/scripts/phpunit-xslt
+END
+phpunit-noframes.xsl
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/tools/!svn/ver/528/trunk/scripts/phpunit-xslt/phpunit-noframes.xsl
+END
+log.xsl
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/tools/!svn/ver/222/trunk/scripts/phpunit-xslt/log.xsl
+END
+phpunit-frames.xsl
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/tools/!svn/ver/528/trunk/scripts/phpunit-xslt/phpunit-frames.xsl
+END
+coverage-frames.xsl
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/tools/!svn/ver/222/trunk/scripts/phpunit-xslt/coverage-frames.xsl
+END
+str.replace.function.xsl
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/tools/!svn/ver/222/trunk/scripts/phpunit-xslt/str.replace.function.xsl
+END

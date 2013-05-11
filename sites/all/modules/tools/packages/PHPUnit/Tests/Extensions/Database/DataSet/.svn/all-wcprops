@@ -1,0 +1,71 @@
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/Extensions/Database/DataSet
+END
+XmlDataSetsTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/Extensions/Database/DataSet/XmlDataSetsTest.php
+END
+PersistorTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/Extensions/Database/DataSet/PersistorTest.php
+END
+AllTests.php
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/Extensions/Database/DataSet/AllTests.php
+END
+QueryDataSetTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/Extensions/Database/DataSet/QueryDataSetTest.php
+END
+QueryTableTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/Extensions/Database/DataSet/QueryTableTest.php
+END
+CsvDataSetTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/Extensions/Database/DataSet/CsvDataSetTest.php
+END
+FilterTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/Extensions/Database/DataSet/FilterTest.php
+END
+ReplacementDataSetTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/Extensions/Database/DataSet/ReplacementDataSetTest.php
+END
+ReplacementTableTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/Extensions/Database/DataSet/ReplacementTableTest.php
+END
+CompositeDataSetTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/Extensions/Database/DataSet/CompositeDataSetTest.php
+END
+YamlDataSetTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/tools/!svn/ver/93/trunk/packages/PHPUnit/Tests/Extensions/Database/DataSet/YamlDataSetTest.php
+END

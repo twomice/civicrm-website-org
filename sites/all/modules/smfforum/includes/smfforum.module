@@ -1,0 +1,2573 @@
+<?php
+// $Id: smfforum.module,v 1.3.2.5 2009/09/02 17:45:06 vb Exp $
+/**
+ * Copyright 2007-2009 by Vadim G.B. (http://vgb.org.ru)
+ */
+
+define('SMF_DRUPAL_MODULE', 'SMFforum');
+define('SMF_MODULE_TAG', 'SMFforum');
+define('SMF_DRUPAL_MODULE_VERSION', 7);
+
+define('SMF_API_FILE', '/smf_api_2.php');
+define('SMF_API_SUBS_FILE', '/smf_api_subs.php');
+define('SMF_API_INCLUDE_PATH', '/includes');
+define('SMF_PATH', '/smf');
+define('SMF_PAGE', 'smfforum');
+
+define('SMF_SYNC_TO_SMF', 'to SMF');
+define('SMF_SYNC_TO_DRUPAL', 'to Drupal');
+define('SMF_SYNC_TO_MASTER', 'to master');
+
+@define('A_SYNC_TO_UNDEFINED', 0); 
+@define('A_SYNC_TO_ME', 1);
+@define('A_SYNC_TO_EXTERNAL', 2);
+@define('A_SYNC_TO_MASTER', 3);
+@define('A_SYNC_TO_FINISHED', -1);
+
+define('SMF_NUM_RECENT_POSTS', 10);
+define('SMF_NUM_RECENT_TOPICS', 10);
+
+define('SMF_RECENT_DELIMITER_SPACE', " ");
+define('SMF_RECENT_DELIMITER_BR', "<br />");
+
+define('SMF_COOKIELENGTH', 1440);
+define('SMF_NUM_WHOS_ONLINE', 9999);
+define('SMF_NUM_TOP_POSTERS', 5);
+
+////////////////////////////////////////////////////////////////////////////////
+define('SMF_DISABLE_MODULE', 0); // Only use in emergency
+define('SMF_DISABLE_AUTO_LOGOUT', 0); // Only use if you are not able to login
+define('SMF_MODULE_DEBUG', 0); // Do not change!
+////////////////////////////////////////////////////////////////////////////////
+
+global $smf_boarddir, $smf_root_path,
+    $site_base_url, $site_smf_page, $site_forum_url, $smf_integration_mode;
+
+_smfforum_set_globals();
+
+function _smfforum_set_globals() {
+  global $smf_config, $base_url, $smf_boarddir, $smf_root_path,
+    $site_base_url, $site_smf_page, $site_forum_url, $smf_integration_mode;
+
+  $site_base_url = $base_url;
+  $site_smf_page =  drupal_get_path_alias(SMF_PAGE);
+  $smf_boarddir = $smf_root_path = variable_get('smfforum_root', realpath('.') . SMF_PATH);
+
+  $smf_integration_mode = variable_get("smfforum_page_frame", 0);
+
+  //$smfurl = $smf_config['forum_url'];
+  $site_forum_url = $base_url ."/". $site_smf_page;
+ 
+  if (module_exists('a_sync')) {
+    variable_set('a_sync_data', 0);
+    variable_set('a_sync_module', '');
+    
+    $_a_sync_inc = dirname(__FILE__) .'/smfforum_a_sync.inc';
+    if (file_exists($_a_sync_inc)) {
+      require_once($_a_sync_inc);
+    }  
+  }
+  
+  /*
+  if (module_exists('services')) {
+    $_smfforum_service_inc = dirname(__FILE__) .'/smfforum_service.inc';
+    if (file_exists($_smfforum_service_inc)) {
+      require_once($_smfforum_service_inc);
+    }  
+  }
+  */
+}
+
+function _smfforum_get_sync_to($sync) {
+  
+  $syncto = $sync;  
+  if ($sync == SMF_SYNC_TO_MASTER) {
+    $master = variable_get('smfforum_master', 1);
+    if ($master) {
+      $syncto = SMF_SYNC_TO_DRUPAL;
+    }  
+    else {
+      $syncto = SMF_SYNC_TO_SMF;
+    }  
+  }
+  
+  if (module_exists('a_sync')) {
+    return _smfforum_get_a_sync_to($syncto);
+  }  
+  
+  return $syncto;  
+}  
+
+function _smfforum_replace_links($output) {
+  global $smf_settings, $base_url;
+
+  $smfurl = $smf_settings['forum_url'];
+  $frameurl = $base_url ."/". drupal_get_path_alias(SMF_PAGE);
+  $output = str_replace($smfurl, $frameurl, $output);
+  // replace back smf images
+  $frameurl = '<img src="'. $frameurl;
+  $smfurl = '<img src="'. $smfurl;
+
+  $output = str_replace($frameurl, $smfurl, $output);
+
+  return $output;
+}
+
+function smfforum_whos_online($top_number = SMF_NUM_WHOS_ONLINE, $output_method = '') {
+  global $smf_settings, $smf_user_info, $smf_txt;
+
+  $output = smf_api_whos_online($top_number, $output_method);
+  if (variable_get("smfforum_page_frame", 0) == 1)
+    $output = _smfforum_replace_links($output);
+
+  return $output;
+}
+
+function smfforum_recent_posts($num_recent = SMF_NUM_RECENT_POSTS, $exclude_boards = null, $output_tag = "<ul>", $output_br = "<br />", $output_method = '') {
+  global $smf_settings, $smf_user_info, $smf_txt;
+
+  $output = smf_api_recent_posts($num_recent, $exclude_boards, $output_tag, $output_br, $output_method);
+  if (variable_get("smfforum_page_frame", 0) == 1)
+    $output = _smfforum_replace_links($output);
+
+  return $output;
+}
+
+function smfforum_recent_topics($num_recent = SMF_NUM_RECENT_TOPICS, $exclude_boards = null, $output_tag = "<ul>", $output_br = "<br />", $output_method = '') {
+  global $smf_settings, $smf_user_info, $smf_txt;
+
+  $output = smf_api_recent_topics($num_recent, $exclude_boards, $output_tag, $output_br, $output_method);
+  if (variable_get("smfforum_page_frame", 0) == 1)
+    $output = _smfforum_replace_links($output);
+
+  return $output;
+}
+
+function smfforum_board_stats($output_method = '') {
+  global $smf_settings, $smf_user_info, $smf_txt;
+
+  $output = smf_api_board_stats($output_method);
+  if (variable_get("smfforum_page_frame", 0) == 1)
+    $output = _smfforum_replace_links($output);
+
+  return $output;
+}
+
+function smfforum_pm($output_method = '') {
+  global $smf_settings, $smf_user_info, $smf_txt;
+
+  $output = smf_api_pm($output_method);
+  if (variable_get("smfforum_page_frame", 0) == 1)
+    $output = _smfforum_replace_links($output);
+
+  return $output;
+}
+
+function smfforum_topposter($top_number = SMF_NUM_TOP_POSTERS, $output_method = '') {
+  global $smf_settings, $smf_user_info, $smf_txt;
+
+  $output = smf_api_topposter($top_number, $output_method);
+  if (variable_get("smfforum_page_frame", 0) == 1)
+    $output = _smfforum_replace_links($output);
+
+  return $output;
+}
+
+function _smfforum_settings() {
+  if (SMF_DISABLE_MODULE)
+    return false;
+  $smf_boarddir = variable_get('smfforum_root', '');
+  $smfsettings = $smf_boarddir .'/Settings.php';
+  $smfinc = variable_get('smfforum_inc', '');
+  $smfapifile = variable_get('smfforum_api_file', SMF_API_FILE);
+  $smfapi = $smfinc . $smfapifile;
+  $smfapisubs = $smfinc . SMF_API_SUBS_FILE;
+  if (file_exists($smfapi) && file_exists($smfapisubs) && file_exists($smfsettings)) {
+    require_once($smfapi);
+    return true;
+  }
+  else
+    return false;
+}
+
+if (SMF_DRUPAL_MODULE_VERSION == 5) {
+
+function smfforum_help($section) {
+  $output = '';
+
+  switch ($section) {
+    case 'admin/help#smfforum':
+      break;
+    case 'admin/modules#description':
+      $output .= t('This module provides integration with SMF: Simple Machines Forum.');
+      break;
+  }
+
+  return $output;
+}
+
+  function smfforum_menu($maycache) {
+    if (variable_get("smfforum_page_frame", 0) == 1) {
+      $items[] = array(
+        'path' => 'smfforum',
+        //'title' => t('SMF Forum'),
+        'access' => user_access('access content'),
+        //'access' => user_access('access forum'),
+        'callback' => 'smfforum_page',
+        'type' => MENU_SUGGESTED_ITEM,
+        //'type' => MENU_NORMAL_ITEM,
+      );
+    }
+    $items[] = array(
+      'path' => 'admin/settings/smfforum',
+      'title' => t('SMFforum settings'),
+      'description' => t('Change SMFforum integration settings'),
+      'callback' => 'drupal_get_form',
+      'callback arguments' => 'smfforum_admin_settings',
+      'access' => user_access('administer site configuration'),
+      'type' => MENU_NORMAL_ITEM,
+    );
+    return $items;
+  }
+ 
+  function smfforum_admin_settings() { // 5.x
+    // Only administrators can access this page
+    if (!user_access('access administration pages'))
+      return message_access();
+
+    $form = _smfforum_admin_settings();
+    return system_settings_form($form); // 5.x
+  }
+
+/**
+ * Implementation of hook_form_alter().
+ */
+function smfforum_form_alter($form_id, &$form) { // 5.x
+  if ($form_id == 'user_login_block' || $form_id == 'user_login') {
+    global $smf_settings;
+    // Get forum URL
+    $scripturl = $smf_settings['forum_url'];
+    $smf_master = variable_get('smfforum_master', 1);
+    if ($smf_master && !empty($scripturl)) {
+      if (variable_get("smfforum_page_frame", 0) == 1) {
+        global $base_url;
+        $scripturl = $base_url ."/". drupal_get_path_alias(SMF_PAGE);
+      }
+      $new_account = $scripturl .'?action=register';
+      $new_password = $scripturl .'?action=reminder';
+
+      $items = array();
+      if (variable_get('user_register', 1)) {
+        $items[] = l(t('Create new account'), $new_account, array('title' => t('Create a new user account.')));
+      }
+      $items[] = l(t('Request new password'), $new_password, array('title' => t('Request new password via e-mail.')));
+      $form['links'] = array('#value' => theme('item_list', $items));
+    }
+  }
+  elseif ($form_id == 'user_register') {
+  }
+}
+
+}
+else { // 6.0
+
+function smfforum_help($path, $arg) {
+  $output = '';
+  switch ($path) {
+    case 'admin/help#smfforum':
+      break;
+    case 'admin/modules#description':
+      $output .= t('This module provides integration with SMF: Simple Machines Forum.');
+      break;
+  }
+  return $output;
+}
+
+/*
+function smfforum_access($op, $node, $account) {
+  
+  if ($op == 'create') {
+    return user_access('create forum topics', $account);
+  }
+
+  if ($op == 'update' || $op == 'delete') {
+    if (user_access('edit own forum topics', $account) && ($account->uid == $node->uid)) {
+      return TRUE;
+    }
+  }
+  
+  if ($op == 'view') {
+    return user_access('access content');
+  }
+}
+
+
+function smfforum_perm() {
+  return array('view forum', 'administer_forum', 'moderate_forum');
+}
+*/
+
+function smfforum_menu() { // 6.0
+
+  $items = array();
+
+  if (variable_get("smfforum_page_frame", 0) == '1') {
+    $items['smfforum'] = array(
+      //'title' => t('SMF Forum'),
+      'page callback' => 'smfforum_page',
+      'access callback' => 'user_access',
+      'access arguments' => array('access content'),
+      'type' => MENU_SUGGESTED_ITEM,
+      //'type' => MENU_NORMAL_ITEM,
+    );
+  }
+
+  $items['admin/settings/smfforum'] = array(
+    'title' => t('SMFforum settings'),
+    'description' => t('Change SMFforum integration settings'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('smfforum_admin_settings'),
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_NORMAL_ITEM
+  );
+
+  return $items;
+}
+
+function smfforum_admin_settings() { // 6.x
+  $form = _smfforum_admin_settings();
+  return system_settings_form($form);
+}
+
+/**
+ * Implementation of hook_form_alter().
+ */
+function smfforum_form_alter(&$form, $form_state, $form_id) { // 6.x
+  
+  if ($form_id == 'user_login_block' || $form_id == 'user_login') {
+    $form['#validate'] = smfforum_login_default_validators($form);
+    
+    global $smf_settings;  
+    // Get forum URL
+    $scripturl = $smf_settings['forum_url'];
+    $smf_master = variable_get('smfforum_master', 1);
+    if ($smf_master && !empty($scripturl)) {
+      if (variable_get("smfforum_page_frame", 0) == 1) {
+        global $base_url;
+        $scripturl = $base_url ."/". drupal_get_path_alias(SMF_PAGE);
+      }
+      $new_account = $scripturl .'?action=register';
+      $new_password = $scripturl .'?action=reminder';
+
+      $items = array();
+      if (variable_get('user_register', 1)) {
+        $items[] = l(t('Create new account'), $new_account, array('title' => t('Create a new user account.')));
+      }
+      $items[] = l(t('Request new password'), $new_password, array('title' => t('Request new password via e-mail.')));
+      $form['links'] = array('#value' => theme('item_list', $items));
+    }
+  }
+  elseif ($form_id == 'user_register') {
+  }
+  return $form;
+}
+
+function smfforum_login_default_validators($form) {
+  
+  if (module_exists('a_sync')) {
+    $module = a_sync_get_module('validators');
+    if ($module != '') {
+      return $form['#validate'];
+    }
+    $module1 = SMF_PAGE;
+    a_sync_set($module1, 'validators', A_SYNC_TO_FINISHED);
+  }
+    
+  $validators = array();
+  
+  if (module_exists('logintoboggan')) {
+    if (variable_get('logintoboggan_login_with_email', 0)) {
+      $validators[] = 'logintoboggan_user_login_validate';
+    }  
+  }
+  
+  $validators[] = 'user_login_name_validate';
+  $validators[] = 'user_login_authenticate_validate';  
+  $validators[] = 'smfforum_login_authenticate_validate'; 
+
+  if (module_exists('a_sync')) {
+    foreach (a_sync_get_modules() as $module) {
+      if ($module != $module1) {
+        $function = $module .'_login_authenticate_validate';
+        if (module_exists($module)) {
+          $validators[] = $function;      
+        }
+      }
+    }  
+  }
+  
+  if (module_exists('ldapauth')) {
+    $validators[] = 'smfforum_ldapauth_login_validate';
+  }  
+ 
+  $validators[] = 'user_login_final_validate';
+  /*
+  if (SMF_MODULE_DEBUG) {
+    drupal_set_message('SMF Form validators');
+    $message = print_r($validators, true); 
+    drupal_set_message($message);  
+  }
+  */
+  return $validators;
+}
+
+/**
+ * A validate handler on the login form. Check supplied username/password
+ * against local users table. If successful, sets the global $user object.
+ */
+function smfforum_login_authenticate_validate($form, &$form_state) {
+  global $user;
+  if (!$user->uid) {
+    $pass = trim($form_state['values']['pass']);
+    if (!empty($pass)) {
+      smfforum_external_login_register($form_state['values']['name'], $pass);
+      if ($user->uid) {
+        user_authenticate_finalize($form_state['values']);
+      }
+    }
+  }
+}
+
+if (module_exists('ldapauth')) {
+  function smfforum_ldapauth_login_validate($form, &$form_state) {
+    global $user;
+    if (!$user->uid) {
+      $pass = trim($form_state['values']['pass']);
+      if (!empty($pass)) {
+        ldapauth_login_validate($form, $form_state);
+      }
+    }
+  }
+}
+
+} // 6
+
+
+
+function _smfforum_admin_settings() { // 6.x, 5.x
+
+  global $smf_connection, $smf_boarddir, $smf_user_info;
+ 
+  $form = array();
+  $form['smfstatus'] = array('#type' => 'fieldset',
+    '#title' => t('SMFforum status'),
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE);
+
+  $smfapi_exists = false;
+  $smfinc = "";
+
+  $smfroot = variable_get('smfforum_root', realpath('.') . SMF_PATH);
+  if (empty($smfroot)) {
+    $smfroot = realpath('.') . SMF_PATH;
+    variable_set('smfforum_root', $smfroot);
+  }
+  $smfsettings = $smfroot .'/Settings.php';
+  $smfapifile = variable_get('smfforum_api_file', SMF_API_FILE);
+  if (empty($smfapifile)) {
+    $smfapifile = SMF_API_FILE;
+    variable_set('smfforum_api_file', $smfapifile);
+  }
+
+  if (file_exists($smfsettings)) {
+    $smfsettings_exists = true;
+    $form['smfstatus']['info3'] = array('#type' => 'markup',
+      '#value' => '<div class="ok">'. t('Successfully locating SMF installation.') .'</div>');
+
+    $smf_boarddir = $smfroot;
+    $smfinc = variable_get('smfforum_inc', drupal_get_path('module', SMF_PAGE) . SMF_API_INCLUDE_PATH);
+    if (empty($smfinc)) {
+      $smfinc = drupal_get_path('module', SMF_PAGE) . SMF_API_INCLUDE_PATH;
+      variable_set('smfforum_inc', $smfinc);
+    }
+    $smfapi = $smfinc . $smfapifile;
+    $smfapisubs = $smfinc . SMF_API_SUBS_FILE;
+    if (file_exists($smfapi) && file_exists($smfapisubs)) {
+      $smfapi_exists = true;
+    }
+    else {
+      $smfapi = $smf_boarddir . $smfapifile;
+      $smfapisubs = $smf_boarddir . SMF_API_SUBS_FILE;
+      if (file_exists($smfapi) && file_exists($smfapisubs)) {
+        $smfapi_exists = true;
+        $smfinc = $smf_boarddir;
+      }
+    }
+  }
+  else {
+    $smfsettings_exists = false;
+    $form['smfstatus']['info4'] = array('#type' => 'markup',
+      '#value' => '<div class="error">'. t('Error locating SMF installation.') .' '. t('Please fix your settings!') .'</div>');
+  }
+
+  if ($smfapi_exists) {
+    $form['smfstatus']['info1'] = array('#type' => 'markup',
+      '#value' => '<div class="ok">'. t('Successfully locating %api.', array('%api' => $smfapi)) .'</div>');
+  }
+  else {
+    $form['smfstatus']['info2'] = array('#type' => 'markup',
+      '#value' => '<div class="error">'. t('Error locating %api.', array('%api' => $smfapi)) .' '. t('Please fix your settings!') .'</div>');
+  }
+/*
+  if (SMF_MODULE_DEBUG) {
+    global $active_db;
+    $message = '0 D = SMF '.$active_db.' == '.$smf_connection;
+    drupal_set_message($message);  
+  }
+*/  
+  if ($smfsettings_exists && $smfapi_exists)
+    require_once($smfapi);
+/*
+  if (SMF_MODULE_DEBUG) {
+    $message = '1 D = SMF '.$active_db.' == '.$smf_connection;
+    drupal_set_message($message);  
+  }
+*/  
+  if ($smf_connection) {
+      $form['smfstatus']['info5'] = array('#type' => 'markup',
+        '#value' => '<div class="ok">'. t('Successfully connected to the SMF database.') .'</div>');
+  }
+  else {
+    $form['smfstatus']['info6'] = array('#type' => 'markup',
+      '#value' => '<div class="error">'. t('Unable to connect to the SMF database.') .' '. t('Please fix your settings!') .'</div>');
+  }
+
+  $form['smfsettings'] = array('#type' => 'fieldset',
+    '#title' => t('SMF location settings'),
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE);
+
+  $form['smfsettings']['smfforum_root'] = array('#type' => 'textfield',
+    '#title' => t('SMFforum root'),
+    '#maxlength' => '128', '#size' => '60',
+    '#default_value' => $smfroot,
+    '#description' => t('Path to forum directory. Enter the full directory path where SMF is installed.'));
+
+  if ($smfsettings_exists) {
+    $form['smfsettings']['smfforum_inc'] = array('#type' => 'textfield',
+      '#title' => t('Path to SMF api file'),
+      '#maxlength' => '128', '#size' => '60',
+      '#default_value' => $smfinc,
+      '#description' => t('Enter the full directory path where SMF api file is located.'));
+
+    $form['smfsettings']['smfforum_api_file'] = array('#type' => 'textfield',
+      '#title' => t('SMF api file name'),
+      '#maxlength' => '128', '#size' => '60',
+      '#default_value' => $smfapifile,
+      '#description' => t('Enter SMF api file name.'));
+  }
+
+  if ($smf_connection) {
+
+    $form['drupalsettings'] = array('#type' => 'fieldset',
+      '#title' => t('SMF/Drupal settings'),
+      '#collapsible' => TRUE,
+      '#collapsed' => FALSE);
+
+    $qookie_test = variable_get('smfforum_qookie_test', 0);
+
+    $authenticated = smf_api_authenticate_user();
+   
+    if ($authenticated) {
+      $form['smfstatus']['info7'] = array('#type' => 'markup',
+        '#value' => '<div class="ok">'. t('Successfully authenticated SMF user: %name.', array('%name' => smf_api_utf8($smf_user_info['name']))) .'</div>');
+      $qookie_test = 1;
+      variable_set('smfforum_qookie_test', $qookie_test);
+    }
+    else {
+      if ($qookie_test == 0 || $qookie_test == 2) {
+        $form['smfstatus']['info8'] = array('#type' => 'markup',
+          '#value' => '<div class="error">'. t('You are not authenticated in SMF now.') .' '. t('Please login to SMF and test again. You may refresh settings!') .'</div>');
+        $qookie_test = 0;
+      }
+      else {
+        $form['smfstatus']['info8'] = array('#type' => 'markup',
+          '#value' => '<div class="ok">'. t('You are not authenticated in SMF now.') .'</div>');
+      }
+    }
+
+    $form['drupalsettings']['smfforum_qookie_test'] = array(
+      '#type' => 'radios',
+      '#title' => t('SMF qookie authentication test'),
+      '#default_value' => $qookie_test,
+      '#options' => array(0 => t('Not passed'), 1 => t('Passed'), 2 => t('Test')),
+    );
+
+    $form['drupalsettings']['smfforum_master'] = array(
+      '#type' => 'radios',
+      '#title' => t('Select master registration system'),
+      '#default_value' => variable_get('smfforum_master', 1),
+      '#options' => array(0 => t('Drupal master'), 1 => t('SMF master')),
+    );
+
+    $form['drupalsettings']['smfforum_cookie_length'] = array('#type' => 'textfield',
+      '#title' => t('Session length'),
+      '#maxlength' => '6', '#size' => '6',
+      '#default_value' => variable_get('smfforum_cookie_length', SMF_COOKIELENGTH),
+      '#description' => t('Enter the session length in minutes to stay logged in.'));
+
+    $form['drupalsettings']['smfforum_num_whos_online'] = array('#type' => 'textfield',
+      '#title' => t('Number of online forum users'),
+      '#maxlength' => '4', '#size' => '4',
+      '#default_value' => variable_get('smfforum_num_whos_online', SMF_NUM_WHOS_ONLINE),
+      '#description' => t('Enter the number of online forum users.'));
+
+    $form['drupalsettings']['smfforum_num_recent_topics'] = array('#type' => 'textfield',
+      '#title' => t('Number of recent topics'),
+      '#maxlength' => '2', '#size' => '2',
+      '#default_value' => variable_get('smfforum_num_recent_topics', SMF_NUM_RECENT_TOPICS),
+      '#description' => t('Enter the number of recent topics.'));
+    
+    $form['drupalsettings']['smfforum_recent_topics_br'] = array(
+      '#type' => 'radios',
+      '#title' => t('Recent topics word\'s delimiter'),
+      '#default_value' => variable_get('smfforum_recent_topics_br', 1),
+      '#options' => array(0 => t('Space'), 1 => t('BR')),
+      '#description' => t('Enter the recent topics word\'s delimiter.'));
+        
+    $form['drupalsettings']['smfforum_num_recent_posts'] = array('#type' => 'textfield',
+      '#title' => t('Number of recent posts'),
+      '#maxlength' => '2', '#size' => '2',
+      '#default_value' => variable_get('smfforum_num_recent_posts', SMF_NUM_RECENT_POSTS),
+      '#description' => t('Enter the number of recent posts.'));
+
+    $form['drupalsettings']['smfforum_recent_posts_br'] = array(
+      '#type' => 'radios',
+      '#title' => t('Recent posts word\'s delimiter'),
+      '#default_value' => variable_get('smfforum_recent_posts_br', 1),
+      '#options' => array(0 => t('Space'), 1 => t('BR')),
+      '#description' => t('Enter the recent posts word\'s delimiter.'));
+    
+    $form['drupalsettings']['smfforum_user_ban'] = array(
+      '#type' => 'radios',
+      '#title' => t('SMF user ban checking'),
+      '#default_value' => variable_get('smfforum_user_ban', 0),
+      '#options' => array(0 => t('No'), 1 => t('Check SMF bans')),
+    );
+
+    $form['drupalsettings']['smfforum_set_msg'] = array(
+      '#type' => 'radios',
+      '#title' => t('Display SMFforum module messages'),
+      '#default_value' => variable_get('smfforum_set_msg', 1),
+      '#options' => array(0 => t('No'), 1 => t('Yes')),
+    );
+    
+    $form['drupalsettings']['smfforum_log_msg'] = array(
+      '#type' => 'radios',
+      '#title' => t('Log SMFforum module messages'),
+      '#default_value' => variable_get('smfforum_log_msg', 1),
+      '#options' => array(0 => t('No'), 1 => t('Yes')),
+    );
+
+    // Signatures
+    $form['drupalsettings']['smfforum_sync_signature'] = array(
+      '#type' => 'radios',
+      '#title' => t('Signatures synchronisation'),
+      '#default_value' => variable_get('smfforum_sync_signature', 1),
+      '#options' => array(0 => t('Disable'), 1 => t('Enable')),
+      '#description' => t('Set signatures synchronisation support.')
+    );
+    // Avatars
+    $form['drupalsettings']['smfforum_sync_avatar'] = array(
+      '#type' => 'radios',
+      '#title' => t('Avatars synchronisation'),
+      '#default_value' => variable_get('smfforum_sync_avatar', 1),
+      '#options' => array(0 => t('Disable'), 1 => t('Enable')),
+      '#description' => t('Set avatars synchronisation support.')
+    );
+    // Timezones
+    $form['drupalsettings']['smfforum_sync_timezone'] = array(
+      '#type' => 'radios',
+      '#title' => t('Timezones synchronisation'),
+      '#default_value' => variable_get('smfforum_sync_timezone', 0),
+      '#options' => array(0 => t('Disable'), 1 => t('Enable')),
+      '#description' => t('Set timezones synchronisation support.')
+    );
+
+    $form['profilemap'] = array('#type' => 'fieldset',
+      '#title' => t('Profile fields mapping'),
+      '#collapsible' => TRUE,
+      '#collapsed' => TRUE);
+
+    $form['profilemap']['smfforum_map_name'] = array('#type' => 'textfield',
+      '#title' => t('Name of `name` field'),  // 'realName'
+      '#maxlength' => '128', '#size' => '60',
+      '#default_value' => variable_get('smfforum_map_name', 'profile_name'),
+      '#description' => t('Enter the name of SMF `realName` field, as it configured in Drupal profile module.'));
+
+    $form['profilemap']['smfforum_map_gender'] = array('#type' => 'textfield',
+      '#title' => t('Name of `gender` field'),  // 'gender'
+      '#maxlength' => '128', '#size' => '60',
+      '#default_value' => variable_get('smfforum_map_gender', 'profile_gender'),
+      '#description' => t('Enter the name of SMF `gender` field, as it configured in Drupal profile module.'));
+
+    $form['profilemap']['smfforum_map_birthdate'] = array('#type' => 'textfield',
+      '#title' => t('Name of `birthdate` field'),  // 'birthdate'
+      '#maxlength' => '128', '#size' => '60',
+      '#default_value' => variable_get('smfforum_map_birthdate', 'profile_birthdate'),
+      '#description' => t('Enter the name of SMF `birthdate` field, as it configured in Drupal profile module.'));
+
+    $form['profilemap']['smfforum_map_personalText'] = array('#type' => 'textfield',
+      '#title' => t('Name of `personalText` field'), // 'personalText'
+      '#maxlength' => '128', '#size' => '60',
+      '#default_value' => variable_get('smfforum_map_personalText', 'profile_personalText'),
+      '#description' => t('Enter the name of SMF `personalText` field, as it configured in Drupal profile module.'));
+
+    $form['profilemap']['smfforum_map_usertitle'] = array('#type' => 'textfield',
+      '#title' => t('Name of `usertitle` field'), // 'usertitle'
+      '#maxlength' => '128', '#size' => '60',
+      '#default_value' => variable_get('smfforum_map_usertitle', 'profile_usertitle'),
+      '#description' => t('Enter the name of SMF `usertitle` field, as it configured in Drupal profile module.'));
+
+    $form['profilemap']['smfforum_map_location'] = array('#type' => 'textfield',
+      '#title' => t('Name of `location` field'),
+      '#maxlength' => '128', '#size' => '60',
+      '#default_value' => variable_get('smfforum_map_location', 'profile_location'),
+      '#description' => t('Enter the name of SMF `location` field, as it configured in Drupal profile module.'));
+
+    $form['profilemap']['smfforum_map_ICQ'] = array('#type' => 'textfield',
+      '#title' => t('Name of `ICQ` field'),
+      '#maxlength' => '128', '#size' => '60',
+      '#default_value' => variable_get('smfforum_map_ICQ', 'profile_ICQ'),
+      '#description' => t('Enter the name of SMF `ICQ` field, as it configured in Drupal profile module.'));
+    $form['profilemap']['smfforum_map_AIM'] = array('#type' => 'textfield',
+      '#title' => t('Name of `AIM` field'),
+      '#maxlength' => '128', '#size' => '60',
+      '#default_value' => variable_get('smfforum_map_AIM', 'profile_AIM'),
+      '#description' => t('Enter the name of SMF `AIM` field, as it configured in Drupal profile module.'));
+    $form['profilemap']['smfforum_map_YIM'] = array('#type' => 'textfield',
+      '#title' => t('Name of `YIM` field'),
+      '#maxlength' => '128', '#size' => '60',
+      '#default_value' => variable_get('smfforum_map_YIM', 'profile_YIM'),
+      '#description' => t('Enter the name of SMF `YIM` field, as it configured in Drupal profile module.'));
+
+    $form['profilemap']['smfforum_map_MSN'] = array('#type' => 'textfield',
+      '#title' => t('Name of `MSN` field'),
+      '#maxlength' => '128', '#size' => '60',
+      '#default_value' => variable_get('smfforum_map_MSN', 'profile_MSN'),
+      '#description' => t('Enter the name of SMF `MSN` field, as it configured in Drupal profile module.'));
+
+    $form['profilemap']['smfforum_map_websiteTitle'] = array('#type' => 'textfield',
+      '#title' => t('Name of `websiteTitle` field'),  // 'websiteTitle'
+      '#maxlength' => '128', '#size' => '60',
+      '#default_value' => variable_get('smfforum_map_websiteTitle', 'profile_websiteTitle'),
+      '#description' => t('Enter the name of SMF `websiteTitle` field, as it configured in Drupal profile module.'));
+
+    $form['profilemap']['smfforum_map_websiteUrl'] = array('#type' => 'textfield',
+      '#title' => t('Name of `websiteUrl` field'),  // 'websiteUrl'
+      '#maxlength' => '128', '#size' => '60',
+      '#default_value' => variable_get('smfforum_map_websiteUrl', 'profile_websiteUrl'),
+      '#description' => t('Enter the name of SMF `websiteUrl` field, as it configured in Drupal profile module.'));
+
+
+    // Frame
+    $form['smfforum_page'] = array('#type' => 'fieldset',
+      '#title' => t('SMF page settings'),
+      '#collapsible' => TRUE,
+      '#collapsed' => FALSE);
+
+    $form['smfforum_page']['smfforum_page_frame'] = array(
+      '#type' => 'radios',
+      '#title' => t('SMF display way'),
+      '#default_value' => variable_get("smfforum_page_frame", 0),
+      '#options' => array(0 => t('In the window'), 1 => t('In frame inside Drupal page')),
+      '#description' => t("Change the way SMF is displayed in Drupal.")
+    );
+
+    $target = variable_get("smfforum_page_frame", 0);
+    if ($target == 1) {
+      $form['smfforum_page']['smfforum_page_width'] = array(
+        '#type' => 'textfield',
+        '#title' => t("SMF frame width"),
+        '#default_value' => variable_get("smfforum_page_width", "100%"),
+        '#size' => '6',
+        '#maxlength' => '6',
+        '#description' => t("Set the width of the Frame.")
+      );
+      $form['smfforum_page']['smfforum_page_height'] = array(
+        '#type' => 'textfield',
+        '#title' => t("SMF frame height"),
+        '#default_value' => variable_get("smfforum_page_height", "1024"),
+        '#size' => '6', '#maxlength' => '6',
+        '#description' => t("Set the height of the Frame.")
+      );
+
+      $form['smfforum_page']['smfforum_page_scroll'] = array(
+        '#type' => 'radios',
+        '#title' => t('Scrolling SMF frame'),
+        '#default_value' => variable_get("smfforum_page_scroll", 2),
+        '#options' => array(0 => t('No'), 1 => t('Yes'), 2 => t('Auto')),
+        '#description' => t("Should scrollbars be displayed if SMF is too large to fit in the frame.")
+      );
+    }
+  }
+  return $form;
+}
+
+if (variable_get("smfforum_page_frame", 0) == 1) {
+
+  function smfforum_page() {
+    global $smf_settings, $site_smf_page;
+    if (!_smfforum_settings())
+      return;
+
+    $query_string = $_SERVER['QUERY_STRING'];
+    
+    $query_string = urldecode($query_string);
+    
+    $tags = array('<iframe>', '</iframe>', '/iframe',
+                  '&lt;iframe&gt;', '&lt;/iframe&gt;',
+                  '<script>', '</script>',
+                  '&lt;script&gt;', '&lt;/script&gt;',
+                  );
+    $query_string = str_replace($tags, '', $query_string);
+    
+    $query_string = check_plain($query_string);
+    $query_string = str_replace('&amp;', '&', $query_string);
+    
+    $action = $query_string;
+    //drupal_set_message('QUERY_STRING='.$action);
+    
+    //$str = "q=smfforum";
+    $str = 'q='. $site_smf_page .'/index.php';
+    //$str = 'q='. $site_smf_page;
+    $len = strlen($str);
+    $stra = $str .'&';
+    $lena = $len + 1;
+    if (substr($action, 0, $lena) == $stra)
+      $action = substr($action, $lena);
+    elseif (substr($action, 0, $len) == $str)
+      $action = substr($action, $len);
+    else {
+      $str = 'q='. $site_smf_page;
+      $len = strlen($str);
+      $stra = $str .'&';
+      $lena = $len + 1;
+      if (substr($action, 0, $lena) == $stra)
+        $action = substr($action, $lena);
+      elseif (substr($action, 0, $len) == $str)
+        $action = substr($action, $len);
+    }  
+      
+    //drupal_set_message('QUERY_STRING2='.$action);
+
+    $path = $smf_settings['forum_url'];
+    $path .= '/index.php';
+    if ($action != "") {
+      $path .= '?';
+      $path .= $action;
+    }
+
+    //drupal_set_message('path='.$path);
+    
+    // Added this to allow the iframe to resize dynamically according to the
+    // page height. -- Daen
+
+    drupal_add_js(drupal_get_path('module', 'smfforum') .'/smfframe.js', 'module');
+
+    $width = variable_get("smfforum_page_width", "100%");
+    $height = variable_get("smfforum_page_height", "1024");
+    $scrolling = variable_get("smfforum_page_scroll", 2);
+
+    $output = '<iframe id="forumFrame" src="'. $path .'"'; //name="smfforum"';
+
+    if ($width && $height) {
+      $output .= ' width="'. $width .'"'.' height="'. $height .'"';
+    }
+    $output .= ' frameborder="0" framespacing="0"';
+    if ($scrolling == 2)
+      $output .= ' scrolling="auto"';
+    elseif ($scrolling == 1)
+      $output .= ' scrolling="yes"';
+    else
+      $output .= ' scrolling="no"';
+    $output .= ' allowtransparency="false"';
+
+    $output .= '><p>'. t('Sorry your browser does not work') .'</p></iframe>';
+
+    return $output;
+  }
+}
+
+function smfforum_block($op = 'list', $delta = 0, $edit = array()) {
+  global $user;
+
+  if ($op == 'list') {
+    $blocks[0]['info'] = SMF_MODULE_TAG .': '. t('Hidden authentication');
+    $blocks[1]['info'] = SMF_MODULE_TAG .': '. t('Personal messages');
+    $blocks[2]['info'] = SMF_MODULE_TAG .': '. t('Online forum users');
+    $blocks[3]['info'] = SMF_MODULE_TAG .': '. t('New forum topics');
+    $blocks[4]['info'] = SMF_MODULE_TAG .': '. t('New forum posts');
+    $blocks[5]['info'] = SMF_MODULE_TAG .': '. t('Forum statistics');
+    $blocks[6]['info'] = SMF_MODULE_TAG .': '. t('Top posters');
+    return $blocks;
+  }
+  else if ($op == 'view') {
+
+    $block = array();
+
+    if (!_smfforum_settings())
+      return $block;
+
+    switch ($delta) {
+      case 0:
+        _smfforum_authenticate_user();
+        return $block;
+
+      case 1:
+
+        $c = smfforum_pm();
+        $block['subject'] = t('Personal messages');
+        $block['content'] = $c;
+        return $block;
+
+      case 2:
+
+        $c = smfforum_whos_online((int)variable_get('smfforum_num_whos_online', SMF_NUM_WHOS_ONLINE));
+        $block['subject'] = t('Online forum users');
+        $block['content'] = $c;
+        return $block;
+
+      case 3:
+
+        if (variable_get('smfforum_recent_topics_br', 1))
+          $delimeter = SMF_RECENT_DELIMITER_BR;
+        else
+          $delimeter = SMF_RECENT_DELIMITER_SPACE;
+        $c = smfforum_recent_topics((int)variable_get('smfforum_num_recent_topics', SMF_NUM_RECENT_TOPICS), null, "<ul class = \"menu\">", $delimeter);
+        $block['subject'] = t('New forum topics');
+        $block['content'] = $c;
+        return $block;
+
+      case 4:
+
+        if (variable_get('smfforum_recent_posts_br', 1))
+          $delimeter = SMF_RECENT_DELIMITER_BR;
+        else
+          $delimeter = SMF_RECENT_DELIMITER_SPACE;
+        $c = smfforum_recent_posts((int)variable_get('smfforum_num_recent_posts', SMF_NUM_RECENT_POSTS), null, "<ul class = \"menu\">", $delimeter);
+        $block['subject'] = t('New forum posts');
+        $block['content'] = $c;
+        return $block;
+
+      case 5:
+
+        $c = smfforum_board_stats();
+        $block['subject'] = t('Forum statistics');
+        $block['content'] = $c;
+        return $block;
+
+      case 6:
+
+        $c = smfforum_topposter((int)variable_get('smfforum_num_top_posters', SMF_NUM_TOP_POSTERS));
+        $block['subject'] = t('Top posters');
+        $block['content'] = $c;
+        return $block;
+    }
+  }
+}
+
+function _smfforum_watchdog($message = '', $variables = array(), $severity = WATCHDOG_NOTICE, $link = NULL) {
+  if (empty($message))
+    return;
+  $display = variable_get("smfforum_log_msg", 0);
+  if (!$display)
+    return;   
+  
+  if (SMF_DRUPAL_MODULE_VERSION == 5) {
+    if (count($variables) != 0)
+      $message = t($message, $variables);
+    watchdog(SMF_DRUPAL_MODULE, $message, $severity, $link);
+  }
+  else {
+    watchdog(SMF_DRUPAL_MODULE, $message, $variables, $severity, $link);
+  }
+  return;
+}
+
+function _smfforum_set_message($message, $variables = array(), $type = 'status', $repeat = TRUE) {
+  if (empty($message))
+    return;
+  $display = variable_get("smfforum_set_msg", 0);
+  if (!$display)
+    return;
+
+  if (count($variables) != 0)
+    $message = t($message, $variables);
+ 
+  if (SMF_DRUPAL_MODULE_VERSION == 5) {
+    drupal_set_message($message, $type);
+  }
+  else {
+    drupal_set_message($message, $type, $repeat);
+  } 
+  return;
+}
+
+
+function _smfforum_msg($op = 'info', $update = false, $msg = '', $msgt = '', $account = '', $edit = array()) {
+
+  global $smf_settings, $smf_user_info, $user;
+  $message = '';
+
+  $name = (empty($account) ? smf_api_utf8($smf_user_info['username']) : $account->name);
+
+  if ($op == 'update' || $op == 'after_update' || $op == 'insert' || $op == 'login' || $op == 'login2' || $op == 'view' || $op == 'categories') {
+    if (count($edit) != 0) {
+      $s = '';
+      foreach ($edit as $var => $val) {
+        if ($var == 'pass' || $var == 'passwd')
+          $s .= "$var => ****, ";
+        else {
+          if ($msgt == SMF_SYNC_TO_SMF)
+            $var = variable_get('smfforum_map_'. $var, '');
+          if (!empty($var)) {  
+            // 01234567
+            // profile_
+            if (substr($var, 0, 8) == "profile_")
+              $var = substr($var, 8);
+
+            if ($var == 'gender' && $msgt == SMF_SYNC_TO_SMF) {
+              if ($val == '1')
+                $val = t('Male');
+              elseif ($val == '2')
+                $val = t('Female');
+            }
+            $s .= "$var => $val, ";
+          }
+        }
+      }
+      if ($msgt == SMF_SYNC_TO_SMF)
+        $s = smf_api_utf8($s);
+    }
+
+    if ($update && count($edit) != 0) {
+      $message = t('Data %data for %name synced', array('%data' => $s, '%name' => $name));
+    }
+    else if (!$update && count($edit) != 0)
+      $message = t('Unable to sync data %data for %name', array('%data' => $s, '%name' => $name));
+    else
+      $message = t('No data to sync for %name', array('%name' => $name));
+
+    //$msgt = t('%smfforum_to', array('%smfforum_to' => $msgt));
+    if ($msgt == SMF_SYNC_TO_SMF)
+      $msgt = t('to SMF');
+    else
+      $msgt = t('to Drupal');
+
+    if (SMF_MODULE_DEBUG) {
+      $message = 'SMF '. $op .': '. $msg .' '. $message .' '. $msgt .'.';
+    }
+    else
+      $message = $msg .' '. $message .' '. $msgt .'.';
+
+  }
+  else {
+    if (SMF_MODULE_DEBUG) {
+      /*
+      if ($smf_user_info['is_guest'])
+        $message = "Guest";
+      else
+        $message = "User";
+      $message .= "=". $name ." name=". smf_api_utf8($smf_user_info['name']) ." id=". $smf_user_info['id'];
+      */
+
+      $message = $op .': '. $msg .' '. $message .' '. $msgt;
+    }
+  }
+
+  _smfforum_set_message($message);
+
+  return $message;
+}
+
+
+function _smfforum_set_user_profile_data($op, $sync, &$account, $data = array()) {
+  global $smf_user_info;
+
+  $var = variable_get('smfforum_map_name', 'profile_name');
+  if (isset($account->{$var})) {
+    $val = $account->{$var};
+    $valsmf = smf_api_utf8($smf_user_info['name']);
+    if ($val != $valsmf) {
+      if ($sync == SMF_SYNC_TO_SMF) {
+        if (empty($val))
+          $val = $account->name;
+        $data += array('realName' => '\''. smf_api_charset($val) .'\'');
+      }
+      elseif (!empty($valsmf))
+        $data += array($var => $valsmf);
+    }
+  }
+
+  $var = variable_get('smfforum_map_gender', 'profile_gender');
+  if (isset($account->{$var})) {
+    $val = $account->{$var};
+    if ($val == t('Male'))
+      $val = '1';
+    elseif ($val == t('Female'))
+      $val = '2';
+    $valsmf = smf_api_utf8($smf_user_info['gender']);
+    if ($val != $valsmf) {
+      if ($sync == SMF_SYNC_TO_SMF) {
+        if ($val == '1' || $val == '2') {
+          $data += array('gender' => $val);
+        }
+      }
+      elseif (!empty($valsmf)) {
+        if ($valsmf == '1')
+          $valsmf = t('Male');
+        elseif ($valsmf == '2')
+          $valsmf = t('Female');
+        $data += array($var => $valsmf);
+      }
+    }
+  }
+  
+  $var = variable_get('smfforum_map_birthdate', 'profile_birthdate');
+  if (isset($account->{$var})) {
+    $val = $account->{$var};
+    $valsmf = smf_api_utf8($smf_user_info['birthdate']); 
+    // extract date. Expected format YYYY-MM-DD
+    $yymmdd = explode('-', $valsmf);
+    $year2 = (int)$yymmdd[0];
+    $month2 = (int)$yymmdd[1];
+    $day2 = (int)$yymmdd[2];
+    if (empty($year2) || $year2 == 1) {
+      $date2zero = true;
+    }
+    else {
+      $date2zero = false;
+    }
+    if (is_array($val)) {
+      $dateform = true;
+      // extract drupal date
+      extract($val);
+      $compare = ($day != $day2 || $month != $month2 || $year != $year2);
+    }
+    else {
+       $dateform = false;
+       $compare = ($val != $valsmf);
+    }
+    /*
+    if (SMF_MODULE_DEBUG) {
+      $message .= $day.$month.$year.' == '.$day2.$month2.$year2;
+      _smfforum_set_message($message);  
+    }
+    */
+    if ($compare) {
+      if ($sync == SMF_SYNC_TO_SMF) {
+        if ($dateform) {
+          $val = sprintf('%04d-%02d-%02d', $year, $month, $day);
+        }
+        $data += array('birthdate' => '\''. $val .'\'');
+      }    
+      elseif (!empty($valsmf) && !$date2zero) {
+        if ($dateform) {
+          $val2 = array('day' => $day2, 'month' => $month2, 'year' => $year2);
+          $data += array($var => $val2);
+        }
+        else {
+          $data += array($var => $valsmf);
+        }
+      }  
+    }
+  }
+  
+  $var = variable_get('smfforum_map_personalText', 'profile_personalText');
+  if (isset($account->{$var})) {
+    $val = $account->{$var};
+    $valsmf = smf_api_utf8($smf_user_info['personalText']);
+    if ($val != $valsmf) {
+      if ($sync == SMF_SYNC_TO_SMF) {
+        $data += array('personalText' => '\''. smf_api_charset($val) .'\'');
+      }
+      else //if (!empty($valsmf))
+        $data += array($var => $valsmf);
+    }
+  }
+  
+  $var = variable_get('smfforum_map_usertitle', 'profile_usertitle');
+  if (isset($account->{$var})) {
+    $val = $account->{$var};
+    $valsmf = smf_api_utf8($smf_user_info['usertitle']);
+    if ($val != $valsmf) {
+      if ($sync == SMF_SYNC_TO_SMF)
+        $data += array('usertitle' => '\''. smf_api_charset($val) .'\'');
+      else //if (!empty($valsmf))
+        $data += array($var => $valsmf);
+    }
+  }
+  
+  $var = variable_get('smfforum_map_location', 'profile_location');
+  if (isset($account->{$var})) {
+    $val = $account->{$var};
+    $valsmf = smf_api_utf8($smf_user_info['location']);
+    if ($val != $valsmf) {
+      if ($sync == SMF_SYNC_TO_SMF)
+        $data += array('location' => '\''. smf_api_charset($val) .'\'');
+      else //if (!empty($valsmf))
+        $data += array($var => $valsmf);
+    }
+  }
+  
+  $var = variable_get('smfforum_map_ICQ', 'profile_ICQ');
+  if (isset($account->{$var})) {
+    $val = $account->{$var};
+    $valsmf = smf_api_utf8($smf_user_info['ICQ']);
+    if ($val != $valsmf) {
+      if ($sync == SMF_SYNC_TO_SMF)
+        $data += array('ICQ' => '\''. smf_api_charset($val) .'\'');
+      else //if (!empty($valsmf))
+        $data += array($var => $valsmf);
+    }
+  }
+  
+  $var = variable_get('smfforum_map_AIM', 'profile_AIM');
+  if (isset($account->{$var})) {
+    $val = $account->{$var};
+    $valsmf = smf_api_utf8($smf_user_info['AIM']);
+    if ($val != $valsmf) {
+      if ($sync == SMF_SYNC_TO_SMF)
+        $data += array('AIM' => '\''. smf_api_charset($val) .'\'');
+      else //if (!empty($valsmf))
+        $data += array($var => $valsmf);
+    }
+  }
+  
+  $var = variable_get('smfforum_map_YIM', 'profile_YIM');
+  if (isset($account->{$var})) {
+    $val = $account->{$var};
+    $valsmf = smf_api_utf8($smf_user_info['YIM']);
+    if ($val != $valsmf) {
+      if ($sync == SMF_SYNC_TO_SMF)
+        $data += array('YIM' => '\''. smf_api_charset($val) .'\'');
+      else //if (!empty($valsmf))
+        $data += array($var => $valsmf);
+    }
+  }
+  
+  $var = variable_get('smfforum_map_MSN', 'profile_MSN');
+  if (isset($account->{$var})) {
+    $val = $account->{$var};
+    $valsmf = smf_api_utf8($smf_user_info['MSN']);
+    if ($val != $valsmf) {
+      if ($sync == SMF_SYNC_TO_SMF)
+        $data += array('MSN' => '\''. smf_api_charset($val) .'\'');
+      else //if (!empty($valsmf))
+        $data += array($var => $valsmf);
+    }
+  }
+  
+  $var = variable_get('smfforum_map_websiteTitle', 'profile_websiteTitle');
+  if (isset($account->{$var})) {
+    $val = $account->{$var};
+    $valsmf = smf_api_utf8($smf_user_info['websiteTitle']);
+    if ($val != $valsmf) {
+      if ($sync == SMF_SYNC_TO_SMF)
+        $data += array('websiteTitle' => '\''. smf_api_charset($val) .'\'');
+      else //if (!empty($valsmf))
+        $data += array($var => $valsmf);
+    }
+  }
+  
+  $var = variable_get('smfforum_map_websiteUrl', 'profile_websiteUrl');
+  if (isset($account->{$var})) {
+    $val = $account->{$var};
+    $valsmf = smf_api_utf8($smf_user_info['websiteUrl']);
+    if ($val != $valsmf) {
+      if ($sync == SMF_SYNC_TO_SMF)
+        $data += array('websiteUrl' => '\''. smf_api_charset($val) .'\'');
+      else //if (!empty($valsmf))
+        $data += array($var => $valsmf);
+    }
+  }
+  
+  return $data;
+}
+
+function smfforum_update_user_profile($op, $sync, &$account, $data = array()) {
+  global $smf_settings, $smf_user_info, $user;
+
+  $update = false;
+  if (!module_exists('profile'))
+    return $update;
+
+  if (variable_get('a_sync_data', 0) == A_SYNC_TO_FINISHED)
+    return $update;
+    
+  $syncto = _smfforum_get_sync_to($sync);
+
+  $data = array();
+
+  $data = _smfforum_set_user_profile_data($op, $syncto, $account, $data);
+
+  if (count($data) != 0) {
+    if ($syncto == SMF_SYNC_TO_SMF) {
+      $update = smf_api_update_user($smf_user_info['id'], '', '', '', $data);
+      if ($update) {
+        $passwd = $smf_user_info['passwd'];
+        $salt = $smf_user_info['passwordSalt'];
+        smf_api_get_user($account->name, '');
+        $smf_user_info['passwd'] = $passwd;
+        $smf_user_info['passwordSalt'] = $salt;
+      }
+    }
+    else {
+      if ($op == 'login2' || (($op == 'view' || $op == 'categories') && $user->name != $account->name))
+        /*$account =*/ user_save($account, $data, 'login');
+      else
+        /*$account =*/ $user = user_save($account, $data, 'login');
+      $update = true;
+    }
+    
+    if (variable_get("smfforum_set_msg", 0))
+      _smfforum_msg('update', $update, 'Profile', $syncto, $account, $data);
+  
+    if (module_exists('a_sync')) {
+      if ($update) {
+        _smfforum_set_a_sync_to($syncto);
+        module_invoke('a_sync', 'update_user_profile', 'smfforum', $op, $syncto, $account, $edit);
+      }
+    }  
+  }
+  
+  return $update;
+}
+
+function _smfforum_set_user_data($op, $sync, &$account, $name, $pass, $mail, $edit) {
+  global $smf_user_info, $smf_settings, $base_url;
+
+  $sync_to_admin = false;
+  
+  if ($sync == SMF_SYNC_TO_SMF) {
+    if ($smf_user_info['id'] == 1)
+      $sync_to_admin = true;
+  }
+  elseif ($account->uid == 1)
+    $sync_to_admin = true;
+
+  $data = array();
+
+  if (!$sync_to_admin) {
+    // not for admin
+    $sync_data = true;
+    if (!empty($name)) {
+      if ($op == 'update' && $sync == SMF_SYNC_TO_SMF)
+        if (isset($edit['name']))
+          $val = $edit['name'];
+        else
+          $sync_data = false;
+      else
+        $val = $account->name;
+      $valsmf = smf_api_utf8($smf_user_info['username']);
+      if ($sync_data && $val != $valsmf) {
+          if ($sync == SMF_SYNC_TO_SMF)
+            $data += array('memberName' => '\''. smf_api_charset($val) .'\'');
+          elseif (!empty($valsmf))
+            $data += array('name' => $valsmf);
+      }
+    }
+
+    if (!empty($pass)) {
+      if ($sync == SMF_SYNC_TO_SMF)
+        $data += array('passwd' => '\''. smf_api_charset($pass) .'\'');
+      else
+        $data += array('pass' => $pass);
+    }
+    
+    $sync_data = true;
+    if (!empty($mail)) {
+      if ($op == 'update' && $sync == SMF_SYNC_TO_SMF)
+        if (isset($edit['mail']))
+          $val = $edit['mail'];
+        else
+          $sync_data = false;
+      else
+        $val = $account->mail;
+
+      if ($sync_data && $val != $smf_user_info['email']) {
+          if ($sync == SMF_SYNC_TO_SMF)
+            $data += array('emailAddress' => '\''. $mail .'\'');
+          else
+            $data += array('mail' => $smf_user_info['email']);
+      }
+    }
+  }
+
+  if (SMF_SYNC_TO_DRUPAL || count($edit) != 0) {
+    if (variable_get('smfforum_sync_timezone', 0)) {
+      $sync_data = true;
+      if ($op == 'update' && $sync == SMF_SYNC_TO_SMF)
+        if (isset($edit['timezone']))
+          $val = $edit['timezone'];
+        else
+          $sync_data = false;
+      else
+        $val = $account->timezone;
+      $valsmf = $smf_user_info['timeOffset'] * 60 * 60;
+      //if (SMF_MODULE_DEBUG) {
+      //  _smfforum_set_message('timezone timeOffset '.$val.' == '.$valsmf);  
+      //}
+      if ($sync_data && $val != $valsmf) {
+        if ($sync == SMF_SYNC_TO_SMF) {
+          if ($val)
+            $val = $val / 60 / 60;
+          $data += array('timeOffset' => (float) $val);
+        }  
+        else
+          $data += array('timezone' => $valsmf);
+      }
+    }
+    
+    if (variable_get('smfforum_sync_signature', 1)) {
+      $sync_data = true;
+      if (module_exists('signature_forum')) {
+          $result = db_query('SELECT signature FROM {users_signature} WHERE uid=%d', $account->uid)->fetchField();
+        $signature = $result;
+        //_smfforum_set_message('User account: '. $account->name .' sig='. $signature .' found in signature_forum DB');
+        if ($op == 'update' && $sync == SMF_SYNC_TO_SMF) {
+          if ($result) {
+            $val = $signature;
+            //_smfforum_set_message('User account: '. $account->name .' sig='. $signature .' found in signature_forum DB');
+          }
+          else {
+            $sync_data = false;
+            $val = '';
+          }
+        }
+        else {
+          $val = $account->signature_forum;
+          //_smfforum_set_message('User account: '. $account->name .' sig='. $account->signature_forum .' found in account->signature_forum');
+        }
+        $valsmf = smf_api_utf8($smf_user_info['signature']);
+        //_smfforum_set_message('User account: '. $account->name .' sig='. $valsmf .' found in SMF');
+        if ($sync_data && $val != $valsmf) {
+          if ($sync == SMF_SYNC_TO_SMF)
+            $data += array('signature' => '\''. smf_api_charset($val) .'\'');
+          else {
+            $account->signature_forum = $valsmf;
+            if ($result) {
+                db_query('UPDATE {users_signature} SET signature=\'%s\' WHERE uid=%d', array($valsmf, $account->uid))->fetchField();
+              //_smfforum_set_message('User account: '. $account->name .' sig='. $valsmf .' found in SMF. Updated.');
+            }
+            else {
+                db_query('INSERT INTO {users_signature} (uid, signature) VALUES (%d, \'%s\')', array($account->uid, $valsmf))->fetchField();
+              //_smfforum_set_message('User account: '. $account->name .' sig='. $valsmf .' found in SMF. Inserted.');
+            }
+          }
+        }
+      }
+      else {
+        if ($op == 'update' && $sync == SMF_SYNC_TO_SMF)
+          if (isset($edit['signature']))
+            $val = $edit['signature'];
+          else
+            $sync_data = false;
+        else
+          $val = $account->signature;
+        $valsmf = smf_api_utf8($smf_user_info['signature']);
+        if ($sync_data && $val != $valsmf) {
+            if ($sync == SMF_SYNC_TO_SMF)
+              $data += array('signature' => '\''. smf_api_charset($val) .'\'');
+            else
+              $data += array('signature' => $valsmf);
+        }
+      }
+    }
+
+    // avatars
+    if (variable_get('user_pictures', 0) && variable_get('smfforum_sync_avatar', 1)) {
+      $sync_data = true;
+      if ($op == 'update' && $sync == SMF_SYNC_TO_SMF)
+        if (isset($edit['picture']))
+          $val = $edit['picture'];
+        else
+          return $data;
+      else
+        $val = $account->picture;
+      
+      //_smfforum_msg($val);
+
+      if (module_exists('avatar_selection')) {
+        $avatar_selection = true;
+        $avatar_selection_path = 'avatar_selection';
+      }
+      else {
+        $avatar_selection = false;
+        $avatar_selection_path = '';
+      }
+      if (module_exists('unique_avatar')) {
+        $unique_avatar = true;
+      }
+      else {
+        $unique_avatar = false;
+      }      
+      $avatar_selection_val = false;
+      if (empty($val)) {
+        $drupal_picture_url = $val;
+      }  
+      else {
+        if ($avatar_selection && strpos($val, $avatar_selection_path) !== false)
+          $avatar_selection_val = true;  
+        $drupal_picture_url = $base_url .'/'. $val;
+      }  
+      //_smfforum_msg($drupal_picture_url);
+
+      $valsmf = $smf_user_info['avatar'];
+      //_smfforum_msg($valsmf);
+      $smf_avatar_realpath = empty($smf_settings['custom_avatar_enabled']) ? $smf_settings['attachmentUploadDir'] : $smf_settings['custom_avatar_dir'];
+      $smf_avatar_dir_realpath = $smf_settings['avatar_directory'];
+      //$smf_avatar_url = $smf_settings['forum_url']  .'/'. $smf_avatar_path;
+      //_smfforum_msg($smf_avatar_realpath);
+      $drupal_files_path = variable_get('file_public_path', conf_path() . '/files'); 
+      //_smfforum_msg($drupal_files_path);
+      $drupal_files_realpath = realpath($drupal_files_path);
+      //_smfforum_msg($drupal_files_realpath);
+      
+      $drupal_base_realpath = realpath('.');
+      //_smfforum_msg($drupal_base_realpath);
+      $user_picture_path = variable_get('user_picture_path', 'pictures');
+      $drupal_pictures_path = $drupal_files_path .'/'. $user_picture_path;
+      $drupal_pictures_realpath = $drupal_files_realpath .'/'. $user_picture_path;
+      
+      //$drupal_picture_url = $base_url . $drupal_pictures_path;
+      //_smfforum_msg($drupal_pictures_realpath);
+
+      $smf_id = $smf_user_info['id'];
+      $uid = $account->uid;
+      $smf_avatar_id = 'avatar_'. $smf_id;
+      $drupal_picture_id = 'picture-'. $uid;
+
+      $extensions = array(
+            '1' => '.gif',
+            '2' => '.jpg',
+            '3' => '.png',
+            '4' => '.jpeg',
+            '6' => '.bmp'
+      );
+
+      if (!empty($valsmf) && (strtolower(substr($valsmf, 0, 7)) == 'http://')) {
+        if ($sync == SMF_SYNC_TO_SMF) {
+          if (!empty($val)) {
+            $extension = '.'. pathinfo($val, PATHINFO_EXTENSION);
+            if ($avatar_selection_val) {
+              $drupal_filename = $drupal_base_realpath .'/'. $val;
+            }
+            else {
+              $drupal_picture_name = $drupal_picture_id . $extension;
+              $drupal_filename = $drupal_pictures_realpath .'/'. $drupal_picture_name;
+            }
+            $smf_avatar_name = $smf_avatar_id . $extension;
+            $smf_filename = $smf_avatar_realpath .'/'. $smf_avatar_name;
+            if (($drupal_picture_url != strtolower($valsmf)) || !file_exists($smf_filename) || (filesize($smf_filename) != filesize($drupal_filename))) {
+              // copy from drupal to smf
+              smf_remove_avatar($smf_id);
+              if (!@copy($drupal_filename, $smf_filename)) {
+                _smfforum_set_message('The selected file %file could not be copied.', array('%file' => $drupal_filename), 'error');
+              }
+              else {
+                @chmod($smf_filename, 0664);
+                $drupal_picture_url = '';
+                smf_update_avatar($smf_avatar_name);
+               }
+               $data += array('avatar' => '\''. $drupal_picture_url .'\'');
+            }
+          }
+          else {
+            smf_remove_avatar($smf_id);
+            $data += array('avatar' => '\''. $val .'\'');
+          }
+        }
+        else {
+          // cannot download to drupal from smf url
+          if (strlen($valsmf) > 17 && empty($smf_settings['avatar_download_external'])) {
+            _smfforum_set_message(t('Avatar could not be synced from Smf to Drupal from url. Enable in Smf Admin Avatar Settings "Download avatar at given URL".'));
+          }
+        }
+      }
+      else {
+        if ($sync == SMF_SYNC_TO_DRUPAL) {
+          // Try to locate smf pic file.
+          $extension ='';
+          $smf_file_found = false;
+          if (empty($valsmf)) {
+            foreach ($extensions as $k => $extension) {
+              $smf_avatar_name = $smf_avatar_id . $extension;
+              $smf_filename = $smf_avatar_realpath .'/'. $smf_avatar_name;
+              if (file_exists($smf_filename)) {
+                $smf_file_found = true;
+                //if (SMF_MODULE_DEBUG)_smfforum_msg('smf_file_found');
+                break;
+              }
+            }
+            //if (SMF_MODULE_DEBUG) _smfforum_msg('smf_file_end_found');
+          }
+          else {
+            $smf_filename = $smf_avatar_dir_realpath .'/'. $valsmf;
+            if (file_exists($smf_filename)) {
+              $smf_file_found = true;
+              //$path_parts = pathinfo($valsmf);
+              //$extension = $path_parts['extension'];
+              $extension = '.'. pathinfo($valsmf, PATHINFO_EXTENSION);
+            }
+          }
+          //if (SMF_MODULE_DEBUG) _smfforum_msg($smf_filename);
+          if ($avatar_selection_val) {
+            $drupal_filename = $drupal_base_realpath .'/'. $val;
+            //if (SMF_MODULE_DEBUG) _smfforum_msg('avatar_selection_val SYNC_TO_DRUPAL');
+          }
+          else {
+            $drupal_picture_name = $drupal_picture_id . $extension;
+            $drupal_filename = $drupal_pictures_realpath .'/'. $drupal_picture_name;
+          }
+          //if (SMF_MODULE_DEBUG) _smfforum_msg($drupal_filename);
+          if ($smf_file_found) {
+            if (!file_exists($drupal_filename) || empty($val) || (filesize($smf_filename) != filesize($drupal_filename))) {
+              //if (SMF_MODULE_DEBUG) _smfforum_msg('smf_file_differ');
+              if (!empty($val) && !$avatar_selection_val) {
+                if (substr($val, 0, strlen($drupal_files_path)) == $drupal_files_path)
+                  $drupal_oldfilename = $drupal_files_realpath . substr($val, strlen($drupal_files_path));
+                else
+                  $drupal_oldfilename = $drupal_files_realpath .'/'. $val;
+                //$drupal_oldfilename = $drupal_base_path .'/'. $val;
+                if (file_exists($drupal_oldfilename))
+                  file_delete($drupal_oldfilename);
+                //if (SMF_MODULE_DEBUG) _smfforum_msg('DELETE1 drupal old');
+                 //_smfforum_msg($drupal_oldfilename);
+              }
+              // copy from smf
+              //if (SMF_MODULE_DEBUG)_smfforum_msg('COPY3 smf_filename');
+              if ($avatar_selection_val) {
+                $drupal_picture_name = $drupal_picture_id . $extension;
+                $drupal_filename = $drupal_pictures_realpath .'/'. $drupal_picture_name;
+              }
+              file_copy($smf_filename, $drupal_filename, FILE_EXISTS_REPLACE);
+              $valsmf = $drupal_pictures_path .'/'. $drupal_picture_name;
+              $data += array('picture' => $valsmf);
+            }
+          }
+          else {
+            if (!empty($val)) {
+              if (!$avatar_selection_val) {
+                if (substr($val, 0, strlen($drupal_files_path)) == $drupal_files_path)
+                  $drupal_oldfilename = $drupal_files_realpath . substr($val, strlen($drupal_files_path));
+                else
+                  $drupal_oldfilename = $drupal_files_realpath .'/'. $val;
+                if (file_exists($drupal_oldfilename))
+                  file_delete($drupal_oldfilename);
+                //if (SMF_MODULE_DEBUG) _smfforum_msg('DELETE2 drupal');
+              }
+              $valsmf = '';
+              $data += array('picture' => $valsmf);
+            }
+          }
+        }
+        else { // SMF_SYNC_TO_SMF
+          if (!empty($val)) {
+            $extension = '.'. pathinfo($val, PATHINFO_EXTENSION);
+            if ($avatar_selection_val) {
+              $drupal_filename = $drupal_base_realpath .'/'. $val;
+              //if (SMF_MODULE_DEBUG) _smfforum_msg('avatar_selection_val');
+            }
+            else {
+              $drupal_picture_name = $drupal_picture_id . $extension;
+              $drupal_filename = $drupal_pictures_realpath .'/'. $drupal_picture_name;
+            }
+            //if (SMF_MODULE_DEBUG) _smfforum_msg($drupal_filename);
+            $smf_avatar_name = $smf_avatar_id . $extension;
+            $smf_filename = $smf_avatar_realpath .'/'. $smf_avatar_name;
+            if (!empty($valsmf) || !file_exists($smf_filename) || filesize($smf_filename) != filesize($drupal_filename)) {
+              // copy from drupal to smf
+              smf_remove_avatar($smf_id);
+              if (!@copy($drupal_filename, $smf_filename)) {
+                _smfforum_set_message('The selected file %file could not be copied.', array('%file' => $drupal_filename), 'error');
+              }
+              else {
+                @chmod($smf_filename, 0664);
+                $drupal_picture_url = '';
+                smf_update_avatar($smf_avatar_name);
+               }
+               $data += array('avatar' => '\''. $drupal_picture_url .'\'');
+            }
+          }
+          else {
+            smf_remove_avatar($smf_id);
+            $data += array('avatar' => '\''. $val .'\'');
+          }
+        }
+      }
+    }
+    //
+  }
+
+  return $data;
+}
+
+function _smfforum_profile_save_profile(&$edit, $data0, &$user, $category, $register = FALSE) {
+  if (SMF_DRUPAL_MODULE_VERSION == 5)
+    $result = _profile_get_fields($category);
+  else  // 6.x
+    $result = _profile_get_fields($category, $register);
+  while ($field = db_fetch_object($result)) {
+    if (isset($data0[$field->name])) {
+      //if (SMF_MODULE_DEBUG)
+        //drupal_set_message('SMF profile field0='. $edit[$field->name]);
+      if (_profile_field_serialize($field->type)) {
+        $edit[$field->name] = serialize($edit[$field->name]);
+      }
+      else {
+        $edit[$field->name] = '';
+        $user->{$field->name} = '';        
+      }
+      db_query("DELETE FROM {profile_values} WHERE fid = %d AND uid = %d", $field->fid, $user->uid)->fetchField();
+      db_query("INSERT INTO {profile_values} (fid, uid, value) VALUES (%d, %d, '%s')", $field->fid, $user->uid, $edit[$field->name])->fetchField();
+      // Mark field as handled (prevents saving to user->data).
+      $edit[$field->name] = NULL;
+    }
+  }
+}
+
+function _smfforum_profile_save_profile_data0($profile_data, &$account) {
+  $data0 = array();
+  foreach ($profile_data as $key => $value) {
+    if (empty($value)) {
+      $data0[$key] = 0;
+      //unset($profile_data[$key]);
+    }
+  }
+  if (count($data0) != 0) {
+    foreach (profile_categories() as $pc) {
+      _smfforum_profile_save_profile($profile_data, $data0, $account, $pc['name']);
+    }
+  }
+  return $profile_data;
+}
+
+function smfforum_update_user($op, $sync, &$account, $name, $pass, $mail, $edit = array()) {
+  global $smf_settings, $smf_user_info, $user;
+
+  $update = false;
+  
+  if (variable_get('a_sync_data', 0) == A_SYNC_TO_FINISHED)
+    return $update;
+    
+  $syncto = _smfforum_get_sync_to($sync);
+
+  if (module_exists('a_sync')) {
+    $module = _smfforum_a_sync_get_module('user');
+    if ($module !== false && $module != '') {
+      $passwd = $smf_user_info['passwd'];
+      $salt = $smf_user_info['passwordSalt'];
+      smf_api_get_user($account->name, '');
+      $smf_user_info['passwd'] = $passwd;
+      $smf_user_info['passwordSalt'] = $salt;
+    }
+  }
+  
+  $data = array();
+
+  $data = _smfforum_set_user_data($op, $syncto, $account, $name, $pass, $mail, $edit);
+
+  if (module_exists('profile')) {
+    if (empty($pass) || $syncto == SMF_SYNC_TO_DRUPAL || count($edit) != 0 ) {
+      $profile_data = array();
+      $profile_data = _smfforum_set_user_profile_data($op, $syncto, $account, $profile_data);
+      //if (SMF_MODULE_DEBUG)
+        //drupal_set_message('SMF_user before update profile data'. print_r($profile_data, true));
+      if ($syncto == SMF_SYNC_TO_DRUPAL && count($profile_data) != 0) {
+        _smfforum_profile_save_profile_data0($profile_data, $account);
+      }
+      $data += $profile_data;
+    }    
+  }
+
+  //if (SMF_MODULE_DEBUG)
+  //drupal_set_message('SMF_user before update data'. print_r($data, true));
+  
+  // Update data
+  if (count($data) != 0 || !empty($pass)) {
+    if ($syncto == SMF_SYNC_TO_SMF) {
+      $update = smf_api_update_user($smf_user_info['id'], $name, $pass, $mail, $data);
+      if ($update) {
+        $passwd = $smf_user_info['passwd'];
+        $salt = $smf_user_info['passwordSalt'];
+        smf_api_get_user($account->name, '');
+        $smf_user_info['passwd'] = $passwd;
+        $smf_user_info['passwordSalt'] = $salt;
+      }
+    }
+    else {
+      if ($op == 'login2' || (($op == 'view' || $op == 'categories') && $user->name != $account->name)) {
+        /*$account =*/ user_save($account, $data, 'login'); 
+        //if (SMF_MODULE_DEBUG) drupal_set_message('SMF save-');
+      }
+      else {
+        /*$account =*/ $user = user_save($account, $data, 'login'); 
+        //if (SMF_MODULE_DEBUG) drupal_set_message('SMF save***');
+      }
+      $update = true;
+    }
+      
+    if (variable_get("smfforum_set_msg", 0))
+      _smfforum_msg('update', $update, '', $syncto, $account, $data);
+
+    if (module_exists('a_sync')) {
+      if ($update) {
+        _smfforum_set_a_sync_to($syncto);
+        module_invoke('a_sync', 'update_user', 'smfforum', $op, $syncto, $account, $name, $pass, $mail, $edit);
+      }  
+    }
+  }    
+  
+  return $update;
+}
+
+function _smfforum_set_cookie_lifetime($op, $edit, $account, $category = NULL) {
+  $remember_me = NULL;
+  if (module_exists('remember_me')) {
+    if ($op == 'login' && $category === NULL) {
+      //$message = 'remember_me='. $edit['remember_me'] .'=';
+      $remember_me = isset($edit['remember_me']) ? $edit['remember_me'] : NULL;
+    }
+    else {
+      $remember_me = $account->remember_me;
+    }
+  }
+  if ($remember_me) {
+    $cookie_lifetime =  2000000;
+  }
+  else {
+    $cookie_lifetime = (int) variable_get('smfforum_cookie_length', SMF_COOKIELENGTH);    
+  }
+  variable_set('smfforum_login_cookie_length', $cookie_lifetime);
+  return $cookie_lifetime;
+}
+
+function _smfforum_get_cookie_lifetime() {
+  $cookie_lifetime = (int) variable_get('smfforum_login_cookie_length', 
+    variable_get('smfforum_cookie_length', SMF_COOKIELENGTH));    
+  return $cookie_lifetime;
+}
+
+function _smfforum_user_edit_validate($uid, &$edit) {
+  global $smf_settings;
+  if (!_smfforum_settings())
+      return;
+  
+  $user = user_load_multiple(array(),array('uid' => $uid));
+  
+  //if (SMF_MODULE_DEBUG)
+  //_smfforum_set_message('validate user=' . $edit['name'] .' uid=' . $user->uid .' pass='. $edit['pass'] .' mail='. $edit['mail']);
+  
+  // Validate the username:
+  if (user_access('change own username') || user_access('administer users') || !$user->uid) {
+    if (!empty($edit['name']) && $edit['name'] != $user->name) {
+      if (!smf_api_user_name_validate($edit['name']))
+        form_set_error('name', t('The name %name is not valid in SMF.', array('%name' => $edit['name'])));
+      
+      /*
+      if ($error = user_validate_name($edit['name'])) {
+        form_set_error('name', $error);
+      }
+      else if (db_result(db_query("SELECT COUNT(*) FROM {users} WHERE uid != %d AND LOWER(name) = LOWER('%s')", $uid, $edit['name'])) > 0) {
+        form_set_error('name', t('The name %name is already taken.', array('%name' => $edit['name'])));
+      }
+      else if (drupal_is_denied('user', $edit['name'])) {
+        form_set_error('name', t('The name %name has been denied access.', array('%name' => $edit['name'])));
+      }
+      */
+    }
+  }
+
+  // Validate the e-mail address:
+  if (!empty($edit['mail']) && $edit['mail'] != $user->mail) {
+    if (!smf_api_user_email_validate($edit['mail'], $edit['name']))
+      form_set_error('mail', t('The e-mail address %email is not valid in SMF.', array('%email' => $edit['mail'])));
+  }
+  
+  if (!empty($edit['pass'])) {
+    if (!variable_get('user_email_verification', TRUE) || user_access('administer users')) {
+      if (!smf_api_user_password_validate($edit['pass'], $edit['name']))
+        form_set_error('pass', t('The password %pass is not valid in SMF.', array('%pass' => $edit['pass'])));
+    }  
+  }  
+
+  /*
+  if ($error = user_validate_mail($edit['mail'])) {
+    form_set_error('mail', $error);
+  }
+  else if (db_result(db_query("SELECT COUNT(*) FROM {users} WHERE uid != %d AND LOWER(mail) = LOWER('%s')", $uid, $edit['mail'])) > 0) {
+    form_set_error('mail', t('The e-mail address %email is already registered. <a href="@password">Have you forgotten your password?</a>', array('%email' => $edit['mail'], '@password' => url('user/password'))));
+  }
+  else if (drupal_is_denied('mail', $edit['mail'])) {
+    form_set_error('mail', t('The e-mail address %email has been denied access.', array('%email' => $edit['mail'])));
+  }
+  */
+}
+
+
+function smfforum_user($op, &$edit, &$account, $category = NULL) {
+  global $smf_settings, $smf_user_info, $user;
+
+  if (!_smfforum_settings())
+      return;
+  /* 
+  if (SMF_MODULE_DEBUG) {
+    if ($op != 'load') {
+      _smfforum_set_message('SMF*user=' . $account->name .' uid=' . $account->uid .' pass='. $edit['pass'] .' op='. $op .' category='. $category);
+    //_smfforum_msg('smfforum_user');
+    }
+  }
+  */
+  
+  _smfforum_set_cookie_lifetime($op, $edit, $account, $category);
+      
+  if ($op == 'logout') {
+    if (smf_api_authenticate_user()) {
+      // Update data
+      smfforum_update_user($op, SMF_SYNC_TO_DRUPAL, $account, '', '', $account->mail);
+    }
+    smf_api_logout();
+    $message = 'Session closed for %name.';
+    _smfforum_watchdog($message, array('%name' => $account->name));
+    variable_set('smfforum_user_login', 0);
+    variable_set('a_sync_login', 0);
+  }
+  elseif ($op == 'login') {
+    
+    $reset = false;
+    if ($_REQUEST['form_id'] == 'user_pass_reset' && $_REQUEST['op'] == 'Log in') {
+      $reset = true;
+      $edit['pass'] = substr($account->pass, 0, 8);
+      $edit['name'] = $account->name;
+    } else if (module_exists('logintoboggan') && empty($edit)) {
+      if (!variable_get('user_email_verification', TRUE) &&
+        variable_get('logintoboggan_immediate_login_on_register', TRUE)) {
+        $edit['pass'] = $account->password;
+        $edit['name'] = $account->name;
+      }
+    }
+
+    $pass = $edit['pass'];
+    $name = $edit['name'];
+    $mail = $account->mail;
+    
+    //if (SMF_MODULE_DEBUG)
+      //_smfforum_msg('SMF user login '. $name .' mail '.$mail .' pass='. $pass);
+    
+    //variable_set('a_sync_login', 1);  
+      
+    if (!empty($name) && !empty($pass)) {
+
+      if (smf_api_get_user($name, $pass)) {
+        if (variable_get('smfforum_user_ban', 0) && $account->uid != 1 && smf_is_banned(true)) {
+          $message = 'The SMF username %name is banned in SMF.';
+          $var = array('%name' => $name);
+          _smfforum_watchdog($message, $var);
+          _smfforum_set_message($message, $var);
+        }
+        else {
+          //if (SMF_MODULE_DEBUG)
+          //_smfforum_msg('SMF login get_user '. $name .' ' . $smf_user_info['is_guest']);
+          // Update
+          $update = smfforum_update_user($op, SMF_SYNC_TO_DRUPAL, $account, '', '', $account->mail, $edit);
+          //_smfforum_msg('smfforum_user login get_user after update ' . $name . $smf_user_info['is_guest']);
+          smf_api_get_user($name, $pass);
+          //if ($smf_user_info['is_guest'])
+          smf_api_login(_smfforum_get_cookie_lifetime(), $name, $pass);
+          variable_set('smfforum_user_login', 1);
+        }
+      }
+      else {
+        if (smf_api_get_user($name, '')) {
+          /*
+          if (SMF_MODULE_DEBUG) {
+            $message = 'User account: '. $name .' found but passwords mismatch in SMF.';
+            _smfforum_set_message($message);
+            //_smfforum_watchdog($message);
+          }
+          */
+          if (variable_get('smfforum_user_ban', 0) && $account->uid != 1 && smf_is_banned(true)) {
+            $message = 'The SMF username %name is banned in SMF.';
+            $var = array('%name' => $name);
+            _smfforum_watchdog($message, $var);
+            _smfforum_set_message($message, $var);
+          }
+          else {
+            $update = smfforum_update_user($op, SMF_SYNC_TO_SMF, $account, '', $pass, '');
+            if ($update) {
+              if (smf_api_get_user($name, $pass)) {
+                if (!$reset) {
+                  // Update
+                  $update = smfforum_update_user($op, SMF_SYNC_TO_MASTER, $account, '', '', $account->mail, $edit);
+                }
+                smf_api_get_user($name, $pass);
+                smf_api_login(_smfforum_get_cookie_lifetime(), $name, $pass);
+                variable_set('smfforum_user_login', 1);
+              }
+            }
+          }
+        }
+        else {
+          if (variable_get('smfforum_user_ban', 0) && $account->uid != 1 && (smf_is_banned(true) || smf_is_banned_email($account->mail, 'cannot_register', ""))) {
+            $message = 'The SMF username %name is banned in SMF.';
+            $var = array('%name' => $name);
+            _smfforum_watchdog($message, $var);
+            _smfforum_set_message($message, $var);
+          }
+          else {
+            if (!smf_api_register($name, $pass, $account->mail)) {
+              $message = 'Unable to create new SMF user: %name error: %err';
+              $var = array('%name' => $name, '%err' => $smf_settings['error_msg']);
+              //_smfforum_watchdog($message, $var);
+              _smfforum_set_message($message, $var);
+            }
+            else {
+              $message = 'User account: %name created in SMF.';
+              $var = array('%name' => $name);
+              _smfforum_watchdog($message, $var);
+              _smfforum_set_message($message, $var);
+              // Update
+              if (smf_api_get_user($name, $pass)) {
+                $update = smfforum_update_user($op, SMF_SYNC_TO_SMF, $account, '', '', '', $edit);
+                if (smf_api_get_user($name, $pass)) {
+                  smf_api_login(_smfforum_get_cookie_lifetime(), $name, $pass);
+                  variable_set('smfforum_user_login', 1);
+                }
+              }  
+            }
+          }
+        }
+      }
+    }
+    //if (SMF_MODULE_DEBUG)
+      //_smfforum_set_message('SMF User account: '. $name .' pass='. $pass .' login from Drupal');
+  }
+  elseif ($op == 'validate' && $category == 'account') {
+    return _smfforum_user_edit_validate(arg(1), $edit);
+  }
+  elseif ($op == 'insert') {
+
+    $pass = $edit['pass'];
+    $name = $edit['name'];
+    $mail = $edit['mail'];
+
+    $passwd = $smf_user_info['passwd'];
+    $salt = $smf_user_info['passwordSalt'];
+
+    if (!smf_api_get_user($account->name, '')) { // user not exists in SMF
+      //if (SMF_MODULE_DEBUG)
+      //_smfforum_set_message('User account: '. $account->name .' pass='. $pass .' not found in SMF');
+      if (empty($pass))
+        $pass = user_password(8);
+      if (!smf_api_register($account->name, $pass, $account->mail)) {
+        $message = 'Unable to create new SMF user: %name error: %err';
+        $var = array('%name' => $account->name, '%err' => $smf_settings['error_msg']);
+        //_smfforum_watchdog($message, $var);
+        _smfforum_set_message($message, $var);
+      }
+      else {
+        $message = 'User account: %name created in SMF.';
+        $var = array('%name' => $account->name);
+        _smfforum_watchdog($message, $var);
+        _smfforum_set_message($message, $var);
+        //if (SMF_MODULE_DEBUG)
+        //   _smfforum_set_message('*User account: '. $user->name .' pass='. $pass .' not found in SMF='.$smf_user_info['id']);           
+        if (smf_api_get_user($account->name, $pass)) {
+          smfforum_update_user($op, SMF_SYNC_TO_SMF, $account, '', '', '', $edit);   
+        }
+        //if (SMF_MODULE_DEBUG)
+        //  _smfforum_set_message('*User user: '. $user->name);
+        //if ($category == 'account' && $user->name == $account->name && smf_api_get_user($account->name, $pass)) {          
+        //if ((empty($user->name) || $user->name == $account->name) && smf_api_get_user($account->name, $pass)) {
+          //if (SMF_MODULE_DEBUG)
+          //_smfforum_set_message('***User account: '. $account->name .' pass='. $pass .' found in SMF');         
+          //smf_api_login(_smfforum_get_cookie_lifetime(), $account->name, $pass);
+          //variable_set('smfforum_user_login', 1);
+        //}
+      }
+    }
+
+    //if ($category != 'account' || (!empty($user->name) && ($user->name != $account->name))) {
+    if (!empty($user->name) && ($user->name != $account->name)) {
+      smf_api_get_user($user->name, '');
+      $smf_user_info['passwd'] = $passwd;
+      $smf_user_info['passwordSalt'] = $salt;
+    }
+  }
+  elseif ($op == 'update' && $category == 'account') {
+    //if (SMF_MODULE_DEBUG)
+    //_smfforum_msg('SMF update account and personal info');
+
+    $pass = $edit['pass'];
+    $name = $edit['name'];
+    $mail = $edit['mail'];
+
+    $updatename = ($account->name != $edit['name']) ? $name : '';
+    $updatemail = ($account->mail != $edit['mail']) ? $mail : '';
+    
+    //if (SMF_MODULE_DEBUG)
+    //  return;
+
+    $passwd = $smf_user_info['passwd'];
+    $salt = $smf_user_info['passwordSalt'];
+
+    if (smf_api_get_user($account->name, '')) {
+      if (!empty($updatename) && empty($pass)) {
+        //if ($user->name == $account->name) {
+          $message = 'Please change the password too. Otherwise %name will not be able to login in SMF.'; 
+          $var = array('%name' => $updatename);
+          _smfforum_set_message($message, $var);
+        //}
+        /*
+        if ($user->name != $account->name && empty($updatemail))
+          smfforum_update_user($op, SMF_SYNC_TO_SMF, $account, $updatename, $pass, $updatemail, $edit);
+        else
+          $edit['name'] = $account->name;
+        */  
+      }
+//      else {
+//        if (SMF_MODULE_DEBUG) {
+          $message = 'User account changed for %name.';
+          $var = array('%name' => $account->name);
+          //_smfforum_watchdog($message, $var);
+          _smfforum_set_message($message, $var);
+//        }
+        // Sync account changes back to SMF
+        $update = smfforum_update_user($op, SMF_SYNC_TO_SMF, $account, $updatename, $pass, $updatemail, $edit);
+        if ($user->name == $account->name) {
+          if (empty($name))
+            $name = $account->name;
+          if (smf_api_get_user($name, $pass)) {
+            smf_api_login(_smfforum_get_cookie_lifetime(), $name, $pass);
+            variable_set('smfforum_user_login', 1);
+          }
+        }
+//      }
+    }
+    elseif (variable_get('smfforum_user_login', 0) && $pass != '' && !empty($updatename)) {
+      //if (SMF_MODULE_DEBUG)
+      //_smfforum_msg('smfforum_user insert pass != _ && !empty(updatename)');
+      //$result = smf_find_members($updatename);
+      if (!smf_api_register($updatename, $pass, $mail)) {
+        $message = 'Unable to create new SMF user: %name error: %err';
+        $var = array('%name' => $updatename, '%err' => $smf_settings['error_msg']);
+        //_smfforum_watchdog($message, $var);
+        _smfforum_set_message($message, $var);
+        $edit['name'] = $account->name;
+      }
+      else {
+        $message = 'User account: %name created in SMF.';
+        $var = array('%name' => $updatename);
+        _smfforum_watchdog($message, $var);
+        _smfforum_set_message($message, $var);
+        // Update
+        if (smf_api_get_user($updatename, $pass)) {
+          smfforum_update_user($op, SMF_SYNC_TO_SMF, $account, '', '', '', $edit);   
+          if ($user->name == $account->name && smf_api_get_user($updatename, $pass)) {
+            smf_api_login(_smfforum_get_cookie_lifetime(), $name, $pass);
+            variable_set('smfforum_user_login', 1);
+          }
+        }
+      }
+    }
+    elseif (!empty($updatename)) {
+
+      $result = smf_find_members($updatename);
+      if (count($result) != 0) {
+        $message = 'User account: %name exists in SMF. Now it is the same user.';
+        $var = array('%name' => $updatename);
+        _smfforum_watchdog($message, $var);
+        _smfforum_set_message($message, $var);
+        //$edit['name'] = $account->name;
+        smfforum_update_user($op, SMF_SYNC_TO_MASTER, $account, $updatename, '', $updatemail, $edit);
+      }
+    }
+
+    if ($user->name != $account->name) {
+      smf_api_get_user($user->name, '');
+      $smf_user_info['passwd'] = $passwd;
+      $smf_user_info['passwordSalt'] = $salt;
+    }
+
+  }
+  //elseif ($op == 'after_update' && !empty($category) && $category != 'account' && $category != 'login') {
+  elseif ($op == 'after_update' && $category != 'account' && $category != 'login') {
+    //  && $category != 'login' avoid after_update from user_save with $category == 'login'
+    //if (SMF_MODULE_DEBUG)  _smfforum_msg('smfforum_user after update');
+    //if (SMF_MODULE_DEBUG)
+    //  return;
+
+    if (!empty($category)) {
+
+      $passwd = $smf_user_info['passwd'];
+      $salt = $smf_user_info['passwordSalt'];
+
+      if (smf_api_get_user($account->name, '')) {
+        //if (SMF_MODULE_DEBUG)
+        //  _smfforum_set_message('User update profile: '. $account->name .' profile='. $account->profile_name);
+        
+        // Sync profile changes back to SMF
+        smfforum_update_user_profile($op, SMF_SYNC_TO_SMF, $account);
+      }
+      if ($user->name != $account->name) {
+        smf_api_get_user($user->name, '');
+        $smf_user_info['passwd'] = $passwd;
+        $smf_user_info['passwordSalt'] = $salt;
+      }
+    }
+  }
+  elseif ($op == 'view' && empty($category)) {
+  
+  //if (SMF_MODULE_DEBUG)
+  //    return;
+    $passwd = $smf_user_info['passwd'];
+    $salt = $smf_user_info['passwordSalt'];
+
+    $update = false;
+    if (/*$user->name == $account->name &&*/ smf_api_get_user($account->name, '')) {
+      //if (SMF_MODULE_DEBUG)
+      //  _smfforum_set_message('User update view: '. $account->name .' profile='. $account->profile_name);
+      
+      // Sync data and profile changes
+      $update = smfforum_update_user($op, SMF_SYNC_TO_DRUPAL, $account, '', '', $account->mail, $edit);
+    }
+    if ($user->name != $account->name) {
+        smf_api_get_user($user->name, '');
+        $smf_user_info['passwd'] = $passwd;
+        $smf_user_info['passwordSalt'] = $salt;
+    }
+  }
+  elseif ($op == 'delete') {
+    
+    $passwd = $smf_user_info['passwd'];
+    $salt = $smf_user_info['passwordSalt'];
+
+    if (smf_api_get_user($account->name, '')) {
+      //if (SMF_MODULE_DEBUG)
+      // _smfforum_set_message('User delete: '. $account->name .' id='. $smf_user_info['id']);
+      if ($smf_user_info['id'] != 1) {
+        $memberid = $smf_user_info['id'];
+        if ($user->name != $account->name) {
+          smf_api_get_user($user->name, '');
+          $smf_user_info['passwd'] = $passwd;
+          $smf_user_info['passwordSalt'] = $salt;
+        }
+        $update = smf_api_delete_members($memberid);
+        if ($update) {
+          $message = 'User account: %name has been deleted in SMF.';
+          $var = array('%name' => $account->name);
+          _smfforum_watchdog($message, $var);
+          _smfforum_set_message($message, $var);
+        }
+      }
+    }
+    elseif ($user->name != $account->name) {
+      smf_api_get_user($user->name, '');
+      $smf_user_info['passwd'] = $passwd;
+      $smf_user_info['passwordSalt'] = $salt;
+    }
+  }
+  elseif ($op == 'login2') {
+    _smfforum_authenticate_user();
+  }
+}
+
+if (SMF_DRUPAL_MODULE_VERSION == 5) {
+  function smfforum_auth($login, $passwd, $server = FALSE) {
+    if (empty($passwd))
+      return false;
+    return smfforum_external_login_register($login, $passwd);
+  }
+}
+
+function smfforum_get_drupal_id($smf_id) {
+ 
+  if (!_smfforum_settings() || empty($smf_id) || !is_numeric($smf_id))
+      return 0;
+ 
+  $username = smf_api_get_user_name((int)$smf_id);
+  if (empty($username)) {
+    if (SMF_MODULE_DEBUG) {
+      _smfforum_set_message('The SMF userid %name is not found in SMF.', array('%name' => $smf_id));
+    }
+    return 0; //user not found
+  }
+ 
+  if (SMF_MODULE_DEBUG) {
+    _smfforum_set_message('The username %name is found in SMF.', array('%name' => $username));
+  }
+ 
+  $account = user_load_multiple(array(), array('name' => $username));
+ 
+  if (SMF_MODULE_DEBUG) {
+    $var = array('%name' => $account->uid);
+    if ($account->uid)
+      _smfforum_set_message('The Drupal uid %name is found.', $var);
+    else
+      _smfforum_set_message('The Drupal uid %name is not found.', $var);
+  }
+ 
+  return $account->uid; 
+}
+
+function smfforum_external_login_register($login, $passwd) {
+  global $smf_settings, $smf_user_info, $user;
+  
+  $login = trim($login);
+  if (empty($login))
+    return false;
+
+  if (!_smfforum_settings())
+      return false;
+
+  $var = array('%name' => $login);
+
+  $email = $smf_user_info['email'];
+  // Load user to see if it was previously registered
+  if (!empty($passwd)) {
+      $account = user_load_multiple(array(),array('name' => $login));
+    if ($account->uid)
+      $email = $account->mail;
+    /*  
+    elseif (strpos($login, "@") !== false) {
+      $account = user_load(array('mail' => $login));
+      if ($account->uid) {
+        $email = $login;
+        $login = $account->name;
+      }  
+    }
+    */    
+  }
+  
+  /*
+  if (SMF_MODULE_DEBUG) {
+    $message = 'SMF user: '. $login .' ('. $email .')' .' pass='. $passwd .' auth in SMF';
+    _smfforum_set_message($message);
+  }
+  */
+
+  if (!empty($passwd) && !smf_api_get_user($login, $passwd)) {
+    $message = 'The SMF username %name is not found in SMF.';
+    //_smfforum_watchdog($message, array('%name' => $login));
+    _smfforum_set_message($message, $var);
+    return false; //user not found
+  }
+
+  $activated = ($smf_user_info['is_activated'] == 1 || $smf_user_info['is_activated'] == 11) ? true : false;
+  if (!$activated) {
+    $message = 'The SMF username %name is not activated in SMF.';
+    //_smfforum_watchdog($message, $var);
+    _smfforum_set_message($message, $var);
+    return false; // user not found
+  }
+
+  if (variable_get('smfforum_user_ban', 0) && smf_is_banned(true)) {
+    $message = 'The SMF username %name is banned in SMF.';
+    _smfforum_watchdog($message, $var);
+    _smfforum_set_message($message, $var);
+    return false;
+  }
+  
+  $email = $smf_user_info['email'];
+  
+  // User status: 1=active, 0=banned
+  $status = 1;
+  //$roles = user_roles(1);
+  //$rname = 'authenticated user';
+  //$rid = DRUPAL_AUTHENTICATED_RID;
+  //$rid = array_search($rname, $roles);
+
+  // Load user to see if it was previously registered
+  if (!is_object($account))
+      $account = user_load_multiple(array(),array('name' => $login));
+
+  // if (!$account->uid) { // Register new user
+  //     $d = db_query("SELECT uid FROM {users} WHERE LOWER(mail) = LOWER('%s') AND uid <> %d", $login, $account->uid)->fecthField();
+  //      if ($d) {
+  //     $message = 'The SMF username %name has already been taken by another user.';
+  //     //_smfforum_watchdog($message, $var);
+  //     _smfforum_set_message($message, $var);
+  //     return false;
+  //   }  
+
+    $account = user_save('', array(
+        'name'            => $login,
+        'mail'            => $email,
+        'timezone'        => $smf_user_info['timeOffset'] * 60 * 60,
+        'init'            => $email,
+        'status'          => $status,
+        //'signature'       => smf_api_utf8($smf_user_info['signature']),
+        
+        variable_get('smfforum_map_name', 'profile_name') => smf_api_utf8($smf_user_info['name']),
+        
+        //variable_get('smfforum_map_gender', 'profile_gender') => $smf_user_info['gender'],
+        //variable_get('smfforum_map_birthdate', 'profile_birthdate') => $smf_user_info['birthdate'],
+        
+        variable_get('smfforum_map_personalText', 'profile_personalText') => smf_api_utf8($smf_user_info['personalText']),
+        variable_get('smfforum_map_usertitle', 'profile_usertitle') => smf_api_utf8($smf_user_info['usertitle']),
+        variable_get('smfforum_map_location', 'profile_location') => smf_api_utf8($smf_user_info['location']),
+        variable_get('smfforum_map_ICQ', 'profile_ICQ') => $smf_user_info['ICQ'],
+        variable_get('smfforum_map_AIM', 'profile_AIM') => $smf_user_info['AIM'],
+        variable_get('smfforum_map_YIM', 'profile_YIM') => $smf_user_info['YIM'],
+        variable_get('smfforum_map_MSN', 'profile_MSN') => $smf_user_info['MSN'],
+        variable_get('smfforum_map_websiteTitle', 'profile_websiteTitle') => smf_api_utf8($smf_user_info['websiteTitle']),
+        variable_get('smfforum_map_websiteUrl', 'profile_websiteUrl') => smf_api_utf8($smf_user_info['websiteUrl'])
+        
+        ));
+
+    //$message = 'Successfully registered new user: %name.';
+    $message = 'New user: %name (%email).';
+    $var = array('%name' => $login, '%email' => $email);
+    _smfforum_watchdog($message, $var, WATCHDOG_NOTICE, l('edit', 'user/'. $account->uid .'/edit'));
+    _smfforum_set_message($message, $var);
+    //  }
+  
+  if ($account->status == 0 && empty($passwd)) {
+    //_smfforum_watchdog('The SMF username %name has not been activated or is blocked.', $var);
+    return false;
+  }
+  
+  // Update changed user settings
+  smfforum_update_user('login2', SMF_SYNC_TO_DRUPAL, $account, '', $passwd, $email);
+  if (!empty($passwd)) {
+    if (smf_api_get_user($login, $passwd)) {
+      smf_api_login(_smfforum_get_cookie_lifetime(), $name, $passwd);
+      variable_set('smfforum_user_login', 1);
+    }
+  }
+
+  if (SMF_DRUPAL_MODULE_VERSION == 6)
+    $user = $account;
+    
+  $message = 'Successfully authenticated from SMF.';
+  //_smfforum_watchdog($message);
+  _smfforum_set_message(t($message));
+
+  return TRUE;
+}
+
+function _smfforum_authenticate_user() {
+  global $smf_user_info, $user;
+
+  $authenticated = smf_api_authenticate_user();
+
+  if ($user->uid == 0) {
+    if ($authenticated) {
+      if (_smfforum_drupal_login()) {
+        drupal_goto();
+      }
+        //;//drupal_goto();
+    }
+  }
+  else {
+    if (!$authenticated && variable_get('smfforum_user_login', 0)) {
+      if (variable_get('smfforum_qookie_test', 0) && smf_api_get_user($user->name, '')) {
+        if (!SMF_DISABLE_AUTO_LOGOUT) {
+          _smfforum_drupal_logout();
+        }
+      }
+    }
+    elseif ($authenticated && variable_get('smfforum_user_ban', 0) && $user->uid != 1 && smf_api_get_user($user->name, '') && smf_is_banned(true)) {
+      if (!SMF_DISABLE_AUTO_LOGOUT) {
+        _smfforum_drupal_logout();
+      }
+    }
+  }
+}
+
+if (SMF_DRUPAL_MODULE_VERSION == 6) {
+  function _smfforum_user_logout() {
+    global $user;
+
+    //watchdog('user', 'Session closed for %name.', array('%name' => $user->name));
+    watchdog('user', 'Session closed for %name.'.session_name(), array('%name' => $user->name));
+    
+    if (isset($_COOKIE[session_name()])) {
+      setcookie(session_name(), '', time()-42000, '/');
+    }
+    
+    // Destroy the current session:
+    session_destroy();
+    module_invoke_all('user', 'logout', NULL, $user);
+
+    // Load the anonymous user
+    $user = drupal_anonymous_user();
+
+    //drupal_goto();
+    drupal_goto(variable_get('site_frontpage', ''));
+  }
+}
+
+function _smfforum_drupal_logout() {
+  global $smf_user_info, $user;
+  $activated = ($smf_user_info['is_activated'] == 1 || $smf_user_info['is_activated'] == 11) ? true : false;
+  if ($activated) {
+    _smfforum_watchdog('Session closed for %name.', array('%name' => $user->name));
+    if (SMF_DRUPAL_MODULE_VERSION == 6) {
+      _smfforum_user_logout();
+      //user.pages.inc
+      //module_invoke('user','logout');
+    }
+    else {
+      user_logout();
+    }
+  }
+  return $activated;
+}
+
+function _smfforum_drupal_login() {
+    global $smf_user_info, $user, $account;
+  // Try to log in the user locally. Don't set $user unless successful.'pass' => $pass,
+  $username = smf_api_utf8($smf_user_info['username']);
+  
+      if ($account = user_load(array(),array('name' => $username, 'status' => 1))) {
+          $var = array('%name' => $username);
+          if (user_is_blocked($username)) {
+              // blocked in user administration
+              _smfforum_watchdog('The SMF username %name has been activated or is blocked.', $var);
+              return false;
+          }
+          else
+              if (drupal_is_denied('user', $username)) {
+                  _smfforum_watchdog('The SMF username %name is not allowed.', $var);
+                  return false;
+              }
+          $user = $account;
+          _smfforum_watchdog('Session opened for %name.', array('%name' => $user->name));
+          // Update the user table timestamp noting user has logged in.
+          //db_query("UPDATE {users} SET login = %d WHERE uid = %d", time(), $user->uid)->fetchField();
+          db_update('{users}')  
+              ->fields(
+                       array(
+                             'login' => time(),
+                             )
+                       )
+              ->condition('uid', $user_uid)
+              ->execute();
+          sess_regenerate();
+          variable_set('smfforum_user_login', 1);
+          // Update changed user settings
+          smfforum_update_user('login2', SMF_SYNC_TO_DRUPAL, $account, '', '', $account->mail);
+      }
+      else {
+          //$var = array('%name' => $username);
+          //_smfforum_watchdog('The SMF username %name is not found.', $var);
+          smfforum_external_login_register($username, '');
+      }
+      
+      return true;
+  
+}
+                                                          

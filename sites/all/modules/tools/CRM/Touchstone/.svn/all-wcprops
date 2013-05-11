@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 40
+/tools/!svn/ver/515/trunk/CRM/Touchstone
+END
+PseudoConstant.php
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/tools/!svn/ver/515/trunk/CRM/Touchstone/PseudoConstant.php
+END
+Info.php
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/tools/!svn/ver/515/trunk/CRM/Touchstone/Info.php
+END
+Task.php
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/tools/!svn/ver/515/trunk/CRM/Touchstone/Task.php
+END
+Config.php
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/tools/!svn/ver/515/trunk/CRM/Touchstone/Config.php
+END

@@ -1,0 +1,139 @@
+/***********************************************************/
+/* Styles for the extension directory pages                */
+/* Added by Freeform Solutions, S.Gray, June 13, 2012      */
+/***********************************************************/
+
+/* submission form */
+
+#civicrm-extension-node-form .node-form-has-region-right .form-region-main {
+	width: 50%;
+}
+
+#civicrm-extension-node-form .node-form .form-region-right {
+	width: 45%;
+	padding-left: 4%;
+}
+
+#civicrm-extension-node-form .form-text {
+	width: 410px;
+}
+
+#civicrm-extension-node-form .form-item.form-type-checkboxes::after { /* clearfix */
+	content: ".";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
+}
+
+#civicrm-extension-node-form .form-item.form-type-checkbox {
+	width: 47%; /* put checkbox options into two columns */
+	float: left;
+	padding-right: 2%;
+}
+
+#civicrm-extension-node-form .description {
+	clear: both;
+}
+
+#civicrm-extension-node-form .form-region-footer {
+	padding-top: 25px;
+}
+
+
+/* page tabs */
+
+.section-extensions #main-content ul.primary li a {
+	background-color: #F9F8F6;
+	background-image: url(/sites/civicrm.org/themes/genesis_sub/images/slant-tile.png);
+	font-family: "Open Sans Condensed",Arial,Helvetica,sans-serif;
+	font-size: 16px;
+	font-weight: lighter;
+	height: auto;
+	color: #036086;
+}
+
+.section-extensions #main-content ul.primary li a:hover {
+	color: #000;
+}
+
+.section-extensions #main-content ul.primary li a.active {
+	background-image: url(/sites/civicrm.org/themes/genesis_sub/images/title-bg.gif);
+	color: #000;
+}
+
+.section-extensions #main-content ul.primary li a.active:hover {
+	color: #036086;
+}
+
+
+/* search filters */
+
+.view-filters {
+    clear: both;
+    margin: 2em 0; 
+	padding: 10px 15px;
+	background-image: url(/sites/civicrm.org/themes/genesis_sub/images/slant-tile.png);
+}
+
+.view-filters form {
+    margin: 0;
+ }
+
+/* submit an extension button */
+/* based on: #block-views-call_to_action-block .view-call-to-action .view-footer h4 */
+
+#block-block-13 a {
+	float: right;
+	display: block;
+	margin: 0 0 2em 3em;
+	color: black;
+	font-family: Cantarell,Helvetica,Arial,sans-serif;
+	font-size: 13px;
+	font-weight: bold;
+	font-style: italic;
+	letter-spacing: -1px;
+	text-align: center;
+	text-decoration: none;
+	background-color: #7EC756;
+	padding: 12px 10px;
+	background-image: url(/sites/civicrm.org/themes/genesis_sub/images/slant-tile.png);
+	background-repeat: repeat;
+}
+
+#block-system-main {
+	clear: left; /* allow content to have an element float beside it on the right */
+}
+
+/* styling Add release link on extension */
+#block-system-main .extension_release_civicrm_field_extension_nr_crm a {
+  display: block;
+  margin: 0 0 2em 3em;
+  color: black;
+  font-family: Cantarell,Helvetica,Arial,sans-serif;
+  font-size: 13px;
+  font-weight: bold;
+  font-style: italic;
+  letter-spacing: -1px;
+  text-align: center;
+  text-decoration: none;
+  background-color: #7EC756;
+  padding: 12px 10px;
+  background-image: url(/sites/civicrm.org/themes/genesis_sub/images/slant-tile.png);
+  background-repeat: repeat;
+}
+
+#block-system-main .node-extension .node-links {
+  float: right;
+}
+#block-system-main .node-extension .node-content {
+  float: left;
+  width: 75%;
+}
+
+/* new window icon */
+
+.new-window {
+	background: transparent url(/sites/civicrm.org/themes/genesis_sub/images/new_window_icon.gif) no-repeat center right;
+	padding-right: 17px;
+}

@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/tools/!svn/ver/524/trunk/packages/File/Iterator
+END
+Facade.php
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/tools/!svn/ver/524/trunk/packages/File/Iterator/Facade.php
+END
+Factory.php
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/tools/!svn/ver/524/trunk/packages/File/Iterator/Factory.php
+END
+Autoload.php
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/tools/!svn/ver/524/trunk/packages/File/Iterator/Autoload.php
+END

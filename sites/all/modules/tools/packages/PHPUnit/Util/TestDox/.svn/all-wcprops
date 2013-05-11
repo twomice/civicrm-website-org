@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Util/TestDox
+END
+NamePrettifier.php
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Util/TestDox/NamePrettifier.php
+END
+ResultPrinter.php
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/tools/!svn/ver/522/trunk/packages/PHPUnit/Util/TestDox/ResultPrinter.php
+END

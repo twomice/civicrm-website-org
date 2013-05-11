@@ -1,0 +1,71 @@
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/tools/!svn/ver/257/trunk/other/iphone_1.0/CiviCRM/build/iphone/Classes/PlausibleDatabase
+END
+PLSqlitePreparedStatement.m
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/tools/!svn/ver/257/trunk/other/iphone_1.0/CiviCRM/build/iphone/Classes/PlausibleDatabase/PLSqlitePreparedStatement.m
+END
+PlausibleDatabase.m
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/tools/!svn/ver/257/trunk/other/iphone_1.0/CiviCRM/build/iphone/Classes/PlausibleDatabase/PlausibleDatabase.m
+END
+PLSqliteResultSet.m
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/tools/!svn/ver/257/trunk/other/iphone_1.0/CiviCRM/build/iphone/Classes/PlausibleDatabase/PLSqliteResultSet.m
+END
+PLDatabase.h
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/tools/!svn/ver/257/trunk/other/iphone_1.0/CiviCRM/build/iphone/Classes/PlausibleDatabase/PLDatabase.h
+END
+PLSqliteDatabase.h
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/tools/!svn/ver/257/trunk/other/iphone_1.0/CiviCRM/build/iphone/Classes/PlausibleDatabase/PLSqliteDatabase.h
+END
+PLPreparedStatement.h
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/tools/!svn/ver/257/trunk/other/iphone_1.0/CiviCRM/build/iphone/Classes/PlausibleDatabase/PLPreparedStatement.h
+END
+PLSqlitePreparedStatement.h
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/tools/!svn/ver/257/trunk/other/iphone_1.0/CiviCRM/build/iphone/Classes/PlausibleDatabase/PLSqlitePreparedStatement.h
+END
+PlausibleDatabase.h
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/tools/!svn/ver/257/trunk/other/iphone_1.0/CiviCRM/build/iphone/Classes/PlausibleDatabase/PlausibleDatabase.h
+END
+PLResultSet.h
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/tools/!svn/ver/257/trunk/other/iphone_1.0/CiviCRM/build/iphone/Classes/PlausibleDatabase/PLResultSet.h
+END
+PLSqliteDatabase.m
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/tools/!svn/ver/257/trunk/other/iphone_1.0/CiviCRM/build/iphone/Classes/PlausibleDatabase/PLSqliteDatabase.m
+END
+PLSqliteResultSet.h
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/tools/!svn/ver/257/trunk/other/iphone_1.0/CiviCRM/build/iphone/Classes/PlausibleDatabase/PLSqliteResultSet.h
+END
