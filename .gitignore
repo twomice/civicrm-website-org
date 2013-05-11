@@ -2,7 +2,7 @@ sites/*/settings.php
 sites/*/civicrm.settings.php
 sites/*/files
 
-extensions/cache
+civicrm_extensions/cache
 
 *~
 \#*\#
