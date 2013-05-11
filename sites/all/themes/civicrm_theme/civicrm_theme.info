@@ -1,12 +1,15 @@
 ; $Id: genesis_SUBTHEME.info,v 1.25 2011/01/14 03:12:40 jmburnz Exp $
 
 ; Change the name to match your new subthemes name and modify the description.	
-  name         = Genesis SUBTHEME
-  description  = My Kickn' Sub-theme
-  core         = 7.x
-  engine       = phptemplate
-  screenshot   = genesis-subtheme.png
   base theme   = genesis
+  core         = 7.x
+  datestamp = "1295212296"
+  description  = CiviCRM's website theme
+  engine       = phptemplate
+  name         = CiviCRM
+  project      = "genesis"
+  screenshot   = civicrm-theme.png
+  version      = "7.x-1"
 
 ; Uncomment for a Dark style theme. @TODO - need to revamp dark css.
   ;stylesheets[all][] = css/dark/dark.css
@@ -103,8 +106,4 @@
   settings[shortcut_module_link] = 0
 
 ; Information added by drupal.org packaging script on January 1, 1970 - 00:00
-version = "7.x-1.1"
-core = "7.x"
-project = "genesis"
-datestamp = "1295212296"
 
