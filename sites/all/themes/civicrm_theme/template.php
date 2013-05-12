@@ -36,7 +36,7 @@ function genesis_SUBTHEME_process_html(&$vars) {
  * Override or insert variables into the page templates.
  */
 /* -- Delete this line if you want to use these functions
-function genesis_sub_preprocess_page(&$vars) {
+function genesis_SUBTHEME_preprocess_page(&$vars) {
 }
 function genesis_SUBTHEME_process_page(&$vars) {
 }
@@ -75,7 +75,7 @@ function genesis_SUBTHEME_process_block(&$vars) {
   /**
    * Implements hook_form_FORM_NAME_alter().
    */
-  function genesis_sub_form_comment_form_alter(&$form, &$form_state) {
+  function civicrm_theme_form_comment_form_alter(&$form, &$form_state) {
       $form['author']['name']['#title'] = "Name";
       $form['author']['mail']['#title'] = "Email";
 	  $form['actions']['preview']['#value'] = "Preview Comment";

@@ -79,16 +79,16 @@
 <link href='http://fonts.googleapis.com/css?family=PT+Sans+Caption' rel='stylesheet' type='text/css'>
 
     <!--[if IE 7]>
-      <link rel="stylesheet" href="<?php print $base_path;?>sites/civicrm.org/themes/genesis_sub/css/ie7.css" type="text/css" />
+      <link rel="stylesheet" href="<?php print $base_path;?>sites/all/themes/civicrm_theme/css/ie7.css" type="text/css" />
     <![endif]-->
     <!--[if IE 8]>
-      <link rel="stylesheet" href="<?php print $base_path;?>sites/civicrm.org/themes/genesis_sub/css/ie8.css" type="text/css" />
-    <![endif]--> 
+      <link rel="stylesheet" href="<?php print $base_path;?>sites/all/themes/civicrm_theme/css/ie8.css" type="text/css" />
+    <![endif]-->
 	<!--[if IE 9]>
-      <link rel="stylesheet" href="<?php print $base_path;?>sites/civicrm.org/themes/genesis_sub/css/ie9.css" type="text/css" />
-    <![endif]--> 
-    <link type="text/css" rel="stylesheet" media="print" href="<?php print $base_path;?>sites/civicrm.org/themes/genesis_sub/css/print.css" />
-    <link type="text/css" rel="stylesheet" href="<?php print $base_path;?>sites/civicrm.org/themes/genesis_sub/css/directory.css" />
+      <link rel="stylesheet" href="<?php print $base_path;?>sites/all/themes/civicrm_theme/css/ie9.css" type="text/css" />
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" media="print" href="<?php print $base_path;?>sites/all/themes/civicrm_theme/css/print.css" />
+    <link type="text/css" rel="stylesheet" href="<?php print $base_path;?>sites/all/themes/civicrm_theme/css/directory.css" />
 
   <?php if (!$in_overlay): // hide in overlay ?>
 
