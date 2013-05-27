@@ -494,8 +494,9 @@ body {
     float: left;
     height: auto;
     margin-left: 61px;
-    margin-top: -21px;
+    margin-top: -34px;
     width: 293px;
+	height: 284px;
 }
 
 #block-quicktabs-tabs .ui-tabs .ui-tabs-nav li.ui-tabs-selected, #block-static_block-get-started-homepage-block1 .ui-tabs .ui-tabs-nav li.ui-tabs-selected {
@@ -504,7 +505,10 @@ body {
     padding-top: 6px;
 }
 
-#block-quicktabs-tabs #quicktabs-tabs .ui-tabs-nav, #block-quicktabs-tabs #quicktabs-tabs, #block-static_block-get-started-homepage-block1 #quicktabs-tabs .ui-tabs-nav, #block-static_block-get-started-homepage-block1 #quicktabs-tabs {
+#block-quicktabs-tabs #quicktabs-tabs .ui-tabs-nav, 
+#block-quicktabs-tabs #quicktabs-tabs, 
+#block-static_block-get-started-homepage-block1 #quicktabs-tabs .ui-tabs-nav, 
+#block-static_block-get-started-homepage-block1 #quicktabs-tabs {
 	background-color:transparent;
 	-moz-border-radius:0px;
 	border:0px;
@@ -515,14 +519,14 @@ body {
 	background-repeat:repeat-y;
 	background-position:0 0;
 }
-
+#block-static_block-get-started-homepage-block1 #quicktabs-tabs .ui-tabs-nav { height: 14px; }
 #block-quicktabs-tabs .ui-tabs .ui-tabs-nav li.ui-tabs-selected a, #block-static_block-get-started-homepage-block1 .ui-tabs .ui-tabs-nav li.ui-tabs-selected a{color:#026086;}
 
 #block-quicktabs-tabs .ui-tabs .ui-tabs-nav li a, #block-static_block-get-started-homepage-block1 .ui-tabs .ui-tabs-nav li a {
 	font-family: "News Cycle", Arial, Helvetica, sans-serif;
-	font-size:15px;
+	font-size:14px;
 	color:#ffffff;
-	padding: 7px 5px 7px 8px;
+	padding: 7px 5px 7px 6px;
 }
 
 #block-quicktabs-tabs .ui-tabs .ui-tabs-nav li, #block-static_block-get-started-homepage-block1 .ui-tabs .ui-tabs-nav li {
@@ -581,8 +585,8 @@ body {
 /*end community*/
 
 /*get started homepage*/
-#block-static_block-get-started-homepage-block1{margin: -10px 0 0;}
-
+/*#block-static_block-get-started-homepage-block1{margin: -10px 0 0;}
+*/
 #block-static_block-get-started-homepage-block1 h2 {
     color: #FFFFFF !important;
     float: left !important;
@@ -2616,9 +2620,11 @@ h3 a {
 }               
 #block-static_block-get-started-homepage-block1 {
 	width: 505px;
+	height: 250px;
+	margin: 0;
 	float: left;
-	margin-top: -14px !important;
-}
+/*	margin-top: -14px !important;
+*/}
 #block-webform-client-block-2052 {
 	width: 424px;
 	float: right;
