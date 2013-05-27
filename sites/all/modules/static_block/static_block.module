@@ -111,13 +111,14 @@ function static_block_block_view($delta = '') {
         $block['title'] = 'Get Started';
         $block['subject'] = t('get-started-homepage');
         $get_started_homepage_block1 = module_invoke('quicktabs', 'block_view', 'tabs');
-        $output = NULL;
-        $output .= '<p class="get-started-first">CiviCRM helps organizations grow and sustain strong relationships
-            over time.</p>';
-        $output .= '<p class="get-started">This open source, Web-based platform helps organizations realize their missions through fundraising, events management, mass-mail marketing, peer-to-peer campaigns and more via one unified solution.</p>';
-        $output .= '<p class="get-started-last">CiviCRM&rsquo;s community is committed to the public good and has created a reliable network of international resources for hosting, developing and supporting this effective solution.</p>';
-
         $block['content'] = render($get_started_homepage_block1);
+
+        // $output = NULL;
+        // $output .= '<p class="get-started-first">CiviCRM helps organizations grow and sustain strong relationships
+        //     over time.</p>';
+        // $output .= '<p class="get-started">This open source, Web-based platform helps organizations realize their missions through fundraising, events management, mass-mail marketing, peer-to-peer campaigns and more via one unified solution.</p>';
+        // $output .= '<p class="get-started-last">CiviCRM&rsquo;s community is committed to the public good and has created a reliable network of international resources for hosting, developing and supporting this effective solution.</p>';
+
         $block['content'] .= $output;
         return $block; 
     case 'homepage-joinus-block1':

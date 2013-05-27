@@ -84,3 +84,18 @@ function genesis_SUBTHEME_process_block(&$vars) {
       $form['author']['mail']['#required'] = FALSE;
       unset($form['author']['homepage']);
  }
+// Add a placeholder for each input (textfield, textarea and email) and concatenate it with "Enter your " 
+function civicrm_theme_form_alter(&$form, &$form_state, $form_id) {
+	  // Sign up to our mailing list
+    if($form_id == webform_client_form_2052) { 
+      foreach ($form["submitted"] as $key => $value) {
+          if (in_array($value["#type"], array("textfield", "webform_email", "textarea"))) {
+              $form["submitted"][$key]['#attributes']["placeholder"] = t("Enter your ").strtolower(t($value["#title"]));
+          } 
+      }
+			//hides the labels but keeps them accessible
+			$form["submitted"][$key]['#title_display'] = 'invisible';
+  }
+	 
+}
+
