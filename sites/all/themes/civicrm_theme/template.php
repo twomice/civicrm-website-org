@@ -96,6 +96,17 @@ function civicrm_theme_form_alter(&$form, &$form_state, $form_id) {
 			//hides the labels but keeps them accessible
 			$form["submitted"][$key]['#title_display'] = 'invisible';
   }
+
+	  // Sign up to our mailing list -header
+    if($form_id == webform_client_form_2053) { 
+      foreach ($form["submitted"] as $key => $value) {
+          if (in_array($value["#type"], array("textfield", "webform_email", "textarea"))) {
+              $form["submitted"][$key]['#attributes']["placeholder"] = t("Enter your ").strtolower(t($value["#title"]));
+          } 
+      }
+			//hides the labels but keeps them accessible
+			$form["submitted"][$key]['#title_display'] = 'invisible';
+  }
 	 
 }
 

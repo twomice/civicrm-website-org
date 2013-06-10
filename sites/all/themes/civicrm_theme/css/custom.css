@@ -75,13 +75,13 @@ body {
 	clear:none !important;
 }
 
-#search-block-form, #block-form{float:left;margin-top:11px;margin-left: -15px;/*opacity:0.5;*/}
+#search-block-form, #block-form{float:left;margin: 0; /*opacity:0.5;*/}
 
 #block-nice_menus-6 {
 	display: inline;
     float: right;
 	clear:none !important;
-	margin-top: 15px;
+	margin-top: 0;
 	/*opacity:0.5;*/
 }
 
@@ -137,7 +137,8 @@ body {
 	background-color:#fcded8;
 }
 
-#block-search-form .form-text, #search-form .form-text {
+#block-search-form .form-text, #search-form .form-text,
+#block-webform-client-block-2053 .webform-component-email input {
     background-image: url("../images/sr1.png");
     background-repeat: no-repeat;
     border: 0 none;
@@ -147,8 +148,12 @@ body {
     height: 25px;
     padding: 1px 10px 5px 40px;
     width: 200px;
+	text-transform: uppercase;
 }
-
+#block-webform-client-block-2053 .webform-component-email input {
+	padding-left: 10px;
+	color: #aaa;
+}
 #block-search-form .form-actions {
     float: left;
     left: 34px;
@@ -389,15 +394,17 @@ body {
 
 /*login box*/
 #block-user-login {
-    float: left;
-    margin-top: 15px;
+    margin: 0;
+	position: absolute;
+	top: 0;
+	right: 0;
 }
 
 #block-user-login #user-login-form{margin:0px;}
 
 #block-user-login #user-login-form #toboggan-login-link {
 	font-size:9px;
-	color:#A55F53;
+	color:#fff;
 	font-family:Arial, Helvetica, sans-serif;
 	letter-spacing: 1px;
 	text-transform:uppercase;
@@ -2625,38 +2632,62 @@ h3 a {
 	float: left;
 /*	margin-top: -14px !important;
 */}
-#block-webform-client-block-2052 {
+#block-webform-client-block-2052,
+#block-webform-client-block-2053 {
 	width: 424px;
 	float: right;
 	clear: none;
 }
-form#webform-client-form-2052 {
+#block-webform-client-block-2053 {
+	float: left;
+	padding-top: 12px;
+}
+form#webform-client-form-2052,
+form#webform-client-form-2053 {
 	margin: 0;
 }
-#block-webform-client-block-2052 h2 {
+#block-webform-client-block-2052 h2,
+#block-webform-client-block-2053 h2 {
 	color: #fff;
 	font-family: "Open Sans Condensed", Arial,Helvetica,sans-serif;
 	margin-top: 24px;
 	font-size: 24px;
 }
-#block-webform-client-block-2052 .webform-component-civicrm_contact {
+#block-webform-client-block-2053 h2 {
+	margin: 0 0 5px 0;
+	color: #A55F53;
+	font-size: 14px;
+	font-family: "PT Sans Caption",​Cantarell,​Helvetica,​Arial,​sans-serif;
+	
+}
+#block-webform-client-block-2052 .webform-component-civicrm_contact,
+#block-webform-client-block-2053 .webform-component-civicrm_contact {
 	margin: 0;
 }
-#block-webform-client-block-2052 .webform-component-email {
+#block-webform-client-block-2052 .webform-component-email,
+#block-webform-client-block-2053 .webform-component-email {
 	float: left;
 }
-#block-webform-client-block-2052 input {
+#block-webform-client-block-2053 .webform-component-email {
+	margin: 0;
+}
+#block-webform-client-block-2052 input,
+#block-webform-client-block-2053 input {
 	font-family: "PT Sans Caption", Cantarell, Arial, Helvetica, sans-serif;
 	font-size: 12px;	
 	height: 24px;  
 }
+#block-webform-client-block-2052 .webform-component-email input,
+#block-webform-client-block-2053 .webform-component-email input {	
+	text-indent: 3px;
+}
 #block-webform-client-block-2052 .webform-component-email input {
 	width: 265px;
 	height: 24px;
-	padding: 3px;	
-	text-indent: 3px;
+	padding: 3px;
 }
-#block-webform-client-block-2052 input#edit-submit {
+#block-webform-client-block-2052 input.form-submit,
+#block-webform-client-block-2053 input.form-submit {
 	height: 32px;
 	background: #7ec757 none;
 	color: #fff;
@@ -2665,10 +2696,24 @@ form#webform-client-form-2052 {
 	float: left;
 	margin: 1em 0 1em 10px;
 }
+#block-webform-client-block-2053 input.form-submit {
+	margin: 0 0 0 1.5em;
+	height: 25px;
+	padding: 0 3px;
+}
+#block-webform-client-block-2053 div.form-actions {
+	margin: 0;
+	overflow: hidden;
+}
 #block-webform-client-block-2052 #webform-component-social-media-links {
 	clear: both;
 	font-family: "PT Sans Caption", Cantarell, Arial, Helvetica, sans-serif;
 	color: #fff;
 	font-size: 14px;
 	padding-top: 0.5em;
+}
+#block-search-form {
+	float: right;
+	padding-top: 12px;
+	margin-bottom: 0.5em;
 }
