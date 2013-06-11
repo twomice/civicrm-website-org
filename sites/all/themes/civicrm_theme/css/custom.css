@@ -153,9 +153,10 @@ body {
 }
 #block-webform-client-block-2053 .webform-component-email input,
 #block-webform-client-block-2055 .webform-component-email input {
-	width: 230px;
+	width: 154px;
 	padding-left: 10px;
 	color: #aaa;
+	background-image: url("../images/sr3.png");
 }
 #block-search-form .form-actions {
     float: left;
@@ -2712,7 +2713,7 @@ form#webform-client-form-2055 {
 }
 #block-webform-client-block-2053 input.form-submit,
 #block-webform-client-block-2055 input.form-submit {
-	margin: 0 0 0 12px;
+	margin: 0 0 0 8px;
 	height: 25px;
 	padding: 0 3px;
 }
