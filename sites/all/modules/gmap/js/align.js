@@ -1,4 +1,3 @@
-/* $Id: align.js,v 1.3 2009/02/11 20:08:33 bdragon Exp $ */
 
 /**
  * @file
@@ -6,8 +5,8 @@
  * Applies CSS classes to a macro.
  */
 
-/*global $, Drupal */
-
+/*global jQuery, Drupal */
+(function ($) {
 Drupal.gmap.addHandler('align', function (elem) {
   var obj = this;
   // Respond to incoming alignment changes.
@@ -25,7 +24,7 @@ Drupal.gmap.addHandler('gmap', function (elem) {
   var obj = this;
   // Respond to incoming alignment changes.
   obj.bind("alignchange", function () {
-    var cont = obj.map.getContainer();
+    var cont = obj.map.getDiv();
     $(cont)
       .removeClass('gmap-left')
       .removeClass('gmap-center')
@@ -49,3 +48,4 @@ Drupal.gmap.addHandler('gmap', function (elem) {
     }
   });
 });
+})(jQuery);

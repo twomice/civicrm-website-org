@@ -1,4 +1,3 @@
-/* $Id: shapeloader_static.js,v 1.3 2009/02/11 19:35:34 bdragon Exp $ */
 
 /**
  * @file
@@ -8,7 +7,7 @@
  * Commonly used with macros.
  */
 
-/*global $, Drupal */
+/*global jQuery, Drupal */
 
 // Add a gmap handler
 Drupal.gmap.addHandler('gmap', function (elem) {
@@ -21,7 +20,7 @@ Drupal.gmap.addHandler('gmap', function (elem) {
       // Store the shapes in s and reset obj.vars.shapes.
       var s = obj.vars.shapes;
       obj.vars.shapes = [];
-      $.each(s, function (i, shape) {
+      jQuery.each(s, function (i, shape) {
         if (!shape.opts) {
           shape.opts = {};
         }

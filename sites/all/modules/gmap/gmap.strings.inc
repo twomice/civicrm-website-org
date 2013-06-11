@@ -1,5 +1,9 @@
 <?php
-// $Id: gmap.strings.inc,v 1.1.2.1 2010/06/13 08:50:02 rooby Exp $
+
+/**
+ * @file
+ * Translation definitions for builtin data.
+ */
 
 function gmap_marker_labels_potx() {
   $marker_labels = array(

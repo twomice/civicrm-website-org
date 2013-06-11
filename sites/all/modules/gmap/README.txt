@@ -1,4 +1,3 @@
-$Id: README.txt,v 1.13.2.1 2010/06/13 08:50:02 rooby Exp $
 
 Description
 -----------
@@ -21,9 +20,13 @@ Installation
 * To install, follow the general directions available at:
 http://drupal.org/getting-started/5/install-contrib/modules
 
-* You will need a Google Maps API key for your website. You can get one at:
-http://www.google.com/apis/maps/signup.html
-Enter your Google Maps API key in the GMap settings page (admin/settings/gmap).
+In order to use 7.x-1.x and earlier versions of this module, you need a (free) Google Maps API Browser key. Here is how to get one:
+
+1. Login at https://code.google.com/apis/console
+2. Create project
+3. Go to 'Services' and turn on 'Google Maps API v2'
+4. Go to 'API Access' and 'Create New Browser Key' specifying your domain url(s)
+5. Paste the Google API Browser Key here /admin/settings/gmap
 
 * You may need to make changes to your theme so that Google Maps can display correctly. See the section on "Google Maps and XHTML" below.
 
@@ -64,14 +67,14 @@ Macro
 1) GMap settings, like the GMap Location module's settings page.
 2) Any node where the GMap filter is enabled (as part of the input format).
 
-A GMap macro will look something like this (see API.txt for syntax details):
+A GMap macro will look something like this (see the advanced help pages (or the files in help/ in the module folder) for syntax details):
 [gmap markers=blue::41.902277040963696,-87.6708984375 |zoom=5 |center=42.94033923363183,-88.857421875 |width=300px |height=200px |control=Small |type=Map]
 
 The GMap Macro Builder is a GUI for creating GMap macros; you may use it to create a map with points, lines, polygons, and circles, and then copy and paste the resulting macro text. After you insert the macro into a node, you can edit it using raw values that you get from elsewhere to create a different set of points or lines on the map.
 
 If you've enabled the gmap_macro_builder.module, you can access the GMap macro builder at the 'map/macro' path (there will be "Build a GMap macro" link in your Navigation menu).
 
-Note that there are many more options you can set on your maps if you are willing to edit macros by hand. For example, you may add KML or GeoRSS overlays to GMaps, but this option isn't available through the macro builder. Again, see API.txt for syntax details.
+Note that there are many more options you can set on your maps if you are willing to edit macros by hand. For example, you may add KML or GeoRSS overlays to GMaps, but this option isn't available through the macro builder. Again, see the advanced help pages for syntax details.
 
 
 User and node maps

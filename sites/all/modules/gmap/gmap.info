@@ -1,12 +1,16 @@
-; $Id: gmap.info,v 1.3 2008/07/15 17:19:33 bdragon Exp $
 name = GMap
-description = Filter to allow insertion of a google map into a node
-core = 6.x
+description = Views plugins to show Google Maps from entities.
+core = 7.x
 package = Location
+configure = admin/config/services/gmap
 
-; Information added by drupal.org packaging script on 2010-07-06
-version = "6.x-1.1"
-core = "6.x"
+files[] = gmap_plugin_style_gmap.inc
+files[] = gmap_plugin_style_gmapextended.inc
+files[] = tests/gmap.test
+
+; Information added by drupal.org packaging script on 2013-03-31
+version = "7.x-2.6"
+core = "7.x"
 project = "gmap"
-datestamp = "1278426618"
+datestamp = "1364754012"
 

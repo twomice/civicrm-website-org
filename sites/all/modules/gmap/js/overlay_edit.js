@@ -1,26 +1,24 @@
-/* $Id: overlay_edit.js,v 1.3 2009/02/11 21:41:33 bdragon Exp $ */
 
 /**
  * @file
  * Gmap Overlay Editor
  */
 
-/*global $, Drupal, GEvent, GMarker, GPolygon, GPolyline */
-
+/*global jQuery, Drupal, GEvent, GMarker, GPolygon, GPolyline */
 Drupal.gmap.addHandler('overlayedit_linestyle', function (elem) {
   var obj = this;
   obj.vars.styles.overlayline = [];
   var f = function () {
-    var o = Number($(this).attr('id').match(/\d+$/));
+    var o = Number(jQuery(this).attr('id').match(/\d+$/));
     obj.vars.styles.overlayline[o] = this.value;
   };
-  $(elem).find('input.gmap_style').change(f).each(f);
+  jQuery(elem).find('input.gmap_style').change(f).each(f);
 });
 
 Drupal.gmap.addHandler('overlayedit_linestyle_apply', function (elem) {
   var obj = this;
   obj.vars.overlay_linestyle_apply = Boolean(elem.checked);
-  $(elem).change(function () {
+  jQuery(elem).change(function () {
     obj.vars.overlay_linestyle_apply = Boolean(this.checked);
   });
 });
@@ -29,16 +27,16 @@ Drupal.gmap.addHandler('overlayedit_polystyle', function (elem) {
   var obj = this;
   obj.vars.styles.overlaypoly = [];
   var f = function () {
-    var o = Number($(this).attr('id').match(/\d+$/));
+    var o = Number(jQuery(this).attr('id').match(/\d+$/));
     obj.vars.styles.overlaypoly[o] = this.value;
   };
-  $(elem).find('input.gmap_style').change(f).each(f);
+  jQuery(elem).find('input.gmap_style').change(f).each(f);
 });
 
 Drupal.gmap.addHandler('overlayedit_polystyle_apply', function (elem) {
   var obj = this;
   obj.vars.overlay_polystyle_apply = Boolean(elem.checked);
-  $(elem).change(function () {
+  jQuery(elem).change(function () {
     obj.vars.overlay_polystyle_apply = Boolean(this.checked);
   });
 });
@@ -46,7 +44,7 @@ Drupal.gmap.addHandler('overlayedit_polystyle_apply', function (elem) {
 Drupal.gmap.addHandler('overlayedit_fillstroke_default', function (elem) {
   var obj = this;
   obj.vars._usedefaultfillstroke = Boolean(elem.checked);
-  $(elem).change(function () {
+  jQuery(elem).change(function () {
     obj.vars._usedefaultfillstroke = Boolean(this.checked);
     alert(obj.vars._usedefaultfillstroke);
   });
@@ -55,7 +53,7 @@ Drupal.gmap.addHandler('overlayedit_fillstroke_default', function (elem) {
 Drupal.gmap.addHandler('overlayedit_mapclicktype', function (elem) {
   var obj = this;
   obj.vars.overlay_add_mode = elem.value;
-  $(elem).change(function () {
+  jQuery(elem).change(function () {
     obj.vars.overlay_add_mode = elem.value;
     if (obj.temp_point) {
       delete obj.temp_point;
@@ -65,7 +63,7 @@ Drupal.gmap.addHandler('overlayedit_mapclicktype', function (elem) {
 Drupal.gmap.addHandler('overlayedit_markerclicktype', function (elem) {
   var obj = this;
   obj.vars.overlay_del_mode = elem.value;
-  $(elem).change(function () {
+  jQuery(elem).change(function () {
     obj.vars.overlay_del_mode = elem.value;
   });
 });
@@ -74,7 +72,7 @@ Drupal.gmap.addHandler('gmap', function (elem) {
   var obj = this;
 
   // Add status bar
-  var status = $(elem).after('<div class="gmap-statusbar">Status</div>').next();
+  var status = jQuery(elem).after('<div class="gmap-statusbar">Status</div>').next();
   obj.statusdiv = status[0];
 
   obj.bind('buildmacro', function (add) {
@@ -115,7 +113,7 @@ Drupal.gmap.addHandler('gmap', function (elem) {
       var polylines = [];
       var circles = [];
       var markers = {};
-      $.each(obj._oe.features, function (i, n) {
+      jQuery.each(obj._oe.features, function (i, n) {
         if (n.type) {
           switch (n.type) {
             case 'polyline':
@@ -128,7 +126,7 @@ Drupal.gmap.addHandler('gmap', function (elem) {
               if (!markers[n.marker]) {
                 markers[n.marker] = [];
               }
-              var pt = n.overlay.getLatLng();
+              var pt = n.overlay.getPosition();
               var ptxt = '';
               if (n.html) {
                 ptxt = ':' + n.html;
@@ -141,7 +139,7 @@ Drupal.gmap.addHandler('gmap', function (elem) {
           }
         }
       });
-      $.each(markers, function (i, n) {
+      jQuery.each(markers, function (i, n) {
         add.push('markers=' + i + '::' + n.join(' + '));
       });
     }
@@ -153,12 +151,12 @@ Drupal.gmap.map.prototype.statusdiv = undefined;
 Drupal.gmap.map.prototype.status = function (text) {
   var obj = this;
   if (obj.statusdiv) {
-    $(obj.statusdiv).html(text);
+    jQuery(obj.statusdiv).html(text);
   }
 };
 
 // Extend markers to store type info.
-GMarker.prototype.gmapMarkerData = function (data) {
+google.maps.Marker.prototype.gmapMarkerData = function (data) {
   if (data) {
     this._gmapdata = data;
   }
@@ -173,7 +171,7 @@ Drupal.gmap.addHandler('overlayedit', function (elem) {
     // @@@
   });
 
-  $(elem).change(function () {
+  jQuery(elem).change(function () {
     obj.vars.overlay_next_icon = elem.value;
 //    obj.vars.overlay_edit_mode = elem.value;
 //    obj.change('overlay_edit_mode',binding);
@@ -190,9 +188,10 @@ Drupal.gmap.addHandler('overlayedit', function (elem) {
       obj._oe.featuresRef = {};
       obj._oe.editing = false;
       obj._oe.markerseq = {};
-      GEvent.addListener(obj.map, 'click', function (overlay, point) {
+      google.maps.event.addListener(obj.map, 'click', function (event) {
         var ctx, s, p;
-        if (overlay) {
+        var point = event.latLng;
+        if (0 && overlay) {
           if (obj._oe.editing) {
             // Work around problem where double clicking to finish a poly fires a click event.
             obj._oe.editing = false;
@@ -209,8 +208,13 @@ Drupal.gmap.addHandler('overlayedit', function (elem) {
                 obj._oe.markerseq[m] = -1;
               }
               obj._oe.markerseq[m] = obj._oe.markerseq[m] + 1;
-              p = new GMarker(point, {icon: Drupal.gmap.getIcon(m, obj._oe.markerseq[m])});
-              obj.map.addOverlay(p);
+              //p = new GMarker(point, {icon: Drupal.gmap.getIcon(m, obj._oe.markerseq[m])});
+              //obj.map.addOverlay(p);
+              var p = new google.maps.Marker({
+                position: point, 
+                map: obj.map,
+                icon: Drupal.gmap.getIcon(m, obj._oe.markerseq[m]).ra
+              });
               ctx = {
                 'type' : 'point',
                 'marker' : m,
@@ -218,19 +222,19 @@ Drupal.gmap.addHandler('overlayedit', function (elem) {
               };
               var offset = obj._oe.features.push(ctx) - 1;
               obj._oe.editing = false;
-              GEvent.addListener(p, "click", function () {
+              google.maps.event.addListener(p, "click", function () {
                 switch (obj.vars.overlay_del_mode) {
                   case 'Remove':
                     obj._oe.markerseq[m] = obj._oe.markerseq[m] - 1;
                     ctx.type = 'deleted';
-                    obj.map.removeOverlay(p);
+                    p.setMap(null);
                     ctx.overlay = null;
                     var tmpcnt = 0;
                     // Renumber markers in set.
-                    $.each(obj._oe.features, function (i, n) {
+                    jQuery.each(obj._oe.features, function (i, n) {
                       if (n.type && n.type === 'point' && n.marker === m) {
                         var pt = n.overlay.getLatLng();
-                        n.overlay.setImage(Drupal.gmap.getIcon(n.marker, tmpcnt).image);
+                        n.overlay.setImage(Drupal.gmap.getIcon(n.marker, tmpcnt).ra);
                         tmpcnt = tmpcnt + 1;
                       }
                     });
@@ -255,20 +259,26 @@ Drupal.gmap.addHandler('overlayedit', function (elem) {
                 ctx.style = obj.vars.styles.overlayline.slice();
                 s = ctx.style;
               }
+              /*
               p = new GPolyline([point], '#' + s[0], Number(s[1]), s[2] / 100);
               obj.map.addOverlay(p);
+              */
+              var coord = [ new google.maps.LatLng(point) ];
+              var p = new google.maps.Polyline({path:coord, strokeColor:"#"+s[0], strokeOpacity:s[2]/100, strokeWeight:Number(s[1])});
+              p.setMap(obj.map);
+              
               ctx.overlay = p;
               obj._oe.featuresRef[p] = obj._oe.features.push(ctx) - 1;
 
-              p.enableDrawing();
-              p.enableEditing({onEvent: "mouseover"});
-              p.disableEditing({onEvent: "mouseout"});
-              GEvent.addListener(p, "endline", function () {
+              p.runEdit( true );
+              google.maps.event.addListener( p, "mouseover", function(){p.runEdit( true );} );
+              google.maps.event.addListener( p, "mouseout", function(){p.stopEdit();} );
+              google.maps.event.addListener(p, "endline", function () {
                 //obj._oe.editing = false;
-                GEvent.addListener(p, "lineupdated", function () {
+                google.maps.event.addListener(p, "lineupdated", function () {
                   obj.change('mapedited', -1);
                 });
-                GEvent.addListener(p, "click", function (latlng, index) {
+                google.maps.event.addListener(p, "click", function (latlng, index) {
                   if (typeof index === "number") {
                     // Delete vertex on click.
                     p.deleteVertex(index);
@@ -299,15 +309,14 @@ Drupal.gmap.addHandler('overlayedit', function (elem) {
               ctx.overlay = p;
               obj._oe.featuresRef[p] = obj._oe.features.push(ctx) - 1;
 
-              p.enableDrawing();
-              p.enableEditing({onEvent: "mouseover"});
-              p.disableEditing({onEvent: "mouseout"});
-              GEvent.addListener(p, "endline", function () {
+              google.maps.event.addListener( p, "mouseover", function(){p.runEdit( true );} );
+              google.maps.event.addListener( p, "mouseout", function(){p.stopEdit();} );
+              google.maps.event.addListener(p, "endline", function () {
                 //obj._oe.editing = false;
-                GEvent.addListener(p, "lineupdated", function () {
+                google.maps.event.addListener(p, "lineupdated", function () {
                   obj.change('mapedited', -1);
                 });
-                GEvent.addListener(p, "click", function (latlng, index) {
+                google.maps.event.addListener(p, "click", function (latlng, index) {
                   if (typeof index === "number") {
                     p.deleteVertex(index);
                   }
@@ -328,7 +337,7 @@ Drupal.gmap.addHandler('overlayedit', function (elem) {
               // @@@ Translate
               obj.status("Drawing circle. Click a point on the rim to place.");
 
-              var handle = GEvent.addListener(obj.map, 'click', function (overlay, point) {
+              var handle = google.maps.event.addListener(obj.map, 'click', function (overlay, point) {
                 if (point) {
                   var ctx = {
                     'type' : 'circle',
@@ -348,7 +357,7 @@ Drupal.gmap.addHandler('overlayedit', function (elem) {
                   obj.map.addOverlay(p);
                   ctx.overlay = p;
                   obj._oe.featuresRef[p] = obj._oe.features.push(ctx) - 1;
-                  GEvent.addListener(p, "click", function () {
+                  google.maps.event.addListener(p, "click", function () {
                     switch (obj.vars.overlay_del_mode) {
                       case 'Remove':
                         ctx.type = 'deleted';
@@ -366,7 +375,7 @@ Drupal.gmap.addHandler('overlayedit', function (elem) {
                   // @@@ Uh, do cleanup I suppose..
                 }
                 obj._oe.editing = false;
-                GEvent.removeListener(handle);
+                google.maps.event.removeListener(handle);
                 obj.change('mapedited', -1);
               });
               break;

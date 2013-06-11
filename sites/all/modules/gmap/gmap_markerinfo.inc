@@ -1,5 +1,4 @@
 <?php
-// $Id: gmap_markerinfo.inc,v 1.3.2.1 2010/06/13 08:50:02 rooby Exp $
 
 /**
  * @file
@@ -23,21 +22,21 @@ function _gmap_get_icondata() {
     'transparent',
   );
 
-  $markerdir = variable_get('gmap_markerfiles', drupal_get_path('module', 'gmap') .'/markers');
+  $markerdir = variable_get('gmap_markerfiles', drupal_get_path('module', 'gmap') . '/markers');
 
   // The following routines are designed to be easy to comprehend, not fast.
   // This whole process gets cached.
 
   // Get the ini files.
-  $inifiles = file_scan_directory($markerdir, '.*\.ini$');
+  $inifiles = file_scan_directory($markerdir, '/.*\.ini$/');
   // Parse the ini files and store by path
   $inis = array();
   foreach ($inifiles as $file) {
-    $path = substr($file->filename, strlen($markerdir), -strlen($file->basename));
+    $path = substr($file->uri, strlen($markerdir), -strlen($file->filename));
     if (!isset($inis[$path])) {
       $inis[$path] = array();
     }
-    $inis[$path][] = parse_ini_file($file->filename, TRUE);
+    $inis[$path][] = parse_ini_file($file->uri, TRUE);
   }
   unset($inifiles);
 
@@ -216,17 +215,17 @@ function _gmap_compress_array(&$arr) {
 }
 
 function _gmap_get_marker_titles() {
-  $markerdir = variable_get('gmap_markerfiles', drupal_get_path('module', 'gmap') .'/markers');
+  $markerdir = variable_get('gmap_markerfiles', drupal_get_path('module', 'gmap') . '/markers');
 
   // The following routines are designed to be easy to comprehend, not fast.
   // This whole process gets cached.
 
   // Get the ini files.
-  $inifiles = file_scan_directory($markerdir, '.*\.ini$');
+  $inifiles = file_scan_directory($markerdir, '/.*\.ini$/');
   // Parse the ini files and store by path
   $inis = array();
   foreach ($inifiles as $file) {
-    $data = parse_ini_file($file->filename, TRUE);
+    $data = parse_ini_file($file->uri, TRUE);
     if (isset($data['defaults'])) {
       // Ignore defaults
       unset($data['defaults']);
