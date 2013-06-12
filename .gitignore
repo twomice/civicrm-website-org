@@ -1,17 +1,17 @@
-sites/*/settings.php
-sites/*/civicrm.settings.php
-sites/*/files
+drupal/sites/*/settings.php
+drupal/sites/*/civicrm.settings.php
+drupal/sites/*/files
 
-civicrm_extensions/cache
+extensions/cache
 
 *~
 \#*\#
 *.swp
 *.mysql
-!sites/all/modules/civicrm/*/*.mysql
-!sites/all/modules/civicrm/*/*/*.mysql
-!sites/all/modules/civicrm/*/*/*/*.mysql
-!sites/all/modules/civicrm/*/*/*/*/*.mysql
+!drupal/sites/all/modules/civicrm/*/*.mysql
+!drupal/sites/all/modules/civicrm/*/*/*.mysql
+!drupal/sites/all/modules/civicrm/*/*/*/*.mysql
+!drupal/sites/all/modules/civicrm/*/*/*/*/*.mysql
 
 tags
 
