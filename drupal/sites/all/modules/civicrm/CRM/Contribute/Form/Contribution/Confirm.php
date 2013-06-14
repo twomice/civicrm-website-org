@@ -352,6 +352,9 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
       $this->_params['campaign_id'] = $this->_params['contribution_campaign_id'];
     }
 
+    // assign contribution page id to the template so we can add css class for it
+    $this->assign('contributionPageID', $this->_id);
+
     $this->set('params', $this->_params);
   }
 
@@ -761,7 +764,8 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         }
       }
 
-      $contactID = &CRM_Contact_BAO_Contact::createProfileContact($params,
+      $contactID = CRM_Contact_BAO_Contact::createProfileContact(
+        $params,
         $fields,
         $contact_id,
         $addToGroups,
@@ -772,7 +776,8 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
     }
     else {
       $ctype = CRM_Core_DAO::getFieldValue('CRM_Contact_DAO_Contact', $contactID, 'contact_type');
-      $contactID = CRM_Contact_BAO_Contact::createProfileContact($params,
+      $contactID = CRM_Contact_BAO_Contact::createProfileContact(
+        $params,
         $fields,
         $contactID,
         $addToGroups,
@@ -1296,10 +1301,14 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
       $contribParams['soft_credit_to'] = $params['soft_credit_to'] = $contribSoftContactId;
     }
 
-    if ($params['amount']) {
+    if (isset($params['amount'])) {
       $contribParams['line_item'] = $form->_lineItem;
       //add contribution record
       $contribution = CRM_Contribute_BAO_Contribution::add($contribParams, $ids);
+      if (is_a($contribution, 'CRM_Core_Error')) {
+        $message = CRM_Core_Error::getMessages($contribution);
+        CRM_Core_Error::fatal($message);
+      }
     }
 
     // process soft credit / pcp pages
@@ -1444,7 +1453,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
 
     // create an activity record
     if ($contribution) {
-    CRM_Activity_BAO_Activity::addActivity($contribution, NULL, $targetContactID);
+      CRM_Activity_BAO_Activity::addActivity($contribution, NULL, $targetContactID);
     }
 
     $transaction->commit();

@@ -255,7 +255,7 @@ class CRM_Contribute_BAO_Contribution_Utils {
       }
       $membershipResult[1] = $result;
     }
-    elseif ($result) {
+    elseif ($result || ($form->_amount == 0.0 && !$form->_params['is_pay_later'])) {
       if ($result) {
         $form->_params = array_merge($form->_params, $result);
       }
@@ -378,11 +378,14 @@ INNER JOIN   civicrm_contact AS contact ON ( contact.id = contrib.contact_id )
     $config = CRM_Core_Config::singleton();
     $yearClause = "year(contrib.receive_date) as contribYear";
     if (!empty($config->fiscalYearStart) && ($config->fiscalYearStart['M'] != 1 || $config->fiscalYearStart['d'] != 1)) {
-      $yearClause = "CASE WHEN DAYOFYEAR(contrib.receive_date)>= " .
-        date('z',mktime(0, 0, 0, $config->fiscalYearStart['M'], $config->fiscalYearStart['d']+1, 2000)) .
-        " THEN
-          concat(YEAR(contrib.receive_date), '-',YEAR(contrib.receive_date)+1)
-   ELSE concat(YEAR(contrib.receive_date)-1,'-', YEAR(contrib.receive_date)) END AS contribYear";
+      $yearClause = "CASE
+        WHEN (MONTH(contrib.receive_date)>= " . $config->fiscalYearStart['M'] . "
+	        && DAYOFMONTH(contrib.receive_date)>= " . $config->fiscalYearStart['d'] . " )
+          THEN
+            concat(YEAR(contrib.receive_date), '-',YEAR(contrib.receive_date)+1)
+          ELSE
+            concat(YEAR(contrib.receive_date)-1,'-', YEAR(contrib.receive_date))
+        END AS contribYear";
     }
 
     $query = "

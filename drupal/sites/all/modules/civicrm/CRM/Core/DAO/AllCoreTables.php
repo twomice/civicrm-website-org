@@ -34,9 +34,9 @@
  *
  */
 
-class CRM_Core_AllCoreTables {
+class CRM_Core_DAO_AllCoreTables {
 
-  static protected $tables = array(
+  static $tables = array(
     'civicrm_address_format' => 'CRM_Core_DAO_AddressFormat',
     'civicrm_extension' => 'CRM_Core_DAO_Extension',
     'civicrm_file' => 'CRM_Core_DAO_File',
@@ -71,9 +71,6 @@ class CRM_Core_AllCoreTables {
     'civicrm_entity_financial_account' => 'CRM_Financial_DAO_EntityFinancialAccount',
     'civicrm_financial_item' => 'CRM_Financial_DAO_FinancialItem',
     'civicrm_sms_provider' => 'CRM_SMS_DAO_Provider',
-    'civicrm_project' => 'CRM_Project_DAO_Project',
-    'civicrm_task' => 'CRM_Project_DAO_Task',
-    'civicrm_task_status' => 'CRM_Project_DAO_TaskStatus',
     'civicrm_membership_status' => 'CRM_Member_DAO_MembershipStatus',
     'civicrm_campaign' => 'CRM_Campaign_DAO_Campaign',
     'civicrm_campaign_group' => 'CRM_Campaign_DAO_CampaignGroup',
@@ -149,7 +146,7 @@ class CRM_Core_AllCoreTables {
     'civicrm_action_log' => 'CRM_Core_DAO_ActionLog',
     'civicrm_dashboard_contact' => 'CRM_Contact_DAO_DashboardContact',
     'civicrm_mailing' => 'CRM_Mailing_DAO_Mailing',
-    'civicrm_mailing_group' => 'CRM_Mailing_DAO_Group',
+    'civicrm_mailing_group' => 'CRM_Mailing_DAO_MailingGroup',
     'civicrm_mailing_trackable_url' => 'CRM_Mailing_DAO_TrackableURL',
     'civicrm_mailing_job' => 'CRM_Mailing_DAO_Job',
     'civicrm_mailing_recipients' => 'CRM_Mailing_DAO_Recipients',
@@ -186,7 +183,8 @@ class CRM_Core_AllCoreTables {
     'civicrm_pledge_payment' => 'CRM_Pledge_DAO_PledgePayment',
    );
 
-  static protected $daoToClass = array(
+  static $daoToClass = array(
+
     'AddressFormat' => 'CRM_Core_DAO_AddressFormat',
     'Extension' => 'CRM_Core_DAO_Extension',
     'File' => 'CRM_Core_DAO_File',
@@ -221,9 +219,6 @@ class CRM_Core_AllCoreTables {
     'EntityFinancialAccount' => 'CRM_Financial_DAO_EntityFinancialAccount',
     'FinancialItem' => 'CRM_Financial_DAO_FinancialItem',
     'Provider' => 'CRM_SMS_DAO_Provider',
-    'Project' => 'CRM_Project_DAO_Project',
-    'Task' => 'CRM_Project_DAO_Task',
-    'TaskStatus' => 'CRM_Project_DAO_TaskStatus',
     'MembershipStatus' => 'CRM_Member_DAO_MembershipStatus',
     'Campaign' => 'CRM_Campaign_DAO_Campaign',
     'CampaignGroup' => 'CRM_Campaign_DAO_CampaignGroup',
@@ -299,7 +294,7 @@ class CRM_Core_AllCoreTables {
     'ActionLog' => 'CRM_Core_DAO_ActionLog',
     'DashboardContact' => 'CRM_Contact_DAO_DashboardContact',
     'Mailing' => 'CRM_Mailing_DAO_Mailing',
-    'Group' => 'CRM_Mailing_DAO_Group',
+    'MailingGroup' => 'CRM_Mailing_DAO_MailingGroup',
     'TrackableURL' => 'CRM_Mailing_DAO_TrackableURL',
     'Job' => 'CRM_Mailing_DAO_Job',
     'Recipients' => 'CRM_Mailing_DAO_Recipients',
@@ -345,7 +340,7 @@ class CRM_Core_AllCoreTables {
   }
 
   static public function getClasses() {
-    return array_values(self::$tables);
+    return array_values(self::$daoToClass);
   }
 
   static public function getClassForTable($tableName) {
@@ -354,6 +349,10 @@ class CRM_Core_AllCoreTables {
 
   static public function getFullName($daoName) {
     return CRM_Utils_Array::value($daoName, self::$daoToClass);
+  }
+
+  static public function getBriefName($className) {
+    return CRM_Utils_Array::value($className, array_flip(self::$daoToClass));
   }
 
 }

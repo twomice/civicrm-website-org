@@ -82,7 +82,7 @@
   <div class="clear"></div>
 </div>
 {/if}
-<div class="vevent crm-block crm-event-info-form-block">
+<div class="vevent crm-event-id-{$event.id} crm-block crm-event-info-form-block">
   <div class="event-info">
   {if $event.summary}
       <div class="crm-section event_summary-section">
@@ -219,7 +219,7 @@
     {/if}
 
     {if $event.is_share }
-        {capture assign=eventUrl}{crmURL p='civicrm/event/info' q="id=`$event.id`&amp;reset=1" a=true fe=1 h=1}{/capture}
+        {capture assign=eventUrl}{crmURL p='civicrm/event/info' q="id=`$event.id`&amp;reset=1" a=1 fe=1 h=1}{/capture}
         {include file="CRM/common/SocialNetwork.tpl" url=$eventUrl title=$event.title pageURL=$eventUrl}
     {/if}
     </div>

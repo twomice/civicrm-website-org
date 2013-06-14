@@ -161,6 +161,8 @@ class CRM_Report_Form extends CRM_Core_Form {
 
   public $_drilldownReport = array();
 
+  protected $_grandFlag = FALSE;
+
   /**
    * An attribute for checkbox/radio form field layout
    *
@@ -1576,7 +1578,6 @@ WHERE cg.extends IN ('" . implode("','", $this->_customGroupExtends) . "') AND
     }
     $lastRow = array_pop($rows);
 
-    $this->_grandFlag = FALSE;
     foreach ($this->_columnHeaders as $fld => $val) {
       if (!in_array($fld, $this->_statFields)) {
         if (!$this->_grandFlag) {
@@ -2817,8 +2818,10 @@ LEFT JOIN civicrm_contact {$field['alias']} ON {$field['alias']}.id = {$this->_a
         foreach (array(
             'value', 'min', 'max', 'relative', 'from', 'to') as $attach) {
           if (isset($this->_params[$fieldAlias . '_' . $attach]) &&
-            (!empty($this->_params[$fieldAlias . '_' . $attach]) || $this->_params[$fieldAlias . '_' . $attach] == '0')
-          ) {
+            (!empty($this->_params[$fieldAlias . '_' . $attach])
+              || ($attach != 'relative' && $this->_params[$fieldAlias . '_' . $attach] == '0')
+            )
+          ){
             return TRUE;
           }
         }

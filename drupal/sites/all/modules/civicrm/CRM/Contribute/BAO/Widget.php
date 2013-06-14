@@ -84,7 +84,7 @@ class CRM_Contribute_BAO_Widget extends CRM_Contribute_DAO_Widget {
             sum( total_amount) as amount
             FROM   civicrm_contribution
             WHERE  is_test = 0
-            AND    (contribution_status_id = 1 OR contribution_status_id = 2)
+            AND    contribution_status_id = 1
             AND    contribution_page_id = %1";
     $params = array(1 => array($contributionPageID, 'Integer'));
     $dao = CRM_Core_DAO::executeQuery($query, $params);
