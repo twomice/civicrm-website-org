@@ -234,7 +234,7 @@ body
 	color:#0b4151;
 	font-size:18px;
 	font-weight:900;
-	font-family:Lato, "PT Sans Caption", Cantarell, Helvetica, Arial, sans-serif;
+	font-family:"PT Sans Caption", "PT Sans Caption", Cantarell, Helvetica, Arial, sans-serif;
 	padding-right:10px;
 	text-transform:uppercase;
 }
@@ -279,7 +279,7 @@ body
 {
 	color:#000;
 	font-size:17px;
-	font-family:"Francois One", Helvetica, Arial, sans-serif;
+	font-family:"Oswald", Helvetica, Arial, sans-serif;
 	text-decoration:none;
 	padding:0px;
 	letter-spacing: 0px;
@@ -292,7 +292,7 @@ body
 {
 	color:#6d6e71;
 	font-size:17px;
-	font-family:"Francois One", Helvetica, Arial, sans-serif;
+	font-family:"Oswald", Helvetica, Arial, sans-serif;
 	text-decoration:none;
 	padding:0px;
 	letter-spacing: 0px;
@@ -315,7 +315,7 @@ body
 {
     border-bottom: 0 none !important;
     color: #666666 !important;
-    font-family: lato, oswald, "Francois One", Arial, Helvetica, sans-serif;
+    font-family: lato, oswald, "Oswald", Arial, Helvetica, sans-serif;
     font-size: 14px;
     font-weight: normal;
     letter-spacing: 0;
@@ -512,20 +512,6 @@ body
     width: 100%;
 }
 
-#block-views-casestudy_new_-block h2
-{
-    background-image: url("../images/slant-tile.png") !important;
-    color: #000000 !important;
-    float: left !important;
-    font-family: "Open Sans Condensed", Arial, Helvetica, sans-serif !important;
-    font-size: 30px !important;
-    font-weight: normal !important;
-    line-height: 29px !important;
-    padding-bottom: 67px !important;
-    padding-left: 10px !important;
-    padding-top: 50px !important;
-    width: 150px !important;
-}
 
 #block-views-casestudy_new_-block .content .item-list li
 {
@@ -545,8 +531,7 @@ body
 {
     float: left;
     height: auto;
-    margin-left: 61px;
-    margin-top: -21px;
+    margin-top: -36px;
     width: 293px;
 }
 
@@ -642,21 +627,6 @@ body
 }
 /*end community*/
 
-/*get started homepage*/
-#block-static_block-get-started-homepage-block1{margin: -10px 0 0;}
-
-#block-static_block-get-started-homepage-block1 h2
-{
-    color: #FFFFFF !important;
-    float: left !important;
-    font-family: "Open Sans Condensed", Arial, Helvetica, sans-serif !important;
-    font-size: 30px !important;
-    font-weight: normal !important;
-    line-height: 29px !important;
-	padding-top:33px !important;
-	padding-left: 10px !important;
-	width: 90px !important;
-}
 
 #block-static_block-get-started-homepage-block1 .get-started
 {
@@ -861,24 +831,7 @@ body
 	margin-bottom:0px;
 }
 
-#block-static_block-homepage-joinus-block1 h2.block-title
-{
-    color: #000000 !important;
-    float: left !important;
-    font-family: "Open Sans Condensed",Arial,Helvetica,sans-serif !important;
-    font-size: 30px !important;
-    font-weight: normal !important;
-    line-height: 29px !important;
-    padding-left: 10px !important;
-    padding-top: 30px !important;
-    width: 151px !important;
-	display:inline-block  !important;
-}
 
-#block-static_block-homepage-joinus-block1
-{
-	background-image: url("../images/slant-tile.png");
-}
 
 #block-static_block-homepage-joinus-block1 .dev-col .menu li, #columns, #content-column
 {
@@ -902,7 +855,7 @@ body
 	background-image:url(../images/bottom-logo.png);
 	background-repeat:no-repeat;
 	background-position:0 0;
-	height:45px;
+	height:55px;
 }
 
 #block-static_block-footer_custom h2.slogan
@@ -977,26 +930,12 @@ body
 /*end footer block*/
 
 /*crm solution*/
-#block-static_block-crm-solution-block1 h2
-{
-    color: #FFFFFF !important;
-    display: inline-block !important;
-    float: left !important;
-    font-family: "Open Sans Condensed",Arial,Helvetica,sans-serif !important;
-    font-size: 30px !important;
-    font-weight: normal !important;
-    line-height: 29px !important;
-    padding-left: 10px !important;
-    padding-top: 33px !important;
-    width: 131px !important;
-}
 
 .front #block-static_block-crm-solution-block1{margin:-20px 0 0;}
 
 #block-static_block-crm-solution-block1
 {
     background-color: #056186;
-    background-image: url("../images/slant-tile.png");
     display: inline-block;
     margin: -20px 0 0;
     width: 100%;
@@ -1008,7 +947,6 @@ body
     display: inline;
     float: left;
     height: 277px;
-    margin-left: 19px;
     padding: 22px 0 0;
     vertical-align: top;
     width: 168px;
@@ -1044,7 +982,6 @@ body
     display: inline;
     float: left;
     height: 299px !important;
-    width: 632px;
 	background-color: #056186;
 }
 
@@ -1206,7 +1143,7 @@ div.ddblock-cycle-upright10p div.slide-title{width:auto !important;}
 	background-image:url(../images/slant-tile.png);
 	background-repeat:repeat;
 	color: #036086;
-    font-family: "Open Sans Condensed",Arial,Helvetica,sans-serif;
+    font-family: "Oswald",Arial,Helvetica,sans-serif;
     font-size: 24px;
     font-weight: lighter;
     line-height: 29px;
@@ -1222,7 +1159,7 @@ div.ddblock-cycle-upright10p div.slide-title{width:auto !important;}
 #block-views-section_info-block
 {
 	color: #000;
-    font-family: "Open Sans Condensed",Arial,Helvetica,sans-serif;
+    font-family: "Oswald",Arial,Helvetica,sans-serif;
     font-size: 24px;
     font-weight: lighter;
     line-height: 29px;
@@ -1238,7 +1175,7 @@ div.ddblock-cycle-upright10p div.slide-title{width:auto !important;}
 
 #block-views-section_info-block .view-section-info, .case-study-page-block, .what-civicrm, .will-civicrm, .get-started-static, .participate, .discussions-page-block
 {
-	padding-top:75px;
+	padding-top:55px;
 	padding-left:10px;
 	padding-bottom:20px;
 }
@@ -1246,7 +1183,7 @@ div.ddblock-cycle-upright10p div.slide-title{width:auto !important;}
 .case-study-page-block, .blog-news-block
 {
 	color: #000;
-    font-family: "Open Sans Condensed",Arial,Helvetica,sans-serif;
+    font-family: "Oswald",Arial,Helvetica,sans-serif;
     font-size: 24px;
     font-weight: lighter;
     line-height: 29px;
@@ -1267,7 +1204,7 @@ div.ddblock-cycle-upright10p div.slide-title{width:auto !important;}
 
 #block-views-section_info-block{width:147px;float:left;}
 
-#block-nice_menus-2, #block-nice_menus-3, #block-nice_menus-4, #block-nice_menus-5
+#sidebar-first .block
 {
 	/*display:inline-block;*/
 	display:block;
@@ -1278,6 +1215,10 @@ div.ddblock-cycle-upright10p div.slide-title{width:auto !important;}
     height: auto;
     margin-bottom: 15px;
     width: 160px;
+}
+
+#sidebar-first .block .content{
+    padding: 10px;
 }
 
 .node-type-tertiary #block-nice_menus-2, .node-type-tertiary #block-nice_menus-3, .node-type-tertiary #block-nice_menus-4, .node-type-tertiary #block-nice_menus-5
@@ -1331,7 +1272,7 @@ div.ddblock-cycle-upright10p div.slide-title{width:auto !important;}
     background-position: 10px 10px;
     background-repeat: no-repeat;
     color: #026085 !important;
-    font-family: "Open Sans Condensed",Arial,Helvetica,sans-serif;
+    font-family: "Oswald",Arial,Helvetica,sans-serif;
     font-size: 12px;
     font-weight: normal;
     line-height: 16px;
@@ -1354,11 +1295,9 @@ div.ddblock-cycle-upright10p div.slide-title{width:auto !important;}
 
 .node-type-tertiary #columns #main-content #page-title, .node-type-secondary #columns #main-content #page-title, .node-type-secondary #block-views-secondary-block .view-secondary .views-row, .node-type-tertiary #block-views-secondary-block_1 .view-secondary .views-row, #page-title
 {
-    color: #000 !important;
-    font-family: "old standard tt", Arial, Helvetica, sans-serif;
-    font-size: 24px;
-    font-weight: normal;
-    line-height: 30px !important;
+    font-family: "Oswald", Arial, Helvetica, sans-serif;
+    font-weight: 300;
+    font-size: 30px;
 }
 /*end secondary menu*/
 
@@ -1736,9 +1675,7 @@ div.ddblock-cycle-upright10p div.slide-title{width:auto !important;}
 
 #block-system-main .node .node-inner a, #block-system-main .view-blog-news .view-content a, ul.pager li a, #block-views-secondary_page_body-block .view-secondary-page-body .view-content .views-row .field-content a, #block-views-secondary_page_body-block_1 .view-secondary-page-body .view-content .views-row .field-content a, .view-civi-case-study p a
 {
-	font-family:"PT Sans Caption", Cantarell,Helvetica,Arial,sans-serif;
-	font-size:12px;
-	color:#056186 !important;
+	color:#056186;
 	text-decoration:none;
     line-height: 16px;
 	text-decoration:none; 
@@ -1787,7 +1724,7 @@ div.ddblock-cycle-upright10p a.slide-read-more
 	margin-bottom:15px;
 }
 
-#block-views-casestudy_new_-block_1 h2, #block-views-civi_case_study-block_2 h2
+#sidebar-first #block-views-casestudy_new_-block_1 h2.block-title , #sidebar-first #block-views-civi_case_study-block_2 .block-title h2
 {
 	color:#fff;
 	font-family:"PT Sans Caption", Cantarell,Helvetica,Arial,sans-serif;
@@ -1796,6 +1733,8 @@ div.ddblock-cycle-upright10p a.slide-read-more
 	font-weight:normal;
 	padding:15px 11px 12px 11px;
 	border-bottom:1px solid #fff;
+    background-color: #056186;
+    background-image: url("../images/slant-tile.png");
 }
 
 #block-views-casestudy_new_-block_1 .view-casestudy-new- .item-list ul li .views-field-title a, #block-views-civi_case_study-block_2 .view-civi-case-study .item-list ul li .views-field-title a
@@ -1833,9 +1772,9 @@ div.ddblock-cycle-upright10p a.slide-read-more
 	width:160px;
 }
 
-#block-views-call_to_action-block .view-call-to-action .view-content
-{
-	padding:54px 10px 0px 10px;
+
+#block-views-call_to_action-block .view-content{
+	padding: 10px;
 }
 
 #block-views-call_to_action-block .view-call-to-action .view-content .views-row .views-field-nid, #block-views-call_to_action-block .view-call-to-action .view-content .views-row .views-field-view-node
@@ -1903,12 +1842,8 @@ h2{display:block !important;}
 
 #block-system-main .view-blog-news .view-content .views-row .views-field-title a, .section-blog #content .node-blog .node-title a, .section-blog .action-links li a, #block-system-main .view-civi-upcoming-events .views-row .views-field-title a
 {
-    color: #58595B !important;
-    font-family: "PT Sans Caption", Cantarell,Helvetica,Arial,sans-serif !important;
-    font-size: 13px !important;
-    line-height: 16px;
+    color: #58595B;
     text-decoration: none;
-	font-weight:bold;
 	list-style-type:none;
 }	
 
@@ -1925,8 +1860,7 @@ h2{display:block !important;}
 
 #block-system-main .view-blog-news .view-content .views-row, ul.pager, .section-blog #content .node-blog, #block-system-main .view-civi-upcoming-events .views-row{padding:10px 0;margin:0px;}
 
-#block-system-main .view-blog-news .view-content .views-row, .section-blog #content .node-blog, #block-system-main .view-civi-upcoming-events .views-row{border-bottom:1px dotted #bab9b9;}
-
+#block-system-main .view-blog-news .view-content .views-row, .section-blog #content .node-blog, #block-system-main .view-civi-upcoming-events .views-row{margin-bottom: 2em;}
 #block-system-main .view-blog-news .view-content .views-row-first, #block-system-main .view-civi-upcoming-events .views-row-first{padding-top:0;}
 
 #block-system-main .view-blog-news{padding-top:25px;}
@@ -2025,8 +1959,8 @@ h2{display:block !important;}
 {
     display: inline;
     float: right;
-    width: 790px;
-	padding-left: 10px;
+    width: 780px;
+	padding-left: 20px;
 }
 
 #content-column .content-inner{
@@ -2064,7 +1998,7 @@ h2{display:block !important;}
 .view-civi-case-study .view-content .views-field-title span
 {
     color: #000000 !important;
-    font-family: "old standard tt",Arial,Helvetica,sans-serif !important;
+    font-family: "Oswald",Arial,Helvetica,sans-serif !important;
     font-size: 24px !important;
     font-weight: normal !important;
     line-height: 30px !important;
@@ -2349,7 +2283,7 @@ h2{display:block !important;}
 #comments .comment h3.comment-title a
 {
     color: #000000 !important;
-    font-family: Lato,"PT Sans Caption", Cantarell,Helvetica,Arial,sans-serif;
+    font-family: "PT Sans Caption","PT Sans Caption", Cantarell,Helvetica,Arial,sans-serif;
     font-size: 15px;
     font-weight: normal;
     line-height: 15px;
@@ -2365,7 +2299,7 @@ h2{display:block !important;}
 {
     background-image: url("../images/title-bg.gif");
     color: #000000;
-    font-family: "Open Sans Condensed",Arial,Helvetica,sans-serif;
+    font-family: "Oswald",Arial,Helvetica,sans-serif;
     font-size: 24px;
     font-weight: lighter;
     height: auto;
@@ -2380,14 +2314,14 @@ h2{display:block !important;}
 {
 	color:#000 !important;
 	text-decoration:none !important;
-    font-family: "Open Sans Condensed",Arial,Helvetica,sans-serif !important;
+    font-family: "Oswald",Arial,Helvetica,sans-serif !important;
 }
 
 .what-civicrm a:hover, .will-civicrm a:hover, .get-started-static a:hover, .participate a:hover, .case-study-page-block a:hover, .discussions-page-block a:hover
 {
 	color:#036086 !important;
 	text-decoration:none !important;
-    font-family: "Open Sans Condensed",Arial,Helvetica,sans-serif !important;
+    font-family: "Oswald",Arial,Helvetica,sans-serif !important;
 }
 
 #block-static_block-what_is_civi, #block-static_block-casestudy_page_block, #block-static_block-blog-news_block, #block-static_block-will_CiviMeet_needs, #block-static_block-get_started, #block-static_block-participate_block
@@ -2442,7 +2376,7 @@ h2{display:block !important;}
 /*find an expert tab*/
 #views-exposed-form-complete-expert-page-2 .views-exposed-widget label
 {
-	font-family:Lato, "PT Sans Caption", Cantarell,Helvetica,Arial,sans-serif;
+	font-family:"PT Sans Caption", "PT Sans Caption", Cantarell,Helvetica,Arial,sans-serif;
 	font-size:15px;
 	color:#000 !important;
     line-height: 15px;
@@ -2454,7 +2388,7 @@ h2{display:block !important;}
 #views-exposed-form-complete-expert-page-2 .views-exposed-widget .views-widget .form-text
 {
 	border:1px solid #116285;
-	font-family:Lato, "PT Sans Caption", Cantarell,Helvetica,Arial,sans-serif;
+	font-family:"PT Sans Caption", "PT Sans Caption", Cantarell,Helvetica,Arial,sans-serif;
 	font-size:12px;
 	color:#000 !important;
 	font-weight:normal;
@@ -2642,64 +2576,29 @@ div.messages {
 
 .view-civi-case-study .views-table .views-field{word-wrap:break-word;}
 
+
+h1, h2, h3{
+    font-family: "Oswald",Arial,Helvetica,sans-serif;
+	color:#000;
+    font-weight: 300;
+}
+h1 a, h2 a h3 a {
+	color:#056186;
+}
+}
 h1
 {
-    font-family: "old standard tt",Arial,Helvetica,sans-serif;
     font-size: 24px;
-    font-weight: normal;
-	color:#000;
-	padding-bottom:5px;
-	line-height:20px !important;
 }
 
 h2
 {
-    font-family: "old standard tt",Arial,Helvetica,sans-serif;
     font-size: 20px;
-    font-weight: normal;
-	color:#000;
-	padding-bottom:5px;
-	line-height:20px !important;
 }
 
 h3
 {
-    font-family: "PT Sans Caption", Cantarell,Arial,Helvetica,sans-serif;
     font-size: 13px;
-    font-weight: normal !important;
-	color:#000;
-	padding-bottom:5px;
-	line-height:20px !important;
-}
-
-h1 a
-{
-    font-family: "old standard tt",Arial,Helvetica,sans-serif !important;
-    font-size: 24px !important;
-    font-weight: normal;
-	color:#056186 !important;
-	padding-bottom:5px;
-	line-height:20px !important;
-}
-
-h2 a
-{
-    font-family: "old standard tt",Arial,Helvetica,sans-serif !important;
-    font-size: 20px !important;
-    font-weight: normal;
-	color:#056186 !important;
-	padding-bottom:5px;
-	line-height:20px !important;
-}
-
-h3 a
-{
-    font-family: "PT Sans Caption", Cantarell,Arial,Helvetica,sans-serif;
-    font-size: 13px !important;
-    font-weight: normal !important;
-	color:#056186 !important;
-	padding-bottom:5px;
-	line-height:20px !important;
 }
 
 .page-what-moreexpert #content #block-views-secondary-block, .page-what-moreexpert #content #block-views-secondary_page_body-block {
@@ -2856,11 +2755,9 @@ h3 a
     text-decoration: none;
 }
 
-#feed-section{margin:5px 0;}
-
-.front #feed-section
+#feed-section
 {
-    margin: 247px 0 5px;
+    margin: 227px 0 5px;
     position: absolute;
     z-index: 1;
 }
@@ -2884,4 +2781,139 @@ h3 a
 .view-make-it-happen .view-content {
     margin-top: 20px;
 }               
+
+
+/*MICHAEL ADDED STUFF HERE: Trying to order this style sheet to some extent.  Ideas on bringing more order welcome!*/
+
+#sidebar-first .block h2.block-title{
+    padding: 10px;
+    padding-top: 55px;
+    padding-bottom: 20px;
+    font-size: 24px;
+    font-weight: 300;
+    background-image: url("../images/title-bg.gif");
+    line-height:100%;
+}
+
+
+/*home page left hand side headers*/
+
+#block-static_block-crm-solution-block1 h2.block-title, #block-views-casestudy_new_-block h2.block-title, #block-static_block-get-started-homepage-block1 h2.block-title, #block-static_block-homepage-joinus-block1 h2.block-title
+{
+    font-size:27px;
+    color: #FFFFFF;
+    line-height: 110%;
+    float: left;
+    padding-left: 10px;
+    width: 115px;
+    padding-top:30px;
+    padding-right:37px;
+}
+
+#block-static_block-crm-solution-block1 h2.block-title{
+    height: 269px;
+    background-image: url("../images/slant-tile.png");
+}
+#block-views-casestudy_new_-block h2.block-title
+{
+    background-image: url("../images/slant-tile.png");
+    color: #000000;
+    height: 145px;
+}
+
+#block-static_block-get-started-homepage-block1 h2.block-title
+{
+}
+
+#block-static_block-homepage-joinus-block1 h2.block-title
+{
+	background-image: url("../images/slant-tile.png");
+    color: #000000;
+    height: 326px;
+}
+
+
+/* margins have been reset on all headings for some reason, so lets set nice defaults for content. etc. here. */
+.block-content h1, .block-content h2, .block-content h3{
+    margin: 1em 0 0.50em;
+}
+
+.front h1, .front h2, .front h3 {
+    margin: 0px;
+}
+
+/* if we put this above the logo, then we can click on the tool tip*/
+#sidebar-first .block{
+    z-index:1;
+}
+
+.view-service-providers .active-contributors, .view-service-providers .supporting-partners {
+    width: 50%;
+    float: left;
+}
+
+.view-service-providers .views-field-city,
+.view-service-providers .views-field-country,
+.view-service-providers .views-field-email,
+.view-service-providers .views-field-phone,
+.view-service-providers .views-field-website,
+.view-service-providers .views-field-image-URL
+{
+    width: 250px;
+}
+
+.view-service-providers .views-field-services-157,
+.view-service-providers .views-field-company-overview-158,
+.view-service-providers .views-field-description-of-services-156
+{
+    float:right;
+}
+.view-service-providers .views-field-company-overview-158,
+.view-service-providers .views-field-description-of-services-156
+{
+    width:520px;
+}
+.view-service-providers .views-field-services-157
+{
+    width:500px;
+}
+
+.view-service-providers .views-label-services-158{
+    font-weight: bold;
+}
+
+.view-service-providers .views-field-display-name,
+.view-service-providers .views-field-image-URL{
+    text-align: center;
+}
+.view-service-providers .views-field-image-URL img{
+    height: 130px;
+    margin: 20px;
+}
+
+.view-service-providers .views-field-city,
+.view-service-providers .views-field-country,
+.view-service-providers .views-field-email,
+.view-service-providers .views-field-phone,
+.view-service-providers .views-field-website
+{
+    text-align: center;
+}
+
+.view-service-providers .views-field-services-157
+{
+    padding:10px;
+    margin-bottom: 20px;
+    background-color: #F9F8F6;
+    background-image: url("../images/slant-tile.png");
+
+}
+.view-service-providers .views-field-display-name
+{
+    background-image: url("../images/title-bg.gif");
+    margin-bottom: 20px;
+
+}
+}
+
 

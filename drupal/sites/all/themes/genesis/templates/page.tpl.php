@@ -69,14 +69,8 @@
  */
 ?>
 
-<link href='http://fonts.googleapis.com/css?family=Francois+One' rel='stylesheet' type='text/css' media='all'>
-<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' media='all'>
-<link href='http://fonts.googleapis.com/css?family=News+Cycle' rel='stylesheet' type='text/css' media='all'>
-<link href='http://fonts.googleapis.com/css?family=Cantarell' rel='stylesheet' type='text/css' media='all'>
-<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css' media='all'>
-<link href='http://fonts.googleapis.com/css?family=Old+Standard+TT' rel='stylesheet' type='text/css' media='all'>
+<link href='http://fonts.googleapis.com/css?family=Oswald:300,400' rel='stylesheet' type='text/css' media='all'>
 <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
-<link href='http://fonts.googleapis.com/css?family=PT+Sans+Caption' rel='stylesheet' type='text/css'>
 
     <!--[if IE 7]>
       <link rel="stylesheet" href="<?php print $base_path;?>sites/all/themes/civicrm_theme/css/ie7.css" type="text/css" />
@@ -137,11 +131,6 @@
 
     </div> <!-- /header -->
 
-    <?php if ($main_menu_links): ?>
-      <div id="main-menu-wrapper" class="clearfix">
-        <div class="main-menu-inner"><?php print $main_menu_links; ?></div>
-      </div>
-    <?php endif; ?>
 
   <?php endif; // end hide in overlay ?>
 
@@ -187,9 +176,6 @@
             <?php print render($page['content']); ?>
           </div>
 
-          <div id="feed-section">
-            <?php print $feed_icons; ?>
-          </div>
         </div>
 
       </div>

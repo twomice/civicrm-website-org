@@ -1236,7 +1236,7 @@ div.ddblock-cycle-upright10p div.slide-title{width:auto !important;}
 
 .node-type-tertiary #columns #main-content #page-title, .node-type-secondary #columns #main-content #page-title, .node-type-secondary #block-views-secondary-block .view-secondary .views-row, .node-type-tertiary #block-views-secondary-block_1 .view-secondary .views-row, #page-title {
     color: #000 !important;
-    font-family: "old standard tt", Arial, Helvetica, sans-serif;
+    font-family: "Open Sans Condensed", Arial, Helvetica, sans-serif;
     font-size: 24px;
     font-weight: normal;
     line-height: 30px !important;
@@ -1870,7 +1870,7 @@ h2{display:block !important;}
 
 .view-civi-case-study .view-content .views-field-title span {
     color: #000000 !important;
-    font-family: "old standard tt",Arial,Helvetica,sans-serif !important;
+    font-family: "Open Sans Condensed",Arial,Helvetica,sans-serif !important;
     font-size: 24px !important;
     font-weight: normal !important;
     line-height: 30px !important;
@@ -2405,7 +2405,7 @@ div.messages {
 .view-civi-case-study .views-table .views-field{word-wrap:break-word;}
 
 h1 {
-    font-family: "old standard tt",Arial,Helvetica,sans-serif;
+    font-family: "Open Sans Condensed",Arial,Helvetica,sans-serif;
     font-size: 24px;
     font-weight: normal;
 	color:#000;
@@ -2414,7 +2414,7 @@ h1 {
 }
 
 h2 {
-    font-family: "old standard tt",Arial,Helvetica,sans-serif;
+    font-family: "Open Sans Condensed",Arial,Helvetica,sans-serif;
     font-size: 20px;
     font-weight: normal;
 	color:#000;
@@ -2432,7 +2432,7 @@ h3 {
 }
 
 h1 a {
-    font-family: "old standard tt",Arial,Helvetica,sans-serif !important;
+    font-family: "Open Sans Condensed",Arial,Helvetica,sans-serif !important;
     font-size: 24px !important;
     font-weight: normal;
 	color:#056186 !important;
@@ -2441,7 +2441,7 @@ h1 a {
 }
 
 h2 a {
-    font-family: "old standard tt",Arial,Helvetica,sans-serif !important;
+    font-family: "Open Sans Condensed",Arial,Helvetica,sans-serif !important;
     font-size: 20px !important;
     font-weight: normal;
 	color:#056186 !important;
