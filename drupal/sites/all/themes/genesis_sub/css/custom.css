@@ -1070,14 +1070,15 @@ div.ddblock-cycle-upright10p div.number-pager
     font-family: "Lato", Cantarell,Helvetica,Arial,sans-serif;
     font-size: 13px;
     font-weight: normal;
-	background-color:#7ec757;
-	width:165px;
-	line-height:0px;
-    margin: 0;
-    padding: 9px;
+    background-color:#7ec757;
+    width:165px;
+    margin-bottom: 1em;
+    padding: 1px 10px;
 }
 
-div.ddblock-cycle-upright10p div.slide-title{width:auto !important;}
+div.ddblock-cycle-upright10p div.slide-title{
+    width:auto !important;
+}
 /*end solution*/
 
 /*lightbox*/
