@@ -74,7 +74,6 @@ body
 	list-style-type:none;
 	font-size:8px;
 	color:#a55f53;
-	font-family:Arial, Helvetica, sans-serif;
 	letter-spacing: 1px;
 	text-decoration:none;
 	text-transform:uppercase;
@@ -118,7 +117,7 @@ body
     color: #A55F53;
     cursor: pointer;
     display: inline;
-    font-family: "PT Sans Caption", Cantarell, Helvetica, Arial, sans-serif;
+    font-family: "Lato", Cantarell, Helvetica, Arial, sans-serif;
     font-size: 10px;
     letter-spacing: 1px;
     list-style-type: none;
@@ -161,7 +160,7 @@ body
     background-repeat: no-repeat;
     border: 0 none;
     color: #A55F53;
-    font-family: "PT Sans Caption", Cantarell,Helvetica,Arial,sans-serif;
+    font-family: "Lato", Cantarell,Helvetica,Arial,sans-serif;
     font-size: 10px;
     height: 25px;
     padding: 1px 10px 5px 40px;
@@ -234,7 +233,7 @@ body
 	color:#0b4151;
 	font-size:18px;
 	font-weight:900;
-	font-family:"PT Sans Caption", "PT Sans Caption", Cantarell, Helvetica, Arial, sans-serif;
+	font-family:"Lato", "Lato", Cantarell, Helvetica, Arial, sans-serif;
 	padding-right:10px;
 	text-transform:uppercase;
 }
@@ -244,7 +243,7 @@ body
 	color:#fff;
 	font-size:12px;
 	font-weight:bolder;
-	font-family:"PT Sans Caption", Cantarell, Helvetica, Arial, sans-serif;
+	font-family:"Lato", Cantarell, Helvetica, Arial, sans-serif;
 	text-transform:uppercase;
 	text-decoration:none;
 	font-style:italic;
@@ -461,7 +460,7 @@ body
 #toboggan-login .form-item label
 {
     color:#6D6E71;
-    font-family: "PT Sans Caption", Cantarell,Helvetica,Arial,sans-serif;
+    font-family: "Lato", Cantarell,Helvetica,Arial,sans-serif;
     font-size: 12px;
 	text-decoration:none;
 	text-transform: uppercase;
@@ -471,7 +470,7 @@ body
 {
     background-color: #CCCCCC;
     width: 150px;
-	font-family: "PT Sans Caption", Cantarell,Helvetica,Arial,sans-serif;
+	font-family: "Lato", Cantarell,Helvetica,Arial,sans-serif;
 }
 
 #toboggan-login .item-list li
@@ -485,7 +484,7 @@ body
 #toboggan-login .item-list li a
 {
     color:#6D6E71;
-    font-family: "PT Sans Caption", Cantarell,Helvetica,Arial,sans-serif;
+    font-family: "Lato", Cantarell,Helvetica,Arial,sans-serif;
     font-size: 10px;
     line-height: 20px;
 	text-decoration:none;
@@ -496,7 +495,7 @@ body
 {
     background-color: #6D6E71;
     border: 0 none;
-    font-family: "PT Sans Caption", Cantarell,Helvetica,Arial,sans-serif;
+    font-family: "Lato", Cantarell,Helvetica,Arial,sans-serif;
     font-size: 12px;
 	color:#CCCCCC;
 	text-transform: uppercase;
@@ -608,7 +607,7 @@ body
 #block-views-community_members-block h2
 {
     color: #FFFFFF;
-    font-family: "PT Sans Caption", Cantarell, Helvetica, Arial, sans-serif;
+    font-family: "Lato", Cantarell, Helvetica, Arial, sans-serif;
     font-size: 9px;
     font-style: italic;
     font-weight: bold;
@@ -630,7 +629,7 @@ body
 #block-static_block-get-started-homepage-block1 .get-started
 {
     color: #FFFFFF;
-    font-family:"PT Sans Caption", Cantarell, Helvetica, Arial, sans-serif;
+    font-family:"Lato", Cantarell, Helvetica, Arial, sans-serif;
     font-size: 11px;
     font-weight: normal;
     padding: 10px 10px 10px 54%;
@@ -642,7 +641,7 @@ body
 #block-static_block-get-started-homepage-block1 .get-started-first
 {
     color: #FFFFFF;
-    font-family:"PT Sans Caption", Cantarell, Helvetica, Arial, sans-serif;
+    font-family:"Lato", Cantarell, Helvetica, Arial, sans-serif;
     font-size: 11px;
     font-weight: normal;
     padding: 36px 10px 10px 54%;
@@ -654,7 +653,7 @@ body
 #block-static_block-get-started-homepage-block1 .get-started-last
 {
     color: #FFFFFF;
-    font-family:"PT Sans Caption", Cantarell, Helvetica, Arial, sans-serif;
+    font-family:"Lato", Cantarell, Helvetica, Arial, sans-serif;
     font-size: 11px;
     font-weight: normal;
     padding: 10px 10px 15px 54%;
@@ -690,7 +689,7 @@ body
     background-position: 0 3px;
     background-repeat: no-repeat;
     color: #000000;
-    font-family: "PT Sans Caption", Cantarell,Helvetica,Arial,sans-serif;
+    font-family: "Lato", Cantarell,Helvetica,Arial,sans-serif;
     font-size: 12px;
     padding: 10px 10px 11px 46px;
     text-decoration: none;
@@ -700,7 +699,7 @@ body
 {
 	font-size:12px;
 	color:#000;
-	font-family:"PT Sans Caption", Cantarell, Helvetica, Arial, sans-serif;
+	font-family:"Lato", Cantarell, Helvetica, Arial, sans-serif;
 	text-decoration:none;
 }
 
@@ -719,7 +718,7 @@ body
 {
 	font-size:12px;
 	color:#105e81;
-	font-family:"PT Sans Caption", Cantarell, Helvetica, Arial, sans-serif;
+	font-family:"Lato", Cantarell, Helvetica, Arial, sans-serif;
 	text-decoration:none;
 	font-style:italic;
 	font-weight:bold;
@@ -736,7 +735,7 @@ body
 {
 	font-size:13px;
 	color:#37819E;
-	font-family:"PT Sans Caption", Cantarell, Helvetica, Arial, sans-serif;
+	font-family:"Lato", Cantarell, Helvetica, Arial, sans-serif;
 	text-decoration:none;
 	font-weight:bold;
 }
@@ -746,7 +745,7 @@ body
 #block-static_block-homepage-joinus-block1 .content h2
 {
     color: #7FC757 !important;
-    font-family:lato, "PT Sans Caption", Cantarell, Helvetica, Arial, sans-serif !important;
+    font-family:lato, "Lato", Cantarell, Helvetica, Arial, sans-serif !important;
     font-size: 16px !important;
     font-weight: 900 !important;
     text-align: left !important;
@@ -801,7 +800,7 @@ body
 #block-static_block-homepage-joinus-block1 .view-blog-news .view-content .views-row a, #block-static_block-homepage-joinus-block1 .view-blog-news .view-content .views-row a, #block-static_block-homepage-joinus-block1 .dev-col ul li a, .events-col a
 {
     color: #000;
-    font-family:"PT Sans Caption", Cantarell, Helvetica, Arial, sans-serif;
+    font-family:"Lato", Cantarell, Helvetica, Arial, sans-serif;
     font-size: 12px;
     font-weight: normal;
     text-align: left;
@@ -812,7 +811,7 @@ body
 #block-static_block-homepage-joinus-block1 .view-blog-news .more-link a, #block-static_block-homepage-joinus-block1 .view-civi-upcoming-events .more-link a
 {
     color: #7EC757;
-    font-family:lato, "PT Sans Caption", Cantarell, Helvetica, Arial, sans-serif;
+    font-family:lato, "Lato", Cantarell, Helvetica, Arial, sans-serif;
     font-size: 14px;
     font-weight: bold;
     text-align: left;
@@ -862,7 +861,7 @@ body
     background-image: none;
     color: #FFFFFF;
     float: left;
-    font-family: "PT Sans Caption", Cantarell,Helvetica,Arial,sans-serif;
+    font-family: "Lato", Cantarell,Helvetica,Arial,sans-serif;
     font-size: 12px;
     font-style: italic;
     font-weight: normal;
@@ -905,7 +904,7 @@ body
 #block-static_block-footer_custom .footer-tab ul li a
 {
 	color:#fff;
-	font-family:"PT Sans Caption", Cantarell,Helvetica,Arial,sans-serif;
+	font-family:"Lato", Cantarell,Helvetica,Arial,sans-serif;
     font-size: 11px;
     font-style: normal;
     font-weight: normal;
@@ -915,7 +914,7 @@ body
 #block-static_block-footer_custom .footer-tab .head-bottom
 {
 	color:#fff;
-	font-family:"PT Sans Caption", Cantarell,Helvetica,Arial,sans-serif;
+	font-family:"Lato", Cantarell,Helvetica,Arial,sans-serif;
     font-size: 12px;
     font-style: normal;
     font-weight: bold;
@@ -966,8 +965,8 @@ body
 #block-static_block-crm-solution-block1 .view-sub-menu-block .views-row a
 {
     color: #FFFFFF;
-    font-family: "PT Sans Caption", Cantarell,Helvetica,Arial,sans-serif;
-    font-size: 12px;
+    font-family: "Lato", Cantarell,Helvetica,Arial,sans-serif;
+    font-size: 13px;
     font-weight: normal;
     line-height: 23px;
     text-decoration: none;
@@ -1017,12 +1016,11 @@ div.ddblock-cycle-upright10p div.slide-text
 
 #block-static_block-crm-solution-block1 div.ddblock-cycle-upright10p div.slide-text-vertical .slide-body-inner p
 {
-	font-size:11px;
 	line-height:20px;
 	color:#fff;
-	font-family:"PT Sans Caption", Cantarell,Helvetica,Arial,sans-serif;
+	font-family:"Lato", Cantarell,Helvetica,Arial,sans-serif;
 	width:200px;
-	margin-top:20px !important;
+	margin-top:20px;
 }
 
 div.ddblock-cycle-upright10p div.slide-text-inner
@@ -1068,15 +1066,15 @@ div.ddblock-cycle-upright10p div.number-pager
 #block-static_block-crm-solution-block1 #ddblock-1 .slide-title h2
 {
     color: #FFFFFF;
-    float: left !important;
-    font-family: "PT Sans Caption", Cantarell,Helvetica,Arial,sans-serif !important;
-    font-size: 12px !important;
-    font-weight: normal !important;
-	background-color:#7ec757 !important;
-	width:165px !important;
-	line-height:0px !important;
+    float: left;
+    font-family: "Lato", Cantarell,Helvetica,Arial,sans-serif;
+    font-size: 13px;
+    font-weight: normal;
+	background-color:#7ec757;
+	width:165px;
+	line-height:0px;
     margin: 0;
-    padding: 9px !important;
+    padding: 9px;
 }
 
 div.ddblock-cycle-upright10p div.slide-title{width:auto !important;}
@@ -1127,7 +1125,6 @@ div.ddblock-cycle-upright10p div.slide-title{width:auto !important;}
 {
     border: 0 none;
     margin: 0;
-    padding: 15px 0 10px 10px;
 }
 
 .node-type-tertiary #block-nice_menus-2 .content #nice-menu-2
@@ -1216,9 +1213,6 @@ div.ddblock-cycle-upright10p div.slide-title{width:auto !important;}
     width: 160px;
 }
 
-#sidebar-first .block .content{
-    padding: 10px;
-}
 
 .node-type-tertiary #block-nice_menus-2, .node-type-tertiary #block-nice_menus-3, .node-type-tertiary #block-nice_menus-4, .node-type-tertiary #block-nice_menus-5
 {
@@ -1228,15 +1222,11 @@ div.ddblock-cycle-upright10p div.slide-title{width:auto !important;}
 #block-nice_menus-2 .content #nice-menu-2 li a, #block-nice_menus-3 .content #nice-menu-3 li a, #block-nice_menus-4 .content #nice-menu-4 li a, #block-nice_menus-5 .content #nice-menu-5 li a
 {
     color: #036086;
-    font-family: "PT Sans Caption", Cantarell,Helvetica,Arial,sans-serif;
-    font-size: 12px;
-    font-weight: lighter;
+    font-family: "Lato", Cantarell,Helvetica,Arial,sans-serif;
+    font-size: 14px;
     line-height: 20px;
     text-decoration: none;
-	background-image:url(../images/blue-bul.png);
-	background-repeat:no-repeat;
-	background-position:5px 14px;
-	padding-left:10px;
+	padding:4px 0;
 }
 
 /*#block-nice_menus-3 .content #nice-menu-3, #block-nice_menus-4 .content #nice-menu-4, #block-nice_menus-5 .content #nice-menu-5
@@ -1280,8 +1270,6 @@ div.ddblock-cycle-upright10p div.slide-title{width:auto !important;}
 }
 
 #block-nice_menus-2 .content #nice-menu-2 li a.active, #block-nice_menus-3 .content #nice-menu-3 li a.active, #block-nice_menus-4 .content #nice-menu-4 li a.active, #block-nice_menus-5 .content #nice-menu-5 li a.active, .section-whats #block-nice_menus-3 .content #nice-menu-3 li.menu-3268 a, .node-type-professionals #block-nice_menus-3 .content #nice-menu-3 li.menu-3268 a, .section-complete-expert #block-nice_menus-3 .content #nice-menu-3 li.menu-3268 a, .page-what-moreexpert #block-nice_menus-3 .content #nice-menu-3 li.menu-3268 a, .node-type-ccrm-case-study #block-nice_menus-3 .content #nice-menu-3 li.menu-3263 a {
-    background-image: url("../images/black-bul.png") !important;
-    background-position: 5px 14px !important;
     background-repeat: no-repeat !important;
     color: #000000 !important;
 }
@@ -1306,7 +1294,7 @@ div.ddblock-cycle-upright10p div.slide-title{width:auto !important;}
     margin: -113px 0 0;
     position: absolute;
     color: #7FC858;
-    font-family: "PT Sans Caption", Cantarell,Helvetica,Arial,sans-serif;
+    font-family: "Lato", Cantarell,Helvetica,Arial,sans-serif;
     font-size: 9px;
     font-style: italic;
     font-weight: bold;
@@ -1368,7 +1356,7 @@ div.ddblock-cycle-upright10p div.slide-title{width:auto !important;}
 
 .header-value .first-name
 {
-	font-family:"PT Sans Caption", Cantarell,Helvetica,Arial,sans-serif;
+	font-family:"Lato", Cantarell,Helvetica,Arial,sans-serif;
 	font-size:18px;
 	font-weight:bolder;
 	color:#00395c;
@@ -1379,7 +1367,7 @@ div.ddblock-cycle-upright10p div.slide-title{width:auto !important;}
 
 .header-value .comm-type
 {
-	font-family:"PT Sans Caption", Cantarell,Helvetica,Arial,sans-serif;
+	font-family:"Lato", Cantarell,Helvetica,Arial,sans-serif;
 	font-size:18px;
 	font-weight:bolder;
 	color:#fff;
@@ -1399,7 +1387,7 @@ div.ddblock-cycle-upright10p div.slide-title{width:auto !important;}
 
 .affiliation
 {
-	font-family:"PT Sans Caption", Cantarell,Helvetica,Arial,sans-serif;
+	font-family:"Lato", Cantarell,Helvetica,Arial,sans-serif;
 	font-size:12px;
 	font-weight:normal;
 	color:#fff;
@@ -1410,8 +1398,7 @@ div.ddblock-cycle-upright10p div.slide-title{width:auto !important;}
 
 .url a
 {
-	font-family:"PT Sans Caption", Cantarell,Helvetica,Arial,sans-serif;
-	font-size:10px;
+	font-family:"Lato", Cantarell,Helvetica,Arial,sans-serif;
 	font-weight:normal;
 	color:#80c659;
 	text-decoration:none;
@@ -1419,8 +1406,8 @@ div.ddblock-cycle-upright10p div.slide-title{width:auto !important;}
 
 .quote p
 {
-	font-family:"PT Sans Caption", Cantarell,Helvetica,Arial,sans-serif;
-	font-size:11px;
+	font-family:"Lato", Cantarell,Helvetica,Arial,sans-serif;
+	font-size:12px;
 	font-weight:normal;
 	color:#fff;
 	line-height:20px;
@@ -1431,7 +1418,7 @@ div.ddblock-cycle-upright10p div.slide-title{width:auto !important;}
 {
 	color:#fff;
 	text-decoration:none;
-	font-family:"PT Sans Caption", Cantarell,Helvetica,Arial,sans-serif;
+	font-family:"Lato", Cantarell,Helvetica,Arial,sans-serif;
 	font-size:12px;
 	font-weight:normal;
 }
@@ -1584,8 +1571,8 @@ div.ddblock-cycle-upright10p div.slide-title{width:auto !important;}
 #block-menu-menu-contact-sub-menu ul.menu li a, #block-menu-menu-contributions ul.menu li a
 {
 
-	font-family:"PT Sans Caption", Cantarell,Helvetica,Arial,sans-serif;
-	font-size:12px;
+	font-family:"Lato", Cantarell,Helvetica,Arial,sans-serif;
+	font-size:13px;
 	color:#026085 !important;
 	text-decoration:none;
     line-height: 17px;   
@@ -1616,18 +1603,9 @@ div.ddblock-cycle-upright10p div.slide-title{width:auto !important;}
 /*content*/
 .node-type-secondary #content .node-content div.field, .node-type-secondary #main-content #page-title, .node-type-tertiary #content .node-content div.field, .node-type-tertiary #main-content #page-title{display:none;}
 
-#block-views-secondary_page_body-block .view-secondary-page-body .views-row .field-content p, #block-views-secondary_page_body-block_1 .view-secondary-page-body .views-row .field-content p, #block-views-secondary_page_body-block .view-secondary-page-body .views-row .field-content, #block-views-secondary_page_body-block_1 .view-secondary-page-body .views-row .field-content, #block-system-main .node .node-inner, .event-info, .view-civi-case-study p, .event-info p, #comment-form
-{
-	font-family:"PT Sans Caption", Cantarell,Helvetica,Arial,sans-serif;
-	font-size:12px;
-	color:#58595b !important;
-	text-decoration:none;
-    line-height: 18px;   
-}
-
 #block-views-civi_case_study-block_1 .view-civi-case-study .views-table th, #block-views-civi_case_study-block_1 .view-civi-case-study .views-table td
 {
-	font-family:"PT Sans Caption", Cantarell,Helvetica,Arial,sans-serif;
+	font-family:"Lato", Cantarell,Helvetica,Arial,sans-serif;
 	font-size:10px;
 	color:#58595b !important;
 	text-decoration:none;
@@ -1637,7 +1615,7 @@ div.ddblock-cycle-upright10p div.slide-title{width:auto !important;}
 
 #block-views-civi_case_study-block_1 .view-civi-case-study .views-table td.views-field-title
 {
-	font-family:"PT Sans Caption", Cantarell,Helvetica,Arial,sans-serif;
+	font-family:"Lato", Cantarell,Helvetica,Arial,sans-serif;
 	font-size:12px;
 	color:#000 !important;
 	text-decoration:none;
@@ -1649,7 +1627,7 @@ div.ddblock-cycle-upright10p div.slide-title{width:auto !important;}
 
 .view-civi-case-study .views-field-field-ccrm-cs-headline a
 {
-	font-family:"PT Sans Caption", Cantarell,Helvetica,Arial,sans-serif;
+	font-family:"Lato", Cantarell,Helvetica,Arial,sans-serif;
 	font-size:10px;
 	color:#056186 !important;
 	text-decoration:none;
@@ -1659,7 +1637,7 @@ div.ddblock-cycle-upright10p div.slide-title{width:auto !important;}
 
 .view-civi-case-study .views-field-field-ccrm-cs-developmentteam a
 {
-	font-family:"PT Sans Caption", Cantarell,Helvetica,Arial,sans-serif;
+	font-family:"Lato", Cantarell,Helvetica,Arial,sans-serif;
 	font-size:10px;
 	color:#056186 !important;
 	text-decoration:none;
@@ -1702,7 +1680,7 @@ div.ddblock-cycle-upright10p a.slide-read-more
     border: medium none !important;
     color: #7EC757 !important;
     display: inline !important;
-    font-family: "PT Sans Caption", Cantarell,Helvetica,Arial,sans-serif !important;
+    font-family: "Lato", Cantarell,Helvetica,Arial,sans-serif !important;
     font-size: 12px !important;
     font-style: italic;
     font-weight: bold;
@@ -1714,7 +1692,7 @@ div.ddblock-cycle-upright10p a.slide-read-more
 /*end content*/
 
 /*innerpage case-study block*/
-#block-views-casestudy_new_-block_1, #block-views-civi_case_study-block_2
+#sidebar-first #block-views-casestudy_new_-block_1, #block-views-civi_case_study-block_2
 {
 	background-image:url(../images/slant-tile.png);
 	background-repeat:repeat;
@@ -1726,8 +1704,8 @@ div.ddblock-cycle-upright10p a.slide-read-more
 #sidebar-first #block-views-casestudy_new_-block_1 h2.block-title , #sidebar-first #block-views-civi_case_study-block_2 .block-title h2
 {
 	color:#fff;
-	font-family:"PT Sans Caption", Cantarell,Helvetica,Arial,sans-serif;
-	font-size:12px;
+	font-family:"Lato", Cantarell,Helvetica,Arial,sans-serif;
+	font-size:14px;
 	text-transform:uppercase;
 	font-weight:normal;
 	padding:15px 11px 12px 11px;
@@ -1739,7 +1717,7 @@ div.ddblock-cycle-upright10p a.slide-read-more
 #block-views-casestudy_new_-block_1 .view-casestudy-new- .item-list ul li .views-field-title a, #block-views-civi_case_study-block_2 .view-civi-case-study .item-list ul li .views-field-title a
 {
 	color:#fff !important;
-	font-family:"PT Sans Caption", Cantarell,Helvetica,Arial,sans-serif;
+	font-family:"Lato", Cantarell,Helvetica,Arial,sans-serif;
 	font-size:12px;
 	font-weight:normal;
 	text-decoration:none;
@@ -1763,16 +1741,30 @@ div.ddblock-cycle-upright10p a.slide-read-more
 /*end innerpage case-study block*/
 
 /*call to action block*/
-#block-views-call_to_action-block
+#sidebar-first #block-views-call_to_action-block
 {
-	background-image:url(../images/slant-tile.png);
-	background-repeat:repeat;
-	background-color: #056186;
-	width:160px;
+    background-image:url(../images/slant-tile.png);
+    background-repeat:repeat;
+    background-color: #056186;
+    margin-top:0px;
+    width:160px;
 }
 
 
-#block-views-call_to_action-block .view-content{
+#sidebar-first .block .content{
+    padding: 10px;
+}
+
+#sidebar-first #block-views-call_to_action-block .content{
+	padding: 0px;
+    padding-top: 40px
+}
+
+#sidebar-first #block-views-casestudy_new_-block_1 .content{
+	padding: 0px;
+}
+
+#sidebar-first #block-views-call_to_action-block .view-content{
 	padding: 10px;
 }
 
@@ -1786,8 +1778,7 @@ div.ddblock-cycle-upright10p a.slide-read-more
 	padding:0px;
 	margin:0;
 	color:#fff;
-	font-family:"PT Sans Caption", Cantarell,Helvetica,Arial,sans-serif;
-	font-size:12px;
+	font-family:"Lato", Cantarell,Helvetica,Arial,sans-serif;
 	font-weight:normal;
 	text-decoration:none;
 	line-height:18px;
@@ -1796,7 +1787,7 @@ div.ddblock-cycle-upright10p a.slide-read-more
 #block-views-call_to_action-block .view-call-to-action .view-content .views-row .views-field-view-node a
 {
 	color:#fff;
-	font-family:"PT Sans Caption", Cantarell,Helvetica,Arial,sans-serif;
+	font-family:"Lato", Cantarell,Helvetica,Arial,sans-serif;
 	font-size:10px;
 	font-weight:bold;
 	text-decoration:none;
@@ -1815,7 +1806,7 @@ div.ddblock-cycle-upright10p a.slide-read-more
 #block-views-call_to_action-block .view-call-to-action .view-footer h4 a
 {
 	color:#000;
-	font-family:"PT Sans Caption", Cantarell,Helvetica,Arial,sans-serif;
+	font-family:"Lato", Cantarell,Helvetica,Arial,sans-serif;
 	font-size:12px;
 	font-weight:bold;
 	font-style:italic;
@@ -1832,7 +1823,6 @@ div.ddblock-cycle-upright10p a.slide-read-more
 }
 /*end error msg*/
 
-h2{display:block !important;}
 
 /*news more page*/
 .section-blog .action-links{margin-left:0px;}
@@ -1851,7 +1841,7 @@ h2{display:block !important;}
 #block-system-main .view-blog-news .view-content .views-row .views-field-body .field-content, .section-blog #content .node-blog .node-inner, #block-system-main .view-civi-upcoming-events .views-row .views-field
 {
     color: #58595B !important;
-    font-family: "PT Sans Caption", Cantarell,Helvetica,Arial,sans-serif;
+    font-family: "Lato", Cantarell,Helvetica,Arial,sans-serif;
     font-size: 12px;
     line-height: 16px;
     text-decoration: none;
@@ -1879,7 +1869,7 @@ h2{display:block !important;}
 #block-system-main .node-ccrm-case-study .node-content .field .field-label
 {
     color: #000000 !important;
-    font-family: "PT Sans Caption", Cantarell,Helvetica,Arial,sans-serif !important;
+    font-family: "Lato", Cantarell,Helvetica,Arial,sans-serif !important;
     font-size: 13px !important;
     font-weight: bold !important;
     padding-bottom: 5px !important;
@@ -2066,7 +2056,7 @@ h2{display:block !important;}
     text-decoration: none;
     vertical-align: bottom;
 	padding:10px !important;
-	font-family:"PT Sans Caption", Cantarell,Helvetica,Arial,sans-serif;
+	font-family:"Lato", Cantarell,Helvetica,Arial,sans-serif;
 }
 
 .view-civi-case-study .view-content .views-field-nothing table td{vertical-align:top !important;}
@@ -2103,7 +2093,7 @@ h2{display:block !important;}
 	font-size:12px;
 	color:#000;
 	padding-bottom:5px;
-	font-family:"PT Sans Caption", Cantarell,Helvetica,Arial,sans-serif;
+	font-family:"Lato", Cantarell,Helvetica,Arial,sans-serif;
 }
 
 .view-civi-case-study .view-content .views-field .field-content
@@ -2111,7 +2101,7 @@ h2{display:block !important;}
 	font-weight:normal;
 	font-size:12px;
 	color:#6d6b6c;
-	font-family:"PT Sans Caption", Cantarell,Helvetica,Arial,sans-serif;
+	font-family:"Lato", Cantarell,Helvetica,Arial,sans-serif;
 	line-height:18px;
 }
 
@@ -2164,7 +2154,7 @@ h2{display:block !important;}
 #block-views-civicrm_blog_description-block .view-civicrm-blog-description ul li a
 {
 	color: #056186;
-    font-family: "PT Sans Caption", Cantarell,Helvetica,Arial,sans-serif;
+    font-family: "Lato", Cantarell,Helvetica,Arial,sans-serif;
     font-size: 12px;
     font-weight: lighter;
     line-height: 20px;
@@ -2178,17 +2168,16 @@ h2{display:block !important;}
 #block-views-civicrm_blog_description-block .view-civicrm-blog-description ul li
 {
 	color: #056186;
-    font-family: "PT Sans Caption", Cantarell,Helvetica,Arial,sans-serif;
+    font-family: "Lato", Cantarell,Helvetica,Arial,sans-serif;
     font-size: 10px;
 	margin:0px;
 }
 
-#block-views-call_to_action-block{margin-top:0px;}
 
 .node-blog .field-item h2
 {
 	color: #000;
-    font-family: lato,"PT Sans Caption", Cantarell,Helvetica,Arial,sans-serif;
+    font-family: lato,"Lato", Cantarell,Helvetica,Arial,sans-serif;
     font-size: 17px;
 	margin:0px 0 10px 0;
 	font-weight:lighter;
@@ -2198,7 +2187,7 @@ h2{display:block !important;}
 .section-blogs .action-links a
 {
 	color: #056186;
-    font-family: lato,"PT Sans Caption", Cantarell,Helvetica,Arial,sans-serif;
+    font-family: lato,"Lato", Cantarell,Helvetica,Arial,sans-serif;
     font-size: 12px;
 	font-weight:lighter;
 	text-decoration:none;
@@ -2211,7 +2200,7 @@ h2{display:block !important;}
 #comments h2.title
 {
     color: #7FC757;
-    font-family: lato,"PT Sans Caption", Cantarell,Helvetica,Arial,sans-serif;
+    font-family: lato,"Lato", Cantarell,Helvetica,Arial,sans-serif;
     font-size: 16px;
     font-weight: 900;
     line-height: 16px;
@@ -2262,7 +2251,7 @@ h2{display:block !important;}
     border: 0 none;
     color: #05355d;
     cursor: pointer;
-    font-family: "PT Sans Caption", Cantarell,Helvetica,Arial,sans-serif;
+    font-family: "Lato", Cantarell,Helvetica,Arial,sans-serif;
     font-size: 15px;
     font-style: normal;
     font-weight: bold;
@@ -2282,7 +2271,7 @@ h2{display:block !important;}
 #comments .comment h3.comment-title a
 {
     color: #000000 !important;
-    font-family: "PT Sans Caption","PT Sans Caption", Cantarell,Helvetica,Arial,sans-serif;
+    font-family: "Lato","Lato", Cantarell,Helvetica,Arial,sans-serif;
     font-size: 15px;
     font-weight: normal;
     line-height: 15px;
@@ -2306,7 +2295,6 @@ h2{display:block !important;}
     margin-bottom: 0;
     text-decoration: none;
     vertical-align: bottom;
-    width: 150px;
 }
 
 .what-civicrm a, .will-civicrm a, .get-started-static a, .participate a, .case-study-page-block a, .discussions-page-block a
@@ -2333,16 +2321,14 @@ h2{display:block !important;}
 .view-find-expert, .view-complete-expert
 {
     color: #58595B !important;
-    font-family: "PT Sans Caption", Cantarell,Helvetica,Arial,sans-serif;
-    font-size: 12px;
+    font-family: "Lato", Cantarell,Helvetica,Arial,sans-serif;
     line-height: 16px;
     text-decoration: none;
 }
 
 .view-find-expert a, .view-complete-expert a
 {
-	font-family:"PT Sans Caption", Cantarell,Helvetica,Arial,sans-serif;
-	font-size:12px;
+	font-family:"Lato", Cantarell,Helvetica,Arial,sans-serif;
 	color:#056186 !important;
 	text-decoration:none;
     line-height: 16px;
@@ -2375,7 +2361,7 @@ h2{display:block !important;}
 /*find an expert tab*/
 #views-exposed-form-complete-expert-page-2 .views-exposed-widget label
 {
-	font-family:"PT Sans Caption", "PT Sans Caption", Cantarell,Helvetica,Arial,sans-serif;
+	font-family:"Lato", "Lato", Cantarell,Helvetica,Arial,sans-serif;
 	font-size:15px;
 	color:#000 !important;
     line-height: 15px;
@@ -2387,7 +2373,7 @@ h2{display:block !important;}
 #views-exposed-form-complete-expert-page-2 .views-exposed-widget .views-widget .form-text
 {
 	border:1px solid #116285;
-	font-family:"PT Sans Caption", "PT Sans Caption", Cantarell,Helvetica,Arial,sans-serif;
+	font-family:"Lato", "Lato", Cantarell,Helvetica,Arial,sans-serif;
 	font-size:12px;
 	color:#000 !important;
 	font-weight:normal;
@@ -2397,7 +2383,7 @@ h2{display:block !important;}
 {
 	background-color:#116285;
     color: #fff;
-    font-family: "PT Sans Caption", Cantarell,Helvetica,Arial,sans-serif;
+    font-family: "Lato", Cantarell,Helvetica,Arial,sans-serif;
     font-size: 12px;
     font-style: normal;
     font-weight: bold;
@@ -2417,7 +2403,7 @@ h2{display:block !important;}
 #qt-tabs-ui-tabs3 .expert-tab a
 {
     color: #116285;
-    font-family: "PT Sans Caption", Cantarell,Helvetica,Arial,sans-serif;
+    font-family: "Lato", Cantarell,Helvetica,Arial,sans-serif;
     font-size: 12px;
     font-style: italic;
     font-weight: bold;
@@ -2429,14 +2415,14 @@ h2{display:block !important;}
 /*end find an expert tab*/
 
 /*announce tab*/
-.view-announcement-view .view-content .views-field-title .field-content{font-weight:bold;font-family: "PT Sans Caption", Cantarell,Arial,Helvetica,sans-serif;font-size: 12px;}
+.view-announcement-view .view-content .views-field-title .field-content{font-weight:bold;font-family: "Lato", Cantarell,Arial,Helvetica,sans-serif;font-size: 12px;}
 
 .view-announcement-view .view-content .views-field-body .field-content p
 {
     font-size: 12px;
     margin: 0;
 	line-height: 17px;
-	font-family: "PT Sans Caption", Cantarell,Arial,Helvetica,sans-serif;
+	font-family: "Lato", Cantarell,Arial,Helvetica,sans-serif;
 }
 
 .view-announcement-view .view-content .views-field-field-announcement-url .field-content a
@@ -2444,7 +2430,7 @@ h2{display:block !important;}
     font-size: 12px;
     margin: 0;
 	text-decoration:none;
-	font-family: "PT Sans Caption", Cantarell,Arial,Helvetica,sans-serif;
+	font-family: "Lato", Cantarell,Arial,Helvetica,sans-serif;
 }
 /*end announce tab*/
 
@@ -2468,7 +2454,7 @@ div.messages {
 }
 
 .view-announcement-view .view-content .views-field-nothing .field-content a {
-    font-family:"PT Sans Caption", Cantarell, Arial, Helvetica, sans-serif;
+    font-family:"Lato", Cantarell, Arial, Helvetica, sans-serif;
     font-size:12px;
     margin:0;
     text-decoration:none;
@@ -2480,7 +2466,7 @@ div.messages {
 .section-search .search-results li h3 a
 {
     color: #056186 !important;
-    font-family: "PT Sans Caption", Cantarell,Arial,Helvetica,sans-serif !important;
+    font-family: "Lato", Cantarell,Arial,Helvetica,sans-serif !important;
     font-size: 13px !important;
     font-weight: normal !important;
     text-decoration: none !important;
@@ -2499,7 +2485,7 @@ div.messages {
 .section-search .search-results li div.search-snippet-info .search-snippet, .section-search .search-results li div.search-snippet-info .search-info
 {
     color: #58595B !important;
-    font-family: "PT Sans Caption", Cantarell,Arial,Helvetica,sans-serif !important;
+    font-family: "Lato", Cantarell,Arial,Helvetica,sans-serif !important;
     font-size: 12px !important;
     font-weight: normal !important;
     text-decoration: none !important;
@@ -2539,7 +2525,7 @@ div.messages {
 #block-views-og_discussions-block_1 .view-og-discussions .view-content ul li
 {
     color: #056186;
-    font-family: "PT Sans Caption", Cantarell,Helvetica,Arial,sans-serif;
+    font-family: "Lato", Cantarell,Helvetica,Arial,sans-serif;
     font-size: 10px;
     margin: 0;
 }
@@ -2547,7 +2533,7 @@ div.messages {
 #block-views-og_discussions-block_1 .view-og-discussions .view-content ul li a
 {
     color: #056186;
-    font-family: "PT Sans Caption", Cantarell,Helvetica,Arial,sans-serif;
+    font-family: "Lato", Cantarell,Helvetica,Arial,sans-serif;
     font-size: 12px;
     font-weight: lighter;
     height: auto;
@@ -2571,14 +2557,13 @@ div.messages {
 
 .section-features .ddblock-cycle-upright10p .container-inner{border: 1px solid #999999;}
 
-#main-content ul.primary li a{color:#056186;background-color:transparent;font-family:"PT Sans Caption", Cantarell,Helvetica,Arial,sans-serif;}
+#main-content ul.primary li a{color:#056186;background-color:transparent;font-family:"Lato", Cantarell,Helvetica,Arial,sans-serif;}
 
 .view-civi-case-study .views-table .views-field{word-wrap:break-word;}
 
 
 h1, h2, h3{
     font-family: "Oswald",Arial,Helvetica,sans-serif;
-	color:#000;
     font-weight: 300;
 }
 h1 a, h2 a h3 a {
@@ -2593,6 +2578,7 @@ h1
 h2
 {
     font-size: 20px;
+    display: block !important; /* for some reason, we are injecting CSS onto the home page that makes h2 disappear (so this line is a work around for that)
 }
 
 h3
@@ -2615,7 +2601,7 @@ h3
 /*unpublished block*/
 .view-blog-news-unpublished .view-content .views-row .views-field-title a {
     color: #58595B !important;
-    font-family: "PT Sans Caption", Cantarell,Helvetica,Arial,sans-serif !important;
+    font-family: "Lato", Cantarell,Helvetica,Arial,sans-serif !important;
     font-size: 13px !important;
     line-height: 16px;
     text-decoration: none;
@@ -2627,7 +2613,7 @@ h3
 
 .view-blog-news-unpublished .view-content .views-row .views-field-body .field-content {
     color: #58595B !important;
-    font-family: "PT Sans Caption", Cantarell,Helvetica,Arial,sans-serif;
+    font-family: "Lato", Cantarell,Helvetica,Arial,sans-serif;
     font-size: 12px;
     line-height: 16px;
     text-decoration: none;
@@ -2666,7 +2652,7 @@ h3
 
 .view-og-ghp-ron-discussions .view-content .views-row .disc-title a
 {
-    font-family: "PT Sans Caption",Cantarell,Helvetica,Arial,sans-serif !important;
+    font-family: "Lato",Cantarell,Helvetica,Arial,sans-serif !important;
     font-size: 14px !important;
     font-weight: nomal;
     line-height: 16px;
@@ -2679,7 +2665,7 @@ h3
 .view-og-ghp-ron-discussions .view-content .views-row .disc-desc, .view-og-ghp-ron-discussions .view-content .views-row .disc-desc p
 {
     color: #58595B !important;
-    font-family: "PT Sans Caption",Cantarell,Helvetica,Arial,sans-serif;
+    font-family: "Lato",Cantarell,Helvetica,Arial,sans-serif;
     font-size: 12px;
     line-height: 16px;
     text-decoration: none;
@@ -2689,7 +2675,7 @@ h3
 .view-og-ghp-ron-discussions .view-content .views-row .disc-desc
 {
     color: #58595B !important;
-    font-family: "PT Sans Caption",Cantarell,Helvetica,Arial,sans-serif;
+    font-family: "Lato",Cantarell,Helvetica,Arial,sans-serif;
     font-size: 12px;
     line-height: 16px;
     text-decoration: none;
@@ -2700,7 +2686,7 @@ h3
 .view-id-og .view-header p
 {
     color: #58595B !important;
-    font-family: "PT Sans Caption",Cantarell,Helvetica,Arial,sans-serif;
+    font-family: "Lato",Cantarell,Helvetica,Arial,sans-serif;
     font-size: 12px;
     line-height: 16px;
     text-decoration: none;
@@ -2710,7 +2696,7 @@ h3
 .view-id-og .view-content .views-table th.views-field a
 {
     color: #58595B !important;
-    font-family: "PT Sans Caption",Cantarell,Helvetica,Arial,sans-serif;
+    font-family: "Lato",Cantarell,Helvetica,Arial,sans-serif;
     font-size: 13px;
     line-height: 16px;
     text-decoration:none;
@@ -2718,7 +2704,7 @@ h3
 
 .view-id-og .view-content .views-table td.views-field a, .view-id-og .view-filters #edit-title-wrapper label
 {
-    font-family: "PT Sans Caption",Cantarell,Helvetica,Arial,sans-serif;
+    font-family: "Lato",Cantarell,Helvetica,Arial,sans-serif;
     font-size: 12px;
     line-height: 16px;
     text-decoration:none;
@@ -2747,7 +2733,7 @@ h3
 .feed-icon-blog
 {
     color: #FFFFFF;
-    font-family: "PT Sans Caption",Cantarell,Helvetica,Arial,sans-serif;
+    font-family: "Lato",Cantarell,Helvetica,Arial,sans-serif;
     font-size: 11px;
     font-style: normal;
     font-weight: normal;
@@ -2913,6 +2899,18 @@ h3
     margin-bottom: 20px;
 
 }
+
+/* CiviCRM forms */
+
+
+#crm-container.crm-public .crm-section, .crm-section {
+    margin-bottom: 1em;
 }
 
+.region-content div, p, li li, li p, td p, blockquote p {
+    color: #58595B;
+    font-size: 13px;
+    line-height: 1.4em;
+    font-family: "Lato",Cantarell,Helvetica,Arial,sans-serif;
+}
 
