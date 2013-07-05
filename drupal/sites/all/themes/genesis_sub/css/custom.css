@@ -2578,7 +2578,7 @@ h1
 h2
 {
     font-size: 20px;
-    display: block !important; /* for some reason, we are injecting CSS onto the home page that makes h2 disappear (so this line is a work around for that)
+    display: block !important; /* for some reason, we are injecting CSS onto the home page that makes h2 disappear (so this line is a work around for that)*/
 }
 
 h3
@@ -2767,8 +2767,6 @@ h3
     margin-top: 20px;
 }               
 
-
-/*MICHAEL ADDED STUFF HERE: Trying to order this style sheet to some extent.  Ideas on bringing more order welcome!*/
 
 #sidebar-first .block h2.block-title{
     padding: 10px;
