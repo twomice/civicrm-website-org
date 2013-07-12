@@ -10,7 +10,12 @@ You can develop locally as long as you are not storing any unencrypted personal 
 
 Drupal and CiviCRM databases can be encrypted on www-test.civicrm.org before being transferred to local development environments.
 
-#Maintenence and upgrades
+#Upgrades
 
-TODO
+Upgrades (especially CiviCRM upgrades) should be tested locally and on the test infrastructure before being carried out on the production server.
 
+Put the site into maintanence mode before upgrading
+
+#CiviCRM customisations
+
+Any CiviCRM customisations should be places in the php and templates directory rather than being directly overwritted in order to make it easy to keep track of customisations through upgrades.
