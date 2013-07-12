@@ -5,6 +5,7 @@ html body.admin-menu {
 body
 {
     padding:0px !important;
+    font-family: "Lato",Cantarell,Helvetica,Arial,sans-serif;
 }
 
 .not-front
@@ -72,7 +73,7 @@ body
 {
     display:inline;
     list-style-type:none;
-    font-size:8px;
+    font-size:10px;
     color:#a55f53;
     letter-spacing: 1px;
     text-decoration:none;
@@ -905,7 +906,7 @@ body
 {
     color:#fff;
     font-family:"Lato", Cantarell,Helvetica,Arial,sans-serif;
-    font-size: 11px;
+    font-size: 12px;
     font-style: normal;
     font-weight: normal;
     text-decoration:none;
@@ -1107,7 +1108,9 @@ div.ddblock-cycle-upright10p div.slide-title{
     z-index: 6;
 }
 /**/
-
+.region-sidebar-first .nice-menu{
+    width:100%;
+}
 /*secondary menu*/
 #block-nice_menus-2 .content #nice-menu-2 li, #block-nice_menus-3 .content #nice-menu-3 li, #block-nice_menus-4 .content #nice-menu-4 li, #block-nice_menus-5 .content #nice-menu-5 li
 {
@@ -1119,7 +1122,7 @@ div.ddblock-cycle-upright10p div.slide-title{
     background-color:transparent;
     background-image:none;
     margin:0px;
-    width:149px;
+    width:100%;
 }
 
 #block-nice_menus-2 .content #nice-menu-2, #block-nice_menus-3 .content #nice-menu-3, #block-nice_menus-4 .content #nice-menu-4, #block-nice_menus-5 .content #nice-menu-5
@@ -2150,15 +2153,12 @@ div.ddblock-cycle-upright10p a.slide-read-more
     background-image: url("../images/slant-tile.png");
 }
 
-#block-views-civicrm_blog_description-block .view-civicrm-blog-description ul{padding: 15px 10px 15px 23px;}
 
 #block-views-civicrm_blog_description-block .view-civicrm-blog-description ul li a
 {
     color: #056186;
     font-family: "Lato", Cantarell,Helvetica,Arial,sans-serif;
-    font-size: 12px;
-    font-weight: lighter;
-    line-height: 20px;
+    font-size: 14px;
     text-decoration: none;
     height: auto;
     text-decoration: none;
@@ -2169,9 +2169,9 @@ div.ddblock-cycle-upright10p a.slide-read-more
 #block-views-civicrm_blog_description-block .view-civicrm-blog-description ul li
 {
     color: #056186;
-    font-family: "Lato", Cantarell,Helvetica,Arial,sans-serif;
-    font-size: 10px;
     margin:0px;
+    list-style-type:none;
+    list-style-image:none;
 }
 
 
@@ -2791,6 +2791,7 @@ h3
     padding-left: 10px;
     width: 115px;
     padding-top:30px;
+    font-family: ""
     padding-right:37px;
 }
 
@@ -2910,6 +2911,5 @@ h3
     color: #58595B;
     font-size: 13px;
     line-height: 1.5em;
-    font-family: "Lato",Cantarell,Helvetica,Arial,sans-serif;
 }
 
