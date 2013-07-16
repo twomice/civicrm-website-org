@@ -1,6 +1,6 @@
 #Development workflow
 
-All new code, etc. should be developed locally, tested on www-test.civicrm.org, and the deployed on production.
+All new code, etc. should be developed locally, commited to this repository, tested on www-test.civicrm.org, and the deployed on production.
 
 New configurations (i.e. configuration changes made via the UI etc. can/should be made on www-test.civicrm.org first before being deployed on production.
 
