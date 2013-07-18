@@ -2596,6 +2596,11 @@ h3
     font-size: 13px;
 }
 
+.node-content ul ul,.node-content ul ol,.node-content ol ul,.node-content ol ol{
+    list-style-type:inherit;
+    margin-left: 1.75em;
+}
+
 .page-what-moreexpert #content #block-views-secondary-block, .page-what-moreexpert #content #block-views-secondary_page_body-block {
     display:none;
 }
