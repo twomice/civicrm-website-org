@@ -1696,7 +1696,12 @@ div.ddblock-cycle-upright10p a.slide-read-more
 /*end content*/
 
 /*innerpage case-study block*/
-#sidebar-first #block-views-casestudy_new_-block_1, #block-views-civi_case_study-block_2
+
+#sidebar-first #block-static_block-casestudy_page_block .content, #sidebar-first #block-views-civi_case_study-block_2 .content {
+    padding: 0;
+}
+
+#sidebar-first #block-views-casestudy_new_-block_1, #sidebar-first #block-views-civi_case_study-block_2
 {
     background-image:url(../images/slant-tile.png);
     background-repeat:repeat;
@@ -1705,7 +1710,7 @@ div.ddblock-cycle-upright10p a.slide-read-more
     margin-bottom:15px;
 }
 
-#sidebar-first #block-views-casestudy_new_-block_1 h2.block-title , #sidebar-first #block-views-civi_case_study-block_2 .block-title h2
+#sidebar-first #block-views-casestudy_new_-block_1 h2.block-title , #sidebar-first #block-views-civi_case_study-block_2 h2.block-title
 {
     color:#fff;
     font-family:"Lato", Cantarell,Helvetica,Arial,sans-serif;
@@ -1718,7 +1723,7 @@ div.ddblock-cycle-upright10p a.slide-read-more
     background-image: url("../images/slant-tile.png");
 }
 
-#block-views-casestudy_new_-block_1 .view-casestudy-new- .item-list ul li .views-field-title a, #block-views-civi_case_study-block_2 .view-civi-case-study .item-list ul li .views-field-title a
+#block-views-casestudy_new_-block_1 .view-casestudy-new- .item-list ul li .views-field-title a, #sidebar-first #block-views-civi_case_study-block_2 .view-civi-case-study .item-list ul li .views-field-title a
 {
     color:#fff !important;
     font-family:"Lato", Cantarell,Helvetica,Arial,sans-serif;
@@ -2316,6 +2321,10 @@ div.ddblock-cycle-upright10p a.slide-read-more
 {
     margin-bottom:0px;
 }
+
+#sidebar-first #block-static_block-casestudy_page_block .block .content{
+    padding:0;
+}
 /*end section static block*/
 
 /*expert page*/
@@ -2791,7 +2800,6 @@ h3
     padding-left: 10px;
     width: 115px;
     padding-top:30px;
-    font-family: ""
     padding-right:37px;
 }
 
