@@ -1175,7 +1175,7 @@ div.ddblock-cycle-upright10p div.slide-title{
 
 #block-views-section_info-block .view-section-info, .case-study-page-block, .what-civicrm, .will-civicrm, .get-started-static, .participate, .discussions-page-block
 {
-    padding-top:55px;
+    padding-top:65px;
     padding-left:10px;
     padding-bottom:20px;
 }
@@ -1607,46 +1607,14 @@ div.ddblock-cycle-upright10p div.slide-title{
 /*content*/
 .node-type-secondary #content .node-content div.field, .node-type-secondary #main-content #page-title, .node-type-tertiary #content .node-content div.field, .node-type-tertiary #main-content #page-title{display:none;}
 
-#block-views-civi_case_study-block_1 .view-civi-case-study .views-table th, #block-views-civi_case_study-block_1 .view-civi-case-study .views-table td
-{
-    font-family:"Lato", Cantarell,Helvetica,Arial,sans-serif;
-    font-size:10px;
-    color:#58595b !important;
-    text-decoration:none;
-    line-height: 16px;
-    font-weight:normal;
-}
-
-#block-views-civi_case_study-block_1 .view-civi-case-study .views-table td.views-field-title
-{
-    font-family:"Lato", Cantarell,Helvetica,Arial,sans-serif;
-    font-size:12px;
-    color:#000 !important;
-    text-decoration:none;
-    line-height: 16px;
-    font-weight:bold;
-}
-
-#block-views-civi_case_study-block_1 .view-civi-case-study .views-table th{font-size:12px;font-weight:bold;}
 
 .view-civi-case-study .views-field-field-ccrm-cs-headline a
 {
-    font-family:"Lato", Cantarell,Helvetica,Arial,sans-serif;
-    font-size:10px;
-    color:#056186 !important;
-    text-decoration:none;
-    line-height: 16px;
     text-decoration:underline;
 }
 
 .view-civi-case-study .views-field-field-ccrm-cs-developmentteam a
 {
-    font-family:"Lato", Cantarell,Helvetica,Arial,sans-serif;
-    font-size:10px;
-    color:#056186 !important;
-    text-decoration:none;
-    line-height: 16px;
-    text-decoration:none;
     font-weight:bold;
 }
 
@@ -1766,7 +1734,6 @@ div.ddblock-cycle-upright10p a.slide-read-more
 
 #sidebar-first #block-views-call_to_action-block .content{
     padding: 0px;
-    padding-top: 40px
 }
 
 #sidebar-first #block-views-casestudy_new_-block_1 .content{
@@ -2597,7 +2564,6 @@ h3
 }
 
 .node-content ul ul,.node-content ul ol,.node-content ol ul,.node-content ol ol{
-    list-style-type:inherit;
     margin-left: 1.75em;
 }
 
@@ -2785,7 +2751,7 @@ h3
 
 #sidebar-first .block h2.block-title{
     padding: 10px;
-    padding-top: 55px;
+    padding-top: 65px;
     padding-bottom: 20px;
     font-size: 24px;
     font-weight: 300;
@@ -2920,7 +2886,7 @@ h3
     margin-bottom: 1em;
 }
 
-.region-content div, p, li li, li p, td p, blockquote p {
+.region-content div, p, li, td, p{
     color: #58595B;
     font-size: 13px;
     line-height: 1.5em;
