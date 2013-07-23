@@ -1,43 +1,0 @@
-10
-
-dir
-567
-http://svn.civicrm.org/tools/trunk/packages/amavisd-new
-http://svn.civicrm.org/tools
-
-
-
-2009-06-01T11:54:00.316275Z
-11
-mover
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-768ce0d8-0a5f-4d3e-a850-92636cea8c4e
-
-config
-dir
-
-amavisd-new-2.6.0
-dir
-
-amavisd-new-2.5.2
-dir
-
-amavisd-new-2.6.1
-dir
-
-amavisd-new-2.5.3
-dir
-
