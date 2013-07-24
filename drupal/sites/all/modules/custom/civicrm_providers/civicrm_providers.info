@@ -1,0 +1,4 @@
+name = CiviCRM providers list
+description =  Enables us to create nice badges for providers via a CiviCRM custom field (views was not powerful enough for us to do this)
+package = civicrm.org custom modules
+core = 7.x
