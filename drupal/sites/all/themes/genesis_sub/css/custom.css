@@ -531,7 +531,7 @@ body
 {
     float: left;
     height: auto;
-    margin-top: -36px;
+    margin-top: -35px;
     width: 293px;
 }
 
@@ -616,8 +616,16 @@ body
     padding:3px 0;
     line-height:14px !important;
     letter-spacing: 1px;
+    margin: 0;
 }
 
+h1.logo-site-name{
+    margin:0;
+}
+
+.front h2.block-title{
+    margin: 0;
+}
 .view-community-members .views-row
 {
     display: inline;
@@ -745,26 +753,16 @@ body
 /*events & news rss*/
 #block-static_block-homepage-joinus-block1 .content h2
 {
-    color: #7FC757 !important;
-    font-family:lato, "Lato", Cantarell, Helvetica, Arial, sans-serif !important;
-    font-size: 16px !important;
-    font-weight: 900 !important;
-    text-align: left !important;
-    line-height:16px !important;
-    padding-top:33px !important;
-    padding-bottom: 0 !important;
+    color: #7FC757;
+    font-family:"Lato", Cantarell, Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    padding-top:20px;
+    font-weight:bold;
 }
 
 #block-static_block-homepage-joinus-block1 .view-blog-news .view-content .views-row, #block-static_block-homepage-joinus-block1 .view-blog-news .view-content .views-row, #block-static_block-homepage-joinus-block1 .dev-col ul li, #block-static_block-homepage-joinus-block1 .events-col .view-civi-upcoming-events .view-content .views-row
 {
     padding-bottom:12px;
-}
-
-#block-static_block-homepage-joinus-block1 .events-col .view-civi-upcoming-events .view-content .views-row .views-field-title a{color:#000 !important;}
-
-#block-static_block-homepage-joinus-block1 .view-blog-news .view-content .views-row-first, #block-static_block-homepage-joinus-block1 .view-blog-news .view-content .views-row-first, #block-static_block-homepage-joinus-block1 .dev-col ul li.first, .events-col p, #block-static_block-homepage-joinus-block1 .events-col .view-civi-upcoming-events .view-content .views-row-first
-{
-    padding-top:20px;
 }
 
 #block-static_block-homepage-joinus-block1 .news-col
@@ -798,14 +796,11 @@ body
 
 #block-static_block-homepage-joinus-block1 .three-tab, #block-static_block-homepage-joinus-block1 .three-tab tbody, #block-static_block-homepage-joinus-block1 .three-tab tbody td{border:0px;margin:0px;vertical-align:top;}
 
-#block-static_block-homepage-joinus-block1 .view-blog-news .view-content .views-row a, #block-static_block-homepage-joinus-block1 .view-blog-news .view-content .views-row a, #block-static_block-homepage-joinus-block1 .dev-col ul li a, .events-col a
+#block-static_block-homepage-joinus-block1 .events-col .view-civi-upcoming-events .view-content .views-row .views-field-title a, #block-static_block-homepage-joinus-block1 .view-blog-news .view-content .views-row a, #block-static_block-homepage-joinus-block1 .view-blog-news .view-content .views-row a, #block-static_block-homepage-joinus-block1 .dev-col ul li a, .events-col a
 {
     color: #000;
-    font-family:"Lato", Cantarell, Helvetica, Arial, sans-serif;
     font-size: 12px;
     font-weight: normal;
-    text-align: left;
-    line-height:16px;
     text-decoration:none;
 }
 
@@ -933,14 +928,12 @@ body
 
 /*crm solution*/
 
-.front #block-static_block-crm-solution-block1{margin:-20px 0 0;}
-
 #block-static_block-crm-solution-block1
 {
     background-color: #056186;
     display: inline-block;
-    margin: -20px 0 0;
     width: 100%;
+    margin-bottom:0;
 }
 
 #block-static_block-crm-solution-block1 .view-sub-menu-block
@@ -1076,8 +1069,13 @@ div.ddblock-cycle-upright10p div.number-pager
     font-weight: normal;
     background-color:#7ec757;
     width:165px;
+    margin-top:0;
     margin-bottom: 1em;
     padding: 1px 10px;
+}
+
+.front .local-tasks{
+    margin:0px;
 }
 
 div.ddblock-cycle-upright10p div.slide-title{
@@ -1283,7 +1281,7 @@ div.ddblock-cycle-upright10p div.slide-title{
 
 #main-content
 {
-    margin-top:30px;
+    margin-top:3px;
     margin-bottom:80px;
     min-height:300px;
 }
@@ -1924,7 +1922,6 @@ div.ddblock-cycle-upright10p a.slide-read-more
     display: inline;
     float: right;
     width: 780px;
-    padding-left: 20px;
 }
 
 #content-column .content-inner{
@@ -2768,6 +2765,7 @@ h3
     font-weight: 300;
     background-image: url("../images/title-bg.gif");
     line-height:100%;
+    margin-bottom:0px;
 }
 
 
@@ -2825,6 +2823,11 @@ h3
     position:relative;
 }
 
+.view-service-providers .view-filters{
+    background-color: #F9F8F6;
+    background-image: url("../images/slant-tile.png");
+}
+
 .view-service-providers h2{
     font-size:30px;
     text-align:center;
@@ -2856,14 +2859,13 @@ h3
     font-weight:bold;
 }
 
-.view-service-providers .views-field-services-157,
 .view-service-providers .views-field-image-URL
 {
-    margin: 20px 0;
+    text-align:center;
 }
 .view-service-providers .views-field-nothing
 {
-    height: 160px;
+    height: 180px;
 }
 .view-service-providers .views-field-php
 {
@@ -2872,7 +2874,7 @@ h3
 }
 .view-service-providers .views-field-php img
 {
-    width:90px;
+    width:100px;
     padding-right:10px;
 }
 .view-service-providers .views-field-company-overview-158,
