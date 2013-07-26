@@ -625,6 +625,7 @@ h1.logo-site-name{
 
 .front h2.block-title{
     margin: 0;
+    font-weight:300;
 }
 .view-community-members .views-row
 {
