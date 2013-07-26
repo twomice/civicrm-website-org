@@ -1039,6 +1039,9 @@ div.ddblock-cycle-upright10p div.number-pager ul li a.pager-link
     width: 7px !important;
 }
 
+.block .item-list ul.pager{
+    margin-top:10px;
+}
 div.ddblock-cycle-upright10p div.number-pager ul li a.activeSlide
 {
     background-color:transparent !important;
@@ -1293,7 +1296,7 @@ div.ddblock-cycle-upright10p div.slide-title{
 .node-type-tertiary #columns #main-content #page-title, .node-type-secondary #columns #main-content #page-title, .node-type-secondary #block-views-secondary-block .view-secondary .views-row, .node-type-tertiary #block-views-secondary-block_1 .view-secondary .views-row, #page-title
 {
     font-family: "Oswald", Arial, Helvetica, sans-serif;
-    font-weight: 300;
+    font-weight: 400;
     font-size: 30px;
 }
 /*end secondary menu*/
@@ -1825,8 +1828,11 @@ div.ddblock-cycle-upright10p a.slide-read-more
     text-decoration: none;
 }
 
-#block-system-main .view-blog-news .view-content .views-row, ul.pager, .section-blog #content .node-blog, #block-system-main .view-civi-upcoming-events .views-row{
-    padding:10px 0;margin:0px;
+#block-system-main .view-blog-news .views-row,
+#block-system-main .view-civi-upcoming-events .views-row{
+    padding:10px 0;
+    margin:0px;
+    border-bottom:2px solid #eae6e5;
 }
 
 #block-system-main .view-blog-news .view-content .views-row-first, #block-system-main .view-civi-upcoming-events .views-row-first{
@@ -2553,7 +2559,7 @@ p{
 
 h1, h2, h3{
     font-family: "Oswald",Arial,Helvetica,sans-serif;
-    font-weight: 300;
+    font-weight: 400;
     margin: 0.75em 0;
 }
 h1 a, h2 a h3 a {
@@ -2821,7 +2827,7 @@ h3
 }
 
 .view-service-providers .views-row{
-    border:8px solid #eae6e5;
+    border:5px solid #eae6e5;
     padding:20px;
     margin-bottom:20px;
     position:relative;
