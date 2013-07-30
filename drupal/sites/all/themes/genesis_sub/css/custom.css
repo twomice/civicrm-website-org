@@ -2841,24 +2841,15 @@ h3
     margin-top:0px;
     margin-bottom:20px;
 }
-.view-service-providers .active-contributors, .view-service-providers .supporting-partners {
-    width: 50%;
-    float: left;
-}
 .view-service-providers .views-field-display-name
 {
     border-bottom:2px solid #eae6e5;
-    margin-bottom:20px;
 }
-.view-service-providers .views-field-city,
-.view-service-providers .views-field-country,
-.view-service-providers .views-field-email,
-.view-service-providers .views-field-phone,
-.view-service-providers .views-field-url,
 .view-service-providers .views-field-image-URL,
 .view-service-providers .views-field-services-157,
 .view-service-providers .views-field-php
 {
+    text-align:center;
     width: 240px;
 }
 
@@ -2877,15 +2868,27 @@ h3
 }
 .view-service-providers .views-field-php img
 {
-    padding-right:10px;
+    padding-left:7px;
+    padding-right:7px;
+    width:90px;
 }
+.view-service-providers .views-field-description-of-services-156,
+.view-service-providers .views-field-image-URL{
+    padding-top:20px;
+}
+
+.view-service-providers .views-field-city,
+.view-service-providers .views-field-country,
+.view-service-providers .views-field-email,
+.view-service-providers .views-field-phone,
+.view-service-providers .views-field-url,
 .view-service-providers .views-field-company-overview-158,
 .view-service-providers .views-field-description-of-services-156
 {
-    width:480px;
-    margin-left:20px;
+    width:458px;
     float:right;
-
+    padding-left:20px;
+    border-left: 2px solid #eae6e5;
 }
 
 .view-service-providers .views-label-services-158{
@@ -2894,14 +2897,12 @@ h3
 
 .view-service-providers .views-field-image-URL{
     margin-bottom:20px;
-    text-align:center;
 }
 .view-service-providers .views-field-image-URL img{
-    max-width: 230px;
-    max-height: 150px;
+    max-width: 240px;
+    max-height: 240px;
     margin: 0;
     margin-bottom: 0;
-    padding-right:20px;
 }
 
 
