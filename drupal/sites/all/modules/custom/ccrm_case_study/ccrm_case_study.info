@@ -1,6 +1,6 @@
 name = Civicrm Case Study
 description = "Case Study content type"
-package = "Features"
+package = civicrm.org custom modules
 core = 7.x
 version = "7.x-1.3"
 project = "ccrm_case_study"
