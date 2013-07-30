@@ -2866,13 +2866,9 @@ h3
     font-weight:bold;
 }
 
-.view-service-providers .views-field-image-URL
-{
-    text-align:center;
-}
 .view-service-providers .views-field-nothing
 {
-    height: 180px;
+    height: 200px;
 }
 .view-service-providers .views-field-php
 {
@@ -2898,23 +2894,30 @@ h3
 
 .view-service-providers .views-field-image-URL{
     margin-bottom:20px;
+    text-align:center;
 }
 .view-service-providers .views-field-image-URL img{
-    max-width: 210px;
-    max-height: 120px;
+    max-width: 230px;
+    max-height: 150px;
     margin: 0;
     margin-bottom: 0;
+    padding-right:20px;
 }
 
 
+div.center-button{
+    text-align:center;
+}
 .partner-button{
-    text-transform:uppercase;
+    background-color: #7EC757;
+    background-image: url("../images/slant-tile.png");
+    background-repeat: repeat;
+    color:#0b4151;
+    font-family:"Lato", Cantarell, Helvetica, Arial, sans-serif;
+    font-size:18px;
+    font-weight:bold;
     padding:20px;
-    background-color:#056186;
-    border: 5px solid #EAE6E5;
-    font-family:Oswald;
-    font-size:30px;
-    color:#fff;
+    text-transform:uppercase;
 }
 
 /* CiviCRM forms */
