@@ -2575,7 +2575,7 @@ h2
 
 h3
 {
-    font-size: 13px;
+    font-size: 16px;
 }
 
 .node-content ul ul,.node-content ul ol,.node-content ol ul,.node-content ol ol{
@@ -2917,8 +2917,8 @@ h3
     font-size:18px;
     font-weight:bold;
     padding:10px 20px;
-    margin:3em 0em;
     text-transform:uppercase;
+    display:inline-block;
 }
 
 /* CiviCRM forms */
