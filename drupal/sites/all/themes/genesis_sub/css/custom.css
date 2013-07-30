@@ -1299,6 +1299,7 @@ div.ddblock-cycle-upright10p div.slide-title{
     font-family: "Oswald", Arial, Helvetica, sans-serif;
     font-weight: 400;
     font-size: 30px;
+    color: #000;
 }
 /*end secondary menu*/
 
@@ -1632,11 +1633,8 @@ div.ddblock-cycle-upright10p div.slide-title{
 
 .view-civi-case-study .views-table th, .view-civi-case-study .views-table td{border:0px;}
 
-#block-system-main .node .node-inner a, #block-system-main .view-blog-news .view-content a, ul.pager li a, #block-views-secondary_page_body-block .view-secondary-page-body .view-content .views-row .field-content a, #block-views-secondary_page_body-block_1 .view-secondary-page-body .view-content .views-row .field-content a, .view-civi-case-study p a
-{
+a{
     color:#056186;
-    text-decoration:none;
-    line-height: 16px;
     text-decoration:none;
 }
 
@@ -1814,7 +1812,7 @@ div.ddblock-cycle-upright10p a.slide-read-more
 
 #block-system-main .view-blog-news .view-content .views-row .views-field-title a, .section-blog #content .node-blog .node-title a, .section-blog .action-links li a, #block-system-main .view-civi-upcoming-events .views-row .views-field-title a
 {
-    color: #58595B;
+    /*color: #58595B;*/
     text-decoration: none;
     list-style-type:none;
 }
@@ -1954,7 +1952,6 @@ div.ddblock-cycle-upright10p a.slide-read-more
 /*end primary & secondary block*/
 
 /*case-study-page-view*/
-.content a{color:#056186;}
 
 .section-casestudy #block-nice_menus-3 .menu-3263 a{display:none;}
 
@@ -2153,17 +2150,6 @@ div.ddblock-cycle-upright10p a.slide-read-more
     margin:0px;
     list-style-type:none;
     list-style-image:none;
-}
-
-
-.node-blog .field-item h2
-{
-    color: #000;
-    font-family: lato,"Lato", Cantarell,Helvetica,Arial,sans-serif;
-    font-size: 17px;
-    margin:0px 0 10px 0;
-    font-weight:lighter;
-    line-height:22px !important;
 }
 
 .section-blogs .action-links a
@@ -2420,7 +2406,7 @@ div.ddblock-cycle-upright10p a.slide-read-more
 }
 /*end announce tab*/
 
-/*status msg*/
+/*status msg
 div.messages {
     background-color: #999999;
     border-color: #666666;
@@ -2553,9 +2539,17 @@ p{
     margin: 1em 0;
 }
 
-.region-content div, p, li, td, p{
+div, p, li, td, p{
     color: #58595B;
     font-size: 13px;
+}
+
+h1 a.internal, h2 a.internal, h3 a.internal, h4 a.internal{
+    color: #58595B;
+}
+
+h1{
+    color:#000;
 }
 
 h1, h2, h3{
@@ -2563,7 +2557,8 @@ h1, h2, h3{
     font-weight: 400;
     margin: 0.75em 0;
 }
-h1 a, h2 a h3 a {
+
+h1 a, h2 a, h3 a {
     color:#056186;
 }
 }
@@ -2769,6 +2764,7 @@ h3
 
 
 #sidebar-first .block h2.block-title{
+    color: #000;
     padding: 10px;
     padding-top: 65px;
     padding-bottom: 20px;
@@ -2776,7 +2772,7 @@ h3
     font-weight: 300;
     background-image: url("../images/title-bg.gif");
     line-height:100%;
-    margin-bottom:0px;
+    margin:0px;
 }
 
 
@@ -2863,7 +2859,7 @@ h3
 .view-service-providers .views-field-services-157,
 .view-service-providers .views-field-php
 {
-    width: 220px;
+    width: 240px;
 }
 
 .view-service-providers .views-label{
@@ -2885,13 +2881,12 @@ h3
 }
 .view-service-providers .views-field-php img
 {
-    width:100px;
     padding-right:10px;
 }
 .view-service-providers .views-field-company-overview-158,
 .view-service-providers .views-field-description-of-services-156
 {
-    width:500px;
+    width:480px;
     margin-left:20px;
     float:right;
 
@@ -2906,12 +2901,21 @@ h3
 }
 .view-service-providers .views-field-image-URL img{
     max-width: 210px;
-    max-height: 210px;
+    max-height: 120px;
     margin: 0;
     margin-bottom: 0;
 }
 
 
+.partner-button{
+    text-transform:uppercase;
+    padding:20px;
+    background-color:#056186;
+    border: 5px solid #EAE6E5;
+    font-family:Oswald;
+    font-size:30px;
+    color:#fff;
+}
 
 /* CiviCRM forms */
 
@@ -2925,3 +2929,9 @@ h3
     margin-top:-1em;
     margin-bottom:1em;
 }
+
+/* menu on civicrm pages */
+.civicrm-page #root-menu-div{
+    color:#fff;
+}
+
