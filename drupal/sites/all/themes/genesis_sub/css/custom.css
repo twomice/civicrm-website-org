@@ -1698,7 +1698,7 @@ div.ddblock-cycle-upright10p a.slide-read-more
     background-image: url("../images/slant-tile.png");
 }
 
-#block-views-casestudy_new_-block_1 .view-casestudy-new- .item-list ul li .views-field-title a, #sidebar-first #block-views-civi_case_study-block_2 .view-civi-case-study .item-list ul li .views-field-title a
+#block-views-casestudy_new_-block_1 .view-casestudy-new- .item-list ul li .views-field-title a, #sidebar-first #block-views-civi_case_study-block_2 .view-civi-case-study .item-list ul li .views-field-title a div
 {
     color:#fff !important;
     font-family:"Lato", Cantarell,Helvetica,Arial,sans-serif;
