@@ -4,6 +4,8 @@ All new code, etc. should be developed locally, commited to this repository, tes
 
 New configurations (i.e. configuration changes made via the UI etc. can/should be made on www-test.civicrm.org first before being deployed on production.
 
+**Note:** you should not make UI configuration changes on test that you want to keep as it is getsover written with / synced from prod from time to time. 
+
 #Local development environments
 
 You can develop locally as long as you are not storing any unencrypted personal data in your local development environment.
