@@ -1698,14 +1698,11 @@ div.ddblock-cycle-upright10p a.slide-read-more
     background-image: url("../images/slant-tile.png");
 }
 
-#block-views-casestudy_new_-block_1 .view-casestudy-new- .item-list ul li .views-field-title a, #sidebar-first #block-views-civi_case_study-block_2 .view-civi-case-study .item-list ul li .views-field-title a div
+#sidebar-first #block-views-casestudy_new_-block_1 ul li a div,
+#sidebar-first #block-views-civi_case_study-block_2 ul li .views-field-title a div
 {
-    color:#fff !important;
-    font-family:"Lato", Cantarell,Helvetica,Arial,sans-serif;
+    color:#fff;
     font-size:12px;
-    font-weight:normal;
-    text-decoration:none;
-    line-height:18px;
 }
 
 #block-views-casestudy_new_-block_1 .view-casestudy-new- .item-list ul li, #block-views-civi_case_study-block_2 .view-civi-case-study .item-list ul li
@@ -1717,10 +1714,9 @@ div.ddblock-cycle-upright10p a.slide-read-more
 
 .ccrm-casestudy{
     padding:5px 11px 10px 11px;
-    color:#FFFFFF;
 }
 
-#block-views-casestudy_new_-block_1 .view-casestudy-new- .item-list ul li.last{border-bottom:0px;}
+block-views-casestudy_new_-block_1 .view-casestudy-new- .item-list ul li.last{border-bottom:0px;}
 
 #block-views-casestudy_new_-block_1 .view-casestudy-new- .ccrm-casestudy:hover, #block-views-civi_case_study-block_2 .view-civi-case-study .ccrm-casestudy:hover{background-color:#7ec756;color:#000;}
 
@@ -1967,14 +1963,6 @@ div.ddblock-cycle-upright10p a.slide-read-more
 
 #block-views-civi_case_study-block_1 .view-civi-case-study .view-content .views-field{padding-bottom:5px;}
 
-.view-civi-case-study .view-content .views-field-title span
-{
-    color: #000000 !important;
-    font-family: "Oswald",Arial,Helvetica,sans-serif !important;
-    font-size: 24px !important;
-    font-weight: normal !important;
-    line-height: 30px !important;
-}
 
 .view-civi-case-study .view-content .views-field-field-ccrm-cs-headline .field-content
 {
