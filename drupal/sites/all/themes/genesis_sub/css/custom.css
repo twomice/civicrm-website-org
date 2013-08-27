@@ -1715,7 +1715,10 @@ div.ddblock-cycle-upright10p a.slide-read-more
     border-bottom:1px solid #fff;
 }
 
-.ccrm-casestudy{padding:5px 11px 10px 11px;}
+.ccrm-casestudy{
+    padding:5px 11px 10px 11px;
+    color:#FFFFFF;
+}
 
 #block-views-casestudy_new_-block_1 .view-casestudy-new- .item-list ul li.last{border-bottom:0px;}
 
