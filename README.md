@@ -6,6 +6,10 @@ New configurations (i.e. configuration changes made via the UI etc. can/should b
 
 **Note:** you should not make UI configuration changes on test that you want to keep as it is getsover written with / synced from prod from time to time. 
 
+#Syncing to test and local environments
+
+Syncing to www-test and local development environments is done in the standard way (mysqldump and restore the databases and rsync/copy the files).  You should not need to worry about backing up the www-test database because no important data should be stored there (see development workflow above).
+
 #Local development environments
 
 You can develop locally as long as you are not storing any unencrypted personal data in your local development environment.
