@@ -2927,7 +2927,7 @@ h3
 }
 
 /* menu on civicrm pages */
-.civicrm-page #root-menu-div{
+#civicrm-menu li{
     color:#fff;
 }
 
