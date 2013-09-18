@@ -4,6 +4,8 @@ All new code, etc. should be developed locally, commited to this repository, tes
 
 New configurations (i.e. configuration changes made via the UI etc. can/should be made on www-test.civicrm.org first before being deployed on production.
 
+All custom modules should be added to the sites/all/modules/custom directory.
+
 **Note:** you should not make UI configuration changes on test that you want to keep as it is getsover written with / synced from prod from time to time. 
 
 #Syncing to test and local environments
