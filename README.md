@@ -8,7 +8,11 @@ All custom modules should be added to the sites/all/modules/custom directory.
 
 #Syncing to test and local environments
 
-Syncing to www-test and local development environments is done in the standard way (mysqldump and restore the databases and rsync/copy the files).  You should not need to worry about backing up the www-test database because no important data should be stored there (see development workflow above).
+Syncing to www-test and local development environments is done in the standard way (mysqldump and restore the databases and rsync/copy the files).  You can then do a git pull (and so on) to check out appropriate code.
+
+There is a script /home/michael/sync_co.sh on www-test that does this.  It needs to be run as michael at the moment, but we could generalising it should be trivial.
+
+You should not need to worry about backing up the www-test database because no important data should be stored there (see development workflow above).
 
 #Local development environments
 
