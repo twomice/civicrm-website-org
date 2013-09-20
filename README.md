@@ -1,12 +1,10 @@
 #Development workflow
 
-All new code, etc. should be developed locally, commited to this repository, tested on www-test.civicrm.org, and the deployed on production.
+All new code, etc. should be developed locally, commited to this repository, tested on www-test.civicrm.org, and the deployed on production. www-test should NOT be used for code based development.
 
-New configurations (i.e. configuration changes made via the UI etc. can/should be made on www-test.civicrm.org first before being deployed on production.
+You can use www-test to experiment with ad-hoc configuration changes (e.g. to views, permissions, etc.) but note that many peole have access to www-test, and it gets over written with data from www-prod on a regular basis, e.g. when testing upgrades of CiviCRM.  Therefore, you should NOT assume that your config changes will be on www-test next time you look. 
 
 All custom modules should be added to the sites/all/modules/custom directory.
-
-**Note:** you should not make UI configuration changes on test that you want to keep as it is getsover written with / synced from prod from time to time. 
 
 #Syncing to test and local environments
 
