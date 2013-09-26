@@ -62,4 +62,5 @@ function civicrm_providers_update_provider($contact_id){
     }
     $updateParams = array('version' => 3, 'contact_id' => $contact_id, 'custom_160' => json_encode($badges));
     $result=civicrm_api('contact', 'update', $updateParams);
+    return;
 }
