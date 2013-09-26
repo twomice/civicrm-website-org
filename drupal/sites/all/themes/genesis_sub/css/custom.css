@@ -623,7 +623,7 @@ h1.logo-site-name{
     margin:0;
 }
 
-.front h2.block-title{
+#block-static_block-crm-solution-block1 h2.block-title, #block-static_block-homepage-joinus-block1 h2.block-title, #block-views-casestudy_new_-block h2.block-title, #block-static_block-get-started-homepage-block1 h2.block-title, .front h2.block-title{
     margin: 0;
     font-weight:300;
 }
@@ -826,10 +826,12 @@ h1.logo-site-name{
 #block-static_block-homepage-joinus-block1 .view-blog-news, #block-static_block-homepage-joinus-block1
 {
     vertical-align: top;
-    margin-bottom:0px;
+    margin-bottom:-80px;
 }
 
-
+.view-id-secondary .views-row-1{
+    padding-top:33px;
+}
 
 #block-static_block-homepage-joinus-block1 .dev-col .menu li, #columns, #content-column
 {
@@ -1078,8 +1080,15 @@ div.ddblock-cycle-upright10p div.number-pager
     padding: 1px 10px;
 }
 
-.front .local-tasks{
+.local-tasks{
     margin:0px;
+}
+
+.front #content{
+    margin-top: 0px;
+}
+#content{
+    margin-top: -18px;
 }
 
 div.ddblock-cycle-upright10p div.slide-title{
