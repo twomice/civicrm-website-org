@@ -2578,6 +2578,12 @@ h3
     font-size: 16px;
 }
 
+.node-extension h3 {
+    font-family: "PT Sans Caption",Cantarell,Helvetica,Arial,sans-serif;
+    font-size: 100%;
+    margin: 0;
+}
+
 .node-content ul ul,.node-content ul ol,.node-content ol ul,.node-content ol ol{
     margin-left: 1.75em;
 }
