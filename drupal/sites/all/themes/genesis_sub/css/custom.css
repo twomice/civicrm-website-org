@@ -829,9 +829,6 @@ h1.logo-site-name{
     margin-bottom:-80px;
 }
 
-.view-id-secondary .views-row-1{
-    padding-top:33px;
-}
 
 #block-static_block-homepage-joinus-block1 .dev-col .menu li, #columns, #content-column
 {
@@ -937,8 +934,13 @@ h1.logo-site-name{
     display: inline-block;
     width: 100%;
     margin-bottom:0;
+    margin-top:-18px;
 }
 
+.front #block-static_block-crm-solution-block1
+{
+    margin-top:-2px;
+}
 #block-static_block-crm-solution-block1 .view-sub-menu-block
 {
     background-color: #056186;
@@ -1086,9 +1088,6 @@ div.ddblock-cycle-upright10p div.number-pager
 
 .front #content{
     margin-top: 0px;
-}
-#content{
-    margin-top: -18px;
 }
 
 div.ddblock-cycle-upright10p div.slide-title{
@@ -3106,8 +3105,6 @@ h3
 
 
 .node-submitted{
-    margin-top:-1em;
-    margin-bottom:1em;
 }
 
 /* menu on civicrm pages */
