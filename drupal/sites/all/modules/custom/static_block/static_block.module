@@ -1,6 +1,6 @@
 <?php
-global $base_url; 
 function static_block_block_info() {
+    global $base_url; 
     $blocks['crm-solution-block1'] = array(
                                            'info' => t('crm-solution1'),
                                            'region' => 'content',
@@ -96,6 +96,7 @@ function static_block_block_info() {
 
 
 function static_block_block_view($delta = '') {
+    global $base_url; 
     $block = array();
     switch ($delta) {
     case 'crm-solution-block1':
