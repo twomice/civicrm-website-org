@@ -88,13 +88,12 @@ function quotes_admin_settings($form, $form_state) {
     '#suffix' => '</div>',
   );
 
-  global $user;
   // Get the quotes_format or set it to the default.
   $format_list = variable_get('quotes_format', 0);
   if (!$format_list) {
     variable_set('quotes_format', filter_default_format());
   }
-  $format_list = filter_formats($user);
+  $format_list = filter_formats($GLOBALS['user']);
   foreach ($format_list as $number => $filter) {
     $formats[$number] = $filter->name;
   }
@@ -463,7 +462,6 @@ function _quotes_block_delete_submit($form, &$form_state) {
   cache_clear_all();
 
   $form_state['redirect'] = 'admin/config/quotes/blocks';
-  return;
 }
 
 /**

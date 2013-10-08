@@ -69,8 +69,8 @@
  */
 ?>
 
-<link href='http://fonts.googleapis.com/css?family=Oswald:300,400' rel='stylesheet' type='text/css' media='all'>
-<link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Oswald:300,400' rel='stylesheet' type='text/css' media='all'>
+<link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
 
     <!--[if IE 7]>
       <link rel="stylesheet" href="<?php print $base_path;?>sites/all/themes/civicrm_theme/css/ie7.css" type="text/css" />

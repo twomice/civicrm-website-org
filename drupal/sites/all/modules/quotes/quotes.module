@@ -16,7 +16,7 @@
   $quotes_info = drupal_parse_info_file(drupal_get_path('module', 'quotes') . '/' . 'quotes.info');
   define('QUOTES_VERSION', $quotes_info['version'] . ', release date ' . date(DATE_RFC822, $quotes_info['datestamp']));
 
-  define('BIOS_PATH', 'admin/config/quotes/bios');
+  define('QUOTES_BIOS_PATH', 'admin/config/content/quotes/bios');
 
 // ********************************************************************/
 // * Drupal Hooks
@@ -117,8 +117,6 @@ function _quotes_recentquotes_access() {
  * Implements hook_menu().
  */
 function quotes_menu() {
-  global $user;
-  $items = array();
 
   // Show tab on user account page.
   $items['user/%user/quotes'] = array(
@@ -246,56 +244,59 @@ function quotes_menu() {
   );
 
   // Admin configuration settings for quotes.
-  $items['admin/config/quotes'] = array(
-    'title' => 'Quotes',
-    'description' => 'Configure Quotes module options and blocks.',
+  $items['admin/config/content/quotes'] = array(
     'access arguments' => array('administer quotes'),
-    'position' => 'right',
-    'weight' => -20,
-    'page callback' => 'system_admin_menu_block_page',
-    'file' => 'system.admin.inc',
-    'file path' => drupal_get_path('module', 'system'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('quotes_admin_settings'),
+    'title' => 'Quotes module',
+    'file' => 'quotes.admin.inc',
+    'description' => 'Configure Quotes module options and blocks.',
   );
 
-  $items['admin/config/quotes/general'] = array(
+  $items['admin/config/content/quotes/general'] = array(
     'title' => 'General',
     'description' => 'Quotes configuration settings.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('quotes_admin_settings'),
     'access arguments' => array('administer quotes'),
-    'weight' => -1,
     'file' => 'quotes.admin.inc',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
   );
 
-  $items['admin/config/quotes/blocks'] = array(
+  $items['admin/config/content/quotes/blocks'] = array(
     'title' => 'Configure blocks',
     'description' => 'Quotes blocks Configuration.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('quotes_blocks_settings'),
     'access arguments' => array('administer quotes'),
     'file' => 'quotes.admin.inc',
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 1,
   );
 
-  $items['admin/config/quotes/export'] = array(
+  $items['admin/config/content/quotes/export'] = array(
     'title' => 'Export',
     'description' => 'Export your Quotes',
     'page callback' => 'drupal_get_form',
     'access arguments' => array('administer quotes'),
     'page arguments' => array('quotes_export'),
-    'weight' => 1,
     'file' => 'quotes.admin.inc',
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 3,
   );
 
-  $items[BIOS_PATH] = array(
+  $items[QUOTES_BIOS_PATH] = array(
     'title' => 'Bios',
     'description' => 'Quotes author bios',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('quotes_bios'),
     'access arguments' => array('administer quotes'),
     'file' => 'quotes.admin.inc',
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 2,
   );
 
-  $items['admin/config/quotes/delete'] = array(
+  $items['admin/config/content/quotes/delete'] = array(
     'title' => 'Delete quote block',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('_quotes_block_delete'),
@@ -540,7 +541,12 @@ function quotes_import($node) {
         $newnode->body[$node->language][0]['format'] = $quote->format;
         $newnode->quotes_author = $quote->quotes_author;
         $newnode->quotes_citation = $quote->quotes_citation;
-        $newnode->quotes_promote = $node->quotes_promote;
+        if (isset($node->quotes_promote)) {
+          $newnode->quotes_promote = $node->quotes_promote;
+        }
+        else {
+          $newnode->quotes_promote = 0;
+        }
         // Write the imported quote.
         node_save($newnode);
         $node == $newnode;
@@ -768,6 +774,9 @@ function quotes_view($node, $view_mode) {
   if ($in_block && isset($node->show_titles) && $node->show_titles == 0) {
     $node->title = '';
   }
+  if (!$in_block && empty($node->title)) {
+    quotes_form_alter($form, $formstate, $form_id = NULL);
+  }
 
   // Add author if present.
   theme_quotes_author($variables);
@@ -857,7 +866,6 @@ function quotes_node_view($node, $view_mode) {
     if (arg(0) == 'quotes' and arg(1) == 'author') {
       $node->title = '';
     }
-
     // Plain text title for block.
     if ($in_block and $node->show_titles == 2) {
       // @todo - Needs template to do this or to use
@@ -897,18 +905,6 @@ function quotes_node_view($node, $view_mode) {
       }
     }
     if ($in_block) {
-      // Todo figure out why $links is undefined at this point, comment for now.
-      //
-      // Begin ->comment out!
-      // Get rid of comment links.
-      // unset($links['comment_add'], $links['comment_comments'], $links['statistics_counter']);
-      // Get rid of taxonomy links in the block.
-      // foreach ($links as $key => $link) {
-      //   if (drupal_substr($key, 0, 13) == 'taxonomy_term') {
-      //     unset($links[$key]);
-      //   }
-      // }
-      // End ->comment out!
       // Are we changing the more link text.
       if ($in_block && $node->more_text) {
         $links['view_link'] = array(
@@ -1040,9 +1036,9 @@ function quotes_block_view($delta) {
  * Implements hook_preprocess_node().
  */
 function quotes_preprocess_node($variables) {
+  $node = $variables['node'];
   // We only do this for our content and only on the links page.
   if ($variables['type'] == 'quotes') {
-    $node = $variables['node'];
     // Are we processing the view in a block?
     if (isset($node->in_block) && $node->in_block) {
       unset($variables['submitted']);
@@ -1325,17 +1321,40 @@ function _quotes_block_configure($delta) {
   if ($block->tid_filter == array('')) {
     $block->tid_filter = NULL;
   }
-  // TODO taxonomy_form_all has been removed, use an autocomplete field instead.
-  $taxo_opts = array_merge(array(-1 => '- ' . t('none') . ' -'), array() /* taxonomy_form_all(TRUE) */);
-  $form['quotes']['filters']['tid_filter'] = array(
-    '#type' => 'select',
-    '#title' => t('Category filter'),
-    '#multiple' => TRUE,
-    '#default_value' => $block->tid_filter,
-    '#options' => $taxo_opts,
-    '#description' => t('To restrict this block to display only quotes in specific categories, select the categories here.'),
-  );
+  $taxo_opts = array();
+  $taxo_opts = array(-1 => $none_opt);
+  // Get only the quotes module vocabulary.
+  $names = db_query('SELECT vid FROM {taxonomy_vocabulary} WHERE name = :name',
+    array(':name' => 'quotes'))->fetchField();
+  // If there isn't a vocabulary skip getting its terms.
+  if ($names) {
+    $terms = taxonomy_get_tree($names, $parent = 0, $max_depth = NULL, $load_entities = FALSE);
+    foreach ($terms as $term) {
+      $taxo_opts[$term->tid] = $term->name;
+    }
+    asort($taxo_opts);
 
+    $form['quotes']['filters']['tid_filter'] = array(
+      '#type' => 'select',
+      '#title' => t('Category filter'),
+      '#multiple' => TRUE,
+      '#default_value' => $block->tid_filter,
+      '#options' => $taxo_opts,
+      '#description' => t('To restrict this block to display only quotes in specific categories, select the categories here.'),
+    );
+  }
+  else {
+    $form['quotes']['filters']['tid_filter'] = array(
+      '#type' => 'item',
+      '#title' => t('Category filter'),
+      '#default_value' => ($block->tid_filter ? $block->tid_filter : ''),
+      '#description' => t('The taxanomy vocabulary has not been set up. Please setup a vocabulary item at the !taxvocabadd&nbsp;
+                           (it is necessay to set the machine_name to <em>quotes</em> for this vocabulary item.<br />
+                           Once the vocabulaby has been created then add any terms (Categories) to your newly created vocabulary item.
+                           These terms will then be available to select in the quotes block configuration area.',
+                           array('!taxvocabadd' => l(t('taxonomy administration page'), 'admin/structure/taxonomy'))),
+    );
+  }
   $form['quotes']['cron'] = array(
     '#type' => 'fieldset',
     '#title' => t('Update options'),
@@ -1392,7 +1411,7 @@ function quotes_block_configure_save($delta, $edit) {
     $edit['rid_filter'] == array(-1 => '-1') ? '' : implode(',', (array) $edit['rid_filter']),
     $edit['uid_filter'] == array(-1 => '-1') ? '' : implode(',', (array) $edit['uid_filter']),
     // I'm not sure why it returns 0, but it works for me.
-    $edit['tid_filter'] == array('0') ? '' : implode(',', (array) $edit['tid_filter']),
+    $edit['tid_filter'] == array(-1 => '-1') ? '' : implode(',', (array) $edit['tid_filter']),
     ($edit['cron_interval'] ? $edit['cron_interval'] : 0),
     $edit['cron_step'],
     $edit['block_count'],
@@ -1567,13 +1586,12 @@ function theme_quotes_author(&$variables) {
     }
     $node->content['quotes_author'] = array(
       '#prefix' => '<div class="quotes-author">'
-                   . variable_get('quotes_leader', '&mdash;') . ' ',
+        . variable_get('quotes_leader', '&mdash;') . ' ',
       '#suffix' => '</div>',
       '#markup' => $author,
     );
   }
   $variables['node'] = $node;
-  return;
 }
 
 /**
@@ -1601,7 +1619,6 @@ function theme_quotes_citation(&$variables) {
     }
   }
   $variables['node'] = $node;
-  return;
 }
 
 /**
@@ -1756,6 +1773,7 @@ function theme_quotes_block(&$variables) {
         '#markup' => drupal_get_path_alias(l($view_text, 'node/' . $quote->nid)),
       );
     }
+
     $content[] = node_view($quote, 'full');
   }
   $_quotes_subs = array(
@@ -1769,7 +1787,6 @@ function theme_quotes_block(&$variables) {
   $block['subject'] = strtr($block['name'], $_quotes_subs);
   $variables['block'] = $block;
   $variables['nodes'] = '';
-  return;
 }
 
 
@@ -1894,14 +1911,9 @@ function quotes_block_where_sql($filters = array(), $query) {
   }
 
   if ($filters['tid_filter'] && $filters['tid_filter'] != 'none') {
-    // $f = $filters['tid_filter'];
-    // $a = $aliases['taxonomy_term_node'];
-    // $where[] = " $a.tid IN ($f) ";
     $tid_nums = explode(",", $filters['tid_filter']);
     $query->condition('ti.tid', $tid_nums, 'IN');
   }
-
-  return;
 }
 
 /**
@@ -1994,10 +2006,16 @@ function quotes_page($arg1 = NULL, $arg2 = NULL) {
   }
 
   $nodes = node_load_multiple($nids);
-  // Undo sticky flag.
+  // Reset node value if required.
   foreach ($nodes as $node) {
+    // Undo sticky flag.
     if ($node->sticky) {
       $node->sticky = 0;
+    }
+
+    // Since this is a Page View, use the nid for empty titles.
+    if (empty($node->title)) {
+      $node->title = $node->nid;
     }
   }
 
