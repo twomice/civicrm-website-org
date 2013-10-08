@@ -87,7 +87,7 @@ function genesis_SUBTHEME_process_block(&$vars) {
 
 function genesis_sub_form_alter(&$form, &$form_state, $form_id) {
 	  // Sign up to our mailing list
-    if($form_id == webform_client_form_2053) { 
+    if($form_id == webform_client_form_2277) { 
       foreach ($form["submitted"] as $key => $value) {
           if (in_array($value["#type"], array("textfield", "webform_email", "textarea"))) {
               $form["submitted"][$key]['#attributes']["placeholder"] = t("Enter ").strtolower(t($value["#title"])).t(" to subscribe");
