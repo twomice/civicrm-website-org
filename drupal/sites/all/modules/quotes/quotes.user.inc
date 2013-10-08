@@ -72,14 +72,14 @@ function quotes_user_form($form, $form_state, $account) {
     $form['updated'][$node->nid] = array('#markup' => format_interval($now - $node->changed));
 
     $tid_list = array();
-    // $terms = db_query("SELECT tn.tid, td.name FROM {taxonomy_index} tn LEFT JOIN {taxonomy_term_data} td USING (tid) WHERE tn.nid = :tn.nid AND tn.vid = :tn.vid", array(':tn.nid' => $node->nid, ':tn.vid' => $node->vid));
 
-    // Todo figure out vid sinse it was moved out of old term_node table.
-    $terms = db_query("SELECT tid, name FROM {taxonomy_index} LEFT JOIN {taxonomy_term_data} USING (tid) WHERE nid = :nid", array(':nid' => $node->nid))->fetchAssoc();
+    $terms = db_query("SELECT tid, name FROM {taxonomy_index} LEFT JOIN {taxonomy_term_data} USING (tid) WHERE nid = :nid", array(':nid' => $node->nid))->fetchAll();
+
     if ($terms) {
       foreach ($terms as $row) {
-        $tid_list[] = check_plain($row['name']);
+        $tid_list[$row->tid] = check_plain($row->name);
       }
+
       $form['group'][$node->nid] = array('#markup' => implode(', ', $tid_list));
     }
     if (_quotes_user_access_check($user, $account)) {

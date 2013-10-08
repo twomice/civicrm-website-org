@@ -89,6 +89,89 @@ function weight_schema() {
 }
 
 /**
+ * Initial schema for update 7200().
+ */
+function weight_schema_7200() {
+  $schema['weight_settings'] = array(
+    'description' => 'Table for storing Weight configuration',
+    'fields' => array(
+      'id' => array(
+        'description' => 'The primary identifier for a content type configuration',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'type' => array(
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'weight_enabled' => array(
+        'type' => 'int',
+        'size' => 'tiny',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'weight_range' => array(
+        'type' => 'int',
+        'size' => 'tiny',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 20,
+      ),
+      'menu_weight' => array(
+        'type' => 'int',
+        'size' => 'tiny',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'weight_default' => array(
+        'type' => 'int',
+        'size' => 'tiny',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+    ),
+    'primary key' => array('id'),
+    'foreign keys' => array(
+      'node_type' => array(
+        'table' => 'node_type',
+        'columns' => array('type' => 'type'),
+      ),
+    ),
+  );
+
+  // n.b. weight_weights was not in the original schema, but some of the
+  // subsequent update hooks were written as if it were, so it's simpler
+  // to include it.
+  $schema['weight_weights'] = array(
+    'fields' => array(
+      'entity_id' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'entity_type' => array(
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
+      ),
+      'weight' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+    ),
+    'primary key' => array('entity_id'),
+  );
+  return $schema;
+}
+
+/**
  * Insert existing settings into {weight_settings}.
  */
 function weight_update_7200() {
@@ -98,7 +181,14 @@ function weight_update_7200() {
   $menu_weight = variable_get('weight_use_menu', 0);
   $default = variable_get('weight_default', 0);
 
-  drupal_install_schema('weight');
+  // This is essentially the same as calling drupal_install_schema(), but
+  // using weight_schema_7200() rather than the default weight_schema().
+  // This is important for processing subsequent table updates.
+  $schema = weight_schema_7200();
+  _drupal_schema_initialize($schema, 'weight');
+  foreach ($schema as $name => $table) {
+    db_create_table($name, $table);
+  }
 
   // If there are no content types, there is nothing to convert.
   if (empty($types)) {
@@ -127,6 +217,10 @@ function weight_update_7200() {
 
 /**
  * We don't need weight_update_7201 anymore.
+ *
+ * This originally created a new field_weight and associated
+ * instances, but this approach is deprecated. Updates 7206
+ * and 7207 will clean up any remnants of this.
  */
 
 /**
@@ -260,6 +354,7 @@ function weight_update_7205(&$sandbox) {
 
 /**
  * Move existing node weights to weight_weights from field_data_weight.
+ * @see weight_update_7201().
  */
 function weight_update_7206(&$sandbox) {
   if (db_table_exists('field_data_weight')) {
@@ -299,12 +394,15 @@ function weight_update_7206(&$sandbox) {
 
 /**
  * Remove unneeded weight field.
+ * @see weight_update_7201().
  */
 function weight_update_7207() {
-  field_delete_field('weight');
-  field_sync_field_status();
-  $limit = variable_get('field_purge_batch_size', 10);
-  field_purge_batch($limit);
+  if (field_info_field('weight')) {
+    field_delete_field('weight');
+    field_sync_field_status();
+    $limit = variable_get('field_purge_batch_size', 10);
+    field_purge_batch($limit);
+  }
 }
 
 /**
@@ -319,6 +417,10 @@ function weight_update_7208() {
  * Add sync_translations column to weight_settings.
  */
 function weight_update_7209() {
+  // Due to previous schema mix-ups in update 7200, this field may already exist.
+  if (db_field_exists('weight_settings', 'sync_translations')) {
+    return;
+  }
   $spec = array(
     'type' => 'int',
     'size' => 'tiny',
@@ -342,24 +444,27 @@ function weight_update_7210(&$sandbox) {
   }
 
   if (!empty($types)) {
+    // Form the base query.
+    $query = db_select('node', 'n');
+    $query->leftJoin('weight_weights', 'w',
+      "w.entity_type = 'node' AND w.entity_id = n.nid"
+    );
+    $query->fields('n', array('nid', 'type'))
+      ->condition('n.type', $types, 'IN')
+      ->isNull('w.entity_id');
+
+    // The first time through, establish the total number of nodes.
     if (!isset($sandbox['progress'])) {
       $sandbox['progress'] = 0;
       $sandbox['last'] = 0;
-      $sandbox['max'] = db_query("SELECT COUNT(n.nid) FROM {node} n
-        LEFT OUTER JOIN {weight_weights} w ON w.entity_id = n.nid
-        WHERE type IN (:types) AND w.entity_id IS NULL",
-        array(':types' => $types))->fetchField();
+      $sandbox['max'] = $query->countQuery()->execute()->fetchField();
     }
 
-    $query = db_select('node', 'n');
-    $query->leftJoin('weight_weights', 'w', 'w.entity_id = n.nid');
-    $query
-      ->fields('n', array('nid', 'type'))
-      ->condition('n.type', $types, 'IN')
-      ->condition('n.nid', $sandbox['last'], '>')
-      ->isNull('w.entity_id')
+    // Add the query conditions for the current iteration only.
+    $query->condition('n.nid', $sandbox['last'], '>')
       ->orderBy('n.nid')
       ->range(0, 200);
+
     $nodes = $query->execute();
 
     foreach ($nodes as $node) {
