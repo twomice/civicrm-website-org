@@ -2554,7 +2554,7 @@ h1{
 h1, h2, h3{
     font-family: "Oswald",Arial,Helvetica,sans-serif;
     font-weight: 400;
-    margin: 0.75em 0;
+    margin: 0.75em 0 0.25em;
 }
 
 h1 a, h2 a, h3 a {
