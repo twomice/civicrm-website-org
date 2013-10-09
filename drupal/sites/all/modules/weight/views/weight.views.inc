@@ -20,6 +20,8 @@ function weight_views_data() {
     'field' => array(
       'handler' => 'weight_handler_field_weight',
       'click sortable' => TRUE,
+      'access callback' => 'user_access',
+      'access arguments' => array('assign node weight'),
     ),
     'filter' => array(
       'handler' => 'views_handler_filter_numeric',

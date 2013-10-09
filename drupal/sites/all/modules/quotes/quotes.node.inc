@@ -25,8 +25,10 @@ function quotes_form($form, $form_state) {
     '#weight' => -10,
   );
 
+  // Set default value, php 5.3 does not like undefined properties, .
+  $quotes_import_format = 'single';
   if (user_access('import quotes')) {
-    $form['quotes_data']['quotes_format'] = array(
+    $form['quotes_data']['quotes_import_format'] = array(
       '#type' => 'radios',
       '#title' => t('Format'),
       '#required' => TRUE,
@@ -39,7 +41,7 @@ function quotes_form($form, $form_state) {
     );
   }
   else {
-    $form['quotes_data']['quotes_format'] = array(
+    $form['quotes_data']['quotes_import_format'] = array(
       '#type' => 'value',
       '#value' => 'single',
     );
@@ -83,7 +85,7 @@ function quotes_form($form, $form_state) {
  */
 function quotes_validate($node, &$form) {
   // Bail if we are doing a single quote.
-  if ($node->quotes_format == 'single') {
+  if ($node->quotes_import_format == 'single') {
     return;
   }
 

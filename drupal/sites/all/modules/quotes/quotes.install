@@ -7,9 +7,10 @@
  * @author Jim Riggs <drupal at jim and lissa dot com>
  */
 
-// ********************************************************************
-// * Drupal Hooks
-// ********************************************************************
+/* ********************************************************************
+ * Drupal Hooks
+ * ********************************************************************
+ */
 
 /**
  * Implements hook_schema().
@@ -230,6 +231,9 @@ function quotes_install() {
   $types = node_type_get_types();
   node_add_body_field($types['quotes']);
 
+  // Create a default vocabulary named "Quotes" for our content.
+  _quotes_taxonomy_fields();
+
   // Set default variables.
   variable_set('quotes_author_bio', FALSE);
   variable_set('quotes_author_link', FALSE);
@@ -241,36 +245,8 @@ function quotes_install() {
   variable_set('quotes_showlink', TRUE);
   variable_set('quotes_user_recent', FALSE);
   variable_set('quotes_edit_link', TRUE);
-}
 
-/**
- * Return a structured array defining the fields created by this content type.
- *
- * This is packaged in a function so it can be used in both hook_install()
- * and hook_uninstall().
- *
- * Examples can be found in quotes_installed_fields.txt
- */
-function _quotes_installed_fields() {
-  $t = get_t();
-  return array();
-}
-
-/**
- * Return a structured array defining the instances for this content type.
- *
- * The instance lets Drupal know which widget to use to allow the user to enter
- * data and how to react in different view modes.  Uses are to display a
- * page that uses a custom "quotes_list" view mode.
- *
- * This is provided as a function so that it can be used in both hook_install()
- * and hook_uninstall().
- *
- * Examples can be found in quotes_installed_instances.txt
- */
-function _quotes_installed_instances() {
-  $t = get_t();
-  return array();
+  return t('The default vocabulary "Quotes" has been added. You may now setup category terms to categorize quotes');
 }
 
 /**
@@ -279,6 +255,7 @@ function _quotes_installed_instances() {
  * Change unique keys index to match name column.
  */
 function quotes_update_7000() {
+
   $sql = db_select('quotes_authors', 'qa');
   $sql
     ->fields('qa', array('aid', 'name'));
@@ -312,7 +289,6 @@ function quotes_update_7000() {
       $prefix = "There are " . count($toolong) . " authors";
     }
     throw new DrupalUpdateException($prefix . ' over 255 characters in lenght. After correcting this issue return to the update processor and run again.');
-    return;
   }
   db_drop_index('quotes_authors', 'name');
   db_change_field('quotes_authors', 'name', 'name', array(
@@ -324,6 +300,42 @@ function quotes_update_7000() {
   db_add_unique_key('quotes_authors', 'name', array('name'));
 }
 
+/**
+ * Update taxonomy or add a default vocabulary for quotes.
+ */
+function quotes_update_7001() {
+
+  // Get only the quotes module vocabulary.
+  $vid = db_query('SELECT * FROM {taxonomy_vocabulary} WHERE name = :name',
+    array(':name' => 'quotes'))->fetchObject();
+  if ($vid) {
+    // Change our vocabulary machine name.
+    db_update('taxonomy_vocabulary')
+      ->fields(array(
+        'machine_name' => 'quotes',
+      ))
+      ->condition('vid', $vid->vid)
+      ->execute();
+    // Get our vocabulary by our new machine_name.
+    $vocabulary = taxonomy_vocabulary_machine_name_load('quotes');
+    // Install our taxonomy fields under new vocabulary machine_name
+    _quotes_taxonomy_fields();
+    // Now run the remaining taxonomy updates.
+    // First copy our old machine_name field data to the new machine_name.
+    $instance = "taxonomy_{$vid->machine_name}";
+    _quotes_update_taxonomy($instance);
+    // Delete the field
+    field_delete_field($instance);
+    // Now take care of taxonomyextra.
+    _quotes_update_taxonomy('taxonomyextra');
+    return t('Quotes taxonomy has been updated.');
+  }
+  else {
+    // If there isn't a vocabulary set up the default.
+    _quotes_taxonomy_fields();
+    return t('The default vocabulary "Quotes" has been added. You may now setup category terms to categorize quotes');
+  }
+}
 /**
  * Implements hook_uninstall().
  */
@@ -340,12 +352,6 @@ function quotes_uninstall() {
   // Delete all the nodes at once.
   // http://api.drupal.org/api/function/node_delete_multiple/7
   node_delete_multiple($nids);
-  // Loop over each of the fields defined by this module and delete
-  // all instances of the field, their data, and the field itself.
-  // http://api.drupal.org/api/function/field_delete_field/7
-  foreach (array_keys(_quotes_installed_fields()) as $field) {
-    field_delete_field($field);
-  }
   // Loop over any remaining field instances attached to the node_example
   // content type (such as the body field) and delete them individually.
   // http://api.drupal.org/api/function/field_delete_field/7
@@ -365,8 +371,113 @@ function quotes_uninstall() {
   variable_del('field_bundle_settings_node__quotes');
   // Delete all our blocks.
   db_query("DELETE FROM {block} WHERE module='quotes'");
-  // Clear the cache.
-  cache_clear_all();
+  // Delete our vocabulary and all terms under it.
+  $names = db_query('SELECT vid FROM {taxonomy_vocabulary} WHERE name = :name',
+    array(':name' => 'quotes'))->fetchField();
+  taxonomy_vocabulary_delete($names);
   // Include a uninstall message.
   drupal_set_message(st('quotes module uninstalled.'));
+}
+
+/**
+ * Install a default vocabulary for quotes.
+ */
+function _quotes_taxonomy_fields() {
+  // Create a default vocabulary named "Quotes" for our content.
+  $description = st('A Collection of Quotes.');
+  $help = st('Enter a single or comma-separated list of words to categorize this quote.');
+  // Get only the quotes module vocabulary.
+  $vid = db_query('SELECT vid FROM {taxonomy_vocabulary} WHERE name = :name',
+    array(':name' => 'quotes'))->fetchField();
+  if ($vid) {
+    db_update('taxonomy_vocabulary')
+      ->fields(array(
+        'name' => st('Quotes'),
+        'description' => $description,
+        'machine_name' => 'quotes',
+      ))
+      ->condition('vid', $vid)
+      ->execute();
+    // Get our vocabulary by our new machine_name.
+    $vocabulary = taxonomy_vocabulary_machine_name_load('quotes');
+  }
+  else {
+    $vocabulary = (object) array(
+      'name' => st('Quotes'),
+      'description' => $description,
+      'machine_name' => 'quotes',
+      'help' => $help,
+    );
+    taxonomy_vocabulary_save($vocabulary);
+  }
+  $field = array(
+    'field_name' => 'taxonomy_' . $vocabulary->machine_name,
+    'type' => 'taxonomy_term_reference',
+    // Set cardinality to unlimited for tagging.
+    'cardinality' => FIELD_CARDINALITY_UNLIMITED,
+    'settings' => array(
+      'allowed_values' => array(
+        array(
+          'vocabulary' => $vocabulary->machine_name,
+          'parent' => 0,
+        ),
+      ),
+    ),
+  );
+  field_create_field($field);
+
+  $instance = array(
+    'field_name' => 'taxonomy_' . $vocabulary->machine_name,
+    'entity_type' => 'node',
+    'label' => 'Category',
+    'bundle' => 'quotes',
+    'description' => $help,
+    'widget' => array(
+      'type' => 'taxonomy_autocomplete',
+      'weight' => -4,
+    ),
+    'display' => array(
+      'default' => array(
+        'type' => 'taxonomy_term_reference_link',
+        'weight' => 10,
+      ),
+      'teaser' => array(
+        'type' => 'taxonomy_term_reference_link',
+        'weight' => 10,
+      ),
+    ),
+  );
+  field_create_instance($instance);
+}
+
+/*
+ * Update the quotes taxonomy fields.
+ */
+function _quotes_update_taxonomy($instance) {
+  $revision_name = "field_revision_{$instance}";
+  $query = db_select($revision_name, 'tr');
+  $query->addField('tr', 'deleted');
+  $query->addField('tr', 'entity_id', 'nid');
+  $query->addField('tr', 'revision_id', 'vid');
+  $query->addField('tr', 'language');
+  $query->addField('tr', 'delta');
+  $query->addField('tr', "{$instance}_tid", 'tid');
+  $fields = $query->condition('bundle', 'quotes')->execute();
+  if ($fields) {
+    foreach ($fields as $record) {
+      $field_name = 'taxonomy_quotes';
+      $table_name = "field_data_{$field_name}";
+      $revision_name = "field_revision_{$field_name}";
+      $value_column = $field_name . '_tid';
+      // Column names and values in field storage are the same for current and
+      // revision.
+      $columns = array('entity_type', 'entity_id', 'revision_id', 'bundle', 'deleted', 'language', 'delta', $value_column);
+      $values = array('node', $record->nid, $record->vid, 'quotes', $record->deleted, LANGUAGE_NONE, $record->delta, $record->tid);
+      // Insert rows into the revision table.
+      db_insert($revision_name)->fields($columns)->values($values)->execute();
+      // Insert rows into the table.
+      db_insert($table_name)->fields($columns)->values($values)->execute();
+    }
+    _update_7000_field_delete_instance($instance, 'node', 'quotes');
+  }
 }

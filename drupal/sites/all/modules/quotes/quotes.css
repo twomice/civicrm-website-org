@@ -116,6 +116,7 @@
   padding-left: 1em;
   padding-right: 1em;
   position: relative;
+  clear:both;
 }
 
 .block-quotes .quotes-citation {
@@ -127,6 +128,14 @@
 .block-quotes .quotes-more-link {
   text-align: right;
   clear: both;
+}
+
+.block .field{
+  clear:both;
+}
+
+.block .field .field-label {
+    display: none;
 }
 
 .quotes-view-link {

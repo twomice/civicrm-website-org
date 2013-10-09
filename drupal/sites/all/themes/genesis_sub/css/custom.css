@@ -64,7 +64,7 @@ body
     float:left;
     display:inline;
     width:auto;
-    margin-top: 15px;
+    margin: 8px 0 10px 0;
 }
 
 #block-logintoboggan-logintoboggan_logged_in .block-inner .content{color:#a55f53;}
@@ -86,13 +86,13 @@ body
     clear:none !important;
 }
 
-#search-block-form, #block-form{float:left;margin-top:11px;margin-left: -15px;/*opacity:0.5;*/}
+#search-block-form, #block-form{float:left;margin-top:8px;margin-left: -15px;/*opacity:0.5;*/}
 
 #block-nice_menus-6
 {
     display: inline;
     float: right;
-    clear:none !important;
+/*    clear:none !important;*/
     margin-top: 15px;
     /*opacity:0.5;*/
 }
@@ -432,8 +432,8 @@ body
 /*login box*/
 #block-user-login {
     float: left;
-    margin-top: 15px;
-}
+/*    margin-top: 15px;
+*/}
 
 #block-user-login #user-login-form{margin:0px;}
 
@@ -3112,3 +3112,137 @@ h3
     color:#fff;
 }
 
+#block-static_block-get-started-homepage-block1 {
+/*	width: 505px;
+	height: 250px;
+	margin: 0;
+	float: left;*/
+/*	margin-top: -14px !important;
+*/
+	display: inline;
+}
+
+
+/*#block-webform-client-block-2053/2278 = header signup*/
+/*#block-webform-client-block-2052/2277 = hp signup */
+
+#block-webform-client-block-2052,
+#block-webform-client-block-2053,
+#block-webform-client-block-2277,
+#block-webform-client-block-2053 {
+	width: 424px;
+	float: right;
+	clear: none;
+}
+form#webform-client-form-2052,
+form#webform-client-form-2053,
+form#webform-client-form-2277,
+form#webform-client-form-2278,
+#block-webform-client-block-2052 .webform-component-civicrm_contact,
+#block-webform-client-block-2053 .webform-component-civicrm_contact,
+#block-webform-client-block-2277 .webform-component-civicrm_contact,
+#block-webform-client-block-2278 .webform-component-civicrm_contact {
+	margin: 0;
+}
+#block-webform-client-block-2052 .webform-component-email,
+#block-webform-client-block-2053 .webform-component-email,
+#block-webform-client-block-2277 .webform-component-email,
+#block-webform-client-block-2278 .webform-component-email {
+	float: left;
+}
+#block-webform-client-block-2052 .webform-component-email input,
+#block-webform-client-block-2053 .webform-component-email input,
+#block-webform-client-block-2277 .webform-component-email input,
+#block-webform-client-block-2278 .webform-component-email input {	
+	text-indent: 3px;
+}
+#block-webform-client-block-2052 input,
+#block-webform-client-block-2053 input,
+#block-webform-client-block-2277 input,
+#block-webform-client-block-2278 input {
+	font-family: "PT Sans Caption", Cantarell, Arial, Helvetica, sans-serif;
+	font-size: 12px;	
+	height: 20px;  
+}
+#block-webform-client-block-2052 input.form-submit,
+#block-webform-client-block-2053 input.form-submit,
+#block-webform-client-block-2277 input.form-submit,
+#block-webform-client-block-2278 input.form-submit {
+	height: 32px;
+	background: #7ec757 none;
+	color: #fff;
+	border: 0 none;
+	cursor: pointer;
+	float: left;
+	margin: 1em 0 1em 10px;
+}
+
+/* header block */
+#block-webform-client-block-2053, 
+#block-webform-client-block-2278 {
+	clear: left;
+	float: left;
+}
+#block-webform-client-block-2053 h2,
+#block-webform-client-block-2278 h2 {
+	margin: 0;
+	color: #A55F53;
+	font-size: 14px;
+	font-family: "PT Sans Caption",​Cantarell,​Helvetica,​Arial,​sans-serif;	
+}
+#block-webform-client-block-2053 .webform-component-email,
+#block-webform-client-block-2278 .webform-component-email {
+	margin: 0;
+}
+#block-webform-client-block-2053 input.form-submit,
+#block-webform-client-block-2278 input.form-submit {
+	margin: 0 0 0 8px;
+	height: 25px;
+	padding: 0 3px;
+}
+#block-webform-client-block-2053 div.form-actions,
+#block-webform-client-block-2278 div.form-actions {
+	margin: 0;
+	overflow: hidden;
+}
+
+/* main block */
+#block-webform-client-block-2052 h2,
+#block-webform-client-block-2277 h2 {
+	color: #fff;
+	font-family: "Open Sans Condensed", Arial,Helvetica,sans-serif;
+	margin-top: 24px;
+	font-size: 24px;
+}
+#block-webform-client-block-2052 .webform-component-email input,
+#block-webform-client-block-2277 .webform-component-email input {
+	width: 265px;
+	height: 24px;
+	padding: 3px;
+}
+#block-webform-client-block-2052 #webform-component-social-media-links,
+#block-webform-client-block-2277 #webform-component-social-media-links {
+	clear: both;
+	font-family: "PT Sans Caption", Cantarell, Arial, Helvetica, sans-serif;
+	color: #fff;
+	font-size: 14px;
+	padding-top: 0.5em;
+}
+#block-webform-client-block-2052 #webform-component-social-media-links p,
+#block-webform-client-block-2052 #webform-component-social-media-links a,
+#block-webform-client-block-2277 #webform-component-social-media-links p,
+#block-webform-client-block-2277 #webform-component-social-media-links a {
+	color: #fff;
+}
+
+#block-search-form {
+	float: right;
+	margin-bottom: 25px;
+}
+#block-search-form #search-block-form {
+	margin-bottom: 0;
+}
+#block-nice_menus-6 {
+	margin-top: 0;
+	clear: right;
+}
