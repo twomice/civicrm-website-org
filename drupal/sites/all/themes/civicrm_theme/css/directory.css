@@ -164,6 +164,14 @@
   background-position: -78px 0px;
 }
 
+.view-extensions-directory .views-field-field-usage {
+	padding-bottom: 1em;
+}
+
+.view-extensions-directory .views-field-field-usage .field-content{
+	display: inline;
+}
+
 #block-system-main .node-extension .node-links {
   float: right;
 }
@@ -198,3 +206,5 @@
 	background: transparent url(/sites/all/themes/civicrm_theme/images/new_window_icon.gif) no-repeat center right;
 	padding-right: 17px;
 }
+
+
