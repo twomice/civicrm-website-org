@@ -266,11 +266,15 @@ body
 #block-nice_menus-1 #nice-menu-1 li
 {
     background-color:transparent;
-    /*margin:0 23px 0 0;*/
     border:0px;
     background-image:none;
     cursor:pointer;
     margin:0 35px 0 0;
+}
+
+#block-nice_menus-1 #nice-menu-1 li.menuparent
+{
+    text-transform:uppercase;
 }
 
 #block-nice_menus-1 #nice-menu-1 li a:hover{color:#14688d;}
@@ -3130,6 +3134,12 @@ h3
 #block-webform-client-block-2053,
 #block-webform-client-block-2277,
 #block-webform-client-block-2053 {
+	width: 424px;
+	float: right;
+	clear: none;
+}
+form#webform-client-form-2052,
+form#webform-client-form-2053,
 	width: 424px;
 	float: right;
 	clear: none;
