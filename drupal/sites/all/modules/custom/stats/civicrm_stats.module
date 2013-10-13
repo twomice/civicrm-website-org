@@ -1,0 +1,10 @@
+<?php
+/**
+ * @file
+ * CiviCRM Stats module
+ */
+
+function civicrm_stats_cron() {
+  include_once("civicrm_stats.extensions.inc");
+  civicrm_stats_extensions_update_usage_values();
+}
