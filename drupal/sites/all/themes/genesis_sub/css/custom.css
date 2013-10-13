@@ -3123,49 +3123,49 @@ h3
 }
 
 
-/*#block-webform-client-block-2053/2278 = header signup*/
-/*#block-webform-client-block-2052/2277 = hp signup */
+/*#block-webform-client-block-2278/2296 = header signup*/
+/*#block-webform-client-block-2277/2295 = hp signup */
 
-#block-webform-client-block-2052,
-#block-webform-client-block-2053,
+#block-webform-client-block-2295,
+#block-webform-client-block-2296,
 #block-webform-client-block-2277,
-#block-webform-client-block-2053 {
+#block-webform-client-block-2296 {
 	width: 424px;
 	float: right;
 	clear: none;
 }
-form#webform-client-form-2052,
-form#webform-client-form-2053,
+form#webform-client-form-2295,
+form#webform-client-form-2296,
 form#webform-client-form-2277,
 form#webform-client-form-2278,
-#block-webform-client-block-2052 .webform-component-civicrm_contact,
-#block-webform-client-block-2053 .webform-component-civicrm_contact,
+#block-webform-client-block-2295 .webform-component-civicrm_contact,
+#block-webform-client-block-2296 .webform-component-civicrm_contact,
 #block-webform-client-block-2277 .webform-component-civicrm_contact,
 #block-webform-client-block-2278 .webform-component-civicrm_contact {
 	margin: 0;
 }
-#block-webform-client-block-2052 .webform-component-email,
-#block-webform-client-block-2053 .webform-component-email,
+#block-webform-client-block-2295 .webform-component-email,
+#block-webform-client-block-2296 .webform-component-email,
 #block-webform-client-block-2277 .webform-component-email,
 #block-webform-client-block-2278 .webform-component-email {
 	float: left;
 }
-#block-webform-client-block-2052 .webform-component-email input,
-#block-webform-client-block-2053 .webform-component-email input,
+#block-webform-client-block-2295 .webform-component-email input,
+#block-webform-client-block-2296 .webform-component-email input,
 #block-webform-client-block-2277 .webform-component-email input,
 #block-webform-client-block-2278 .webform-component-email input {	
 	text-indent: 3px;
 }
-#block-webform-client-block-2052 input,
-#block-webform-client-block-2053 input,
+#block-webform-client-block-2295 input,
+#block-webform-client-block-2296 input,
 #block-webform-client-block-2277 input,
 #block-webform-client-block-2278 input {
 	font-family: "PT Sans Caption", Cantarell, Arial, Helvetica, sans-serif;
 	font-size: 12px;	
 	height: 20px;  
 }
-#block-webform-client-block-2052 input.form-submit,
-#block-webform-client-block-2053 input.form-submit,
+#block-webform-client-block-2295 input.form-submit,
+#block-webform-client-block-2296 input.form-submit,
 #block-webform-client-block-2277 input.form-submit,
 #block-webform-client-block-2278 input.form-submit {
 	height: 32px;
@@ -3178,49 +3178,49 @@ form#webform-client-form-2278,
 }
 
 /* header block */
-#block-webform-client-block-2053, 
+#block-webform-client-block-2296, 
 #block-webform-client-block-2278 {
 	clear: left;
 	float: left;
 }
-#block-webform-client-block-2053 h2,
+#block-webform-client-block-2296 h2,
 #block-webform-client-block-2278 h2 {
 	margin: 0;
 	color: #A55F53;
 	font-size: 14px;
 	font-family: "PT Sans Caption",​Cantarell,​Helvetica,​Arial,​sans-serif;	
 }
-#block-webform-client-block-2053 .webform-component-email,
+#block-webform-client-block-2296 .webform-component-email,
 #block-webform-client-block-2278 .webform-component-email {
 	margin: 0;
 }
-#block-webform-client-block-2053 input.form-submit,
+#block-webform-client-block-2296 input.form-submit,
 #block-webform-client-block-2278 input.form-submit {
 	margin: 0 0 0 8px;
 	height: 25px;
 	padding: 0 3px;
 }
-#block-webform-client-block-2053 div.form-actions,
+#block-webform-client-block-2296 div.form-actions,
 #block-webform-client-block-2278 div.form-actions {
 	margin: 0;
 	overflow: hidden;
 }
 
 /* main block */
-#block-webform-client-block-2052 h2,
+#block-webform-client-block-2295 h2,
 #block-webform-client-block-2277 h2 {
 	color: #fff;
 	font-family: "Open Sans Condensed", Arial,Helvetica,sans-serif;
 	margin-top: 24px;
 	font-size: 24px;
 }
-#block-webform-client-block-2052 .webform-component-email input,
+#block-webform-client-block-2295 .webform-component-email input,
 #block-webform-client-block-2277 .webform-component-email input {
 	width: 265px;
 	height: 24px;
 	padding: 3px;
 }
-#block-webform-client-block-2052 #webform-component-social-media-links,
+#block-webform-client-block-2295 #webform-component-social-media-links,
 #block-webform-client-block-2277 #webform-component-social-media-links {
 	clear: both;
 	font-family: "PT Sans Caption", Cantarell, Arial, Helvetica, sans-serif;
@@ -3228,8 +3228,8 @@ form#webform-client-form-2278,
 	font-size: 14px;
 	padding-top: 0.5em;
 }
-#block-webform-client-block-2052 #webform-component-social-media-links p,
-#block-webform-client-block-2052 #webform-component-social-media-links a,
+#block-webform-client-block-2295 #webform-component-social-media-links p,
+#block-webform-client-block-2295 #webform-component-social-media-links a,
 #block-webform-client-block-2277 #webform-component-social-media-links p,
 #block-webform-client-block-2277 #webform-component-social-media-links a {
 	color: #fff;
