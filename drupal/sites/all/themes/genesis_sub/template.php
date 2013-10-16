@@ -88,7 +88,7 @@ function genesis_SUBTHEME_process_block(&$vars) {
 function genesis_sub_form_alter(&$form, &$form_state, $form_id) {
 	  // Sign up to our mailing list
 	// hp signup on test
-    if($form_id == webform_client_form_2277) { 
+    if($form_id == 'webform_client_form_2277') {
       foreach ($form["submitted"] as $key => $value) {
           if (in_array($value["#type"], array("textfield", "webform_email", "textarea"))) {
               $form["submitted"][$key]['#attributes']["placeholder"] = t("Enter ").strtolower(t($value["#title"])).t(" to subscribe");
@@ -98,7 +98,7 @@ function genesis_sub_form_alter(&$form, &$form_state, $form_id) {
 			$form["submitted"][$key]['#title_display'] = 'invisible';
   }
 	// hp signup on live
-	if($form_id == webform_client_form_2295) { 
+	if($form_id == 'webform_client_form_2295') {
       foreach ($form["submitted"] as $key => $value) {
           if (in_array($value["#type"], array("textfield", "webform_email", "textarea"))) {
               $form["submitted"][$key]['#attributes']["placeholder"] = t("Enter ").strtolower(t($value["#title"])).t(" to subscribe");
@@ -108,7 +108,7 @@ function genesis_sub_form_alter(&$form, &$form_state, $form_id) {
 			$form["submitted"][$key]['#title_display'] = 'invisible';
   }
 	// header signup on test
-	if($form_id == webform_client_form_2278) { 
+	if($form_id == 'webform_client_form_2278') {
       foreach ($form["submitted"] as $key => $value) {
           if (in_array($value["#type"], array("textfield", "webform_email", "textarea"))) {
               $form["submitted"][$key]['#attributes']["placeholder"] = t("Enter ").strtolower(t($value["#title"])).t(" to subscribe");
@@ -118,7 +118,7 @@ function genesis_sub_form_alter(&$form, &$form_state, $form_id) {
 			$form["submitted"][$key]['#title_display'] = 'invisible';
   }
 	// header signup on live
-	if($form_id == webform_client_form_2296) { 
+	if($form_id == 'webform_client_form_2296') {
       foreach ($form["submitted"] as $key => $value) {
           if (in_array($value["#type"], array("textfield", "webform_email", "textarea"))) {
               $form["submitted"][$key]['#attributes']["placeholder"] = t("Enter ").strtolower(t($value["#title"])).t(" to subscribe");
