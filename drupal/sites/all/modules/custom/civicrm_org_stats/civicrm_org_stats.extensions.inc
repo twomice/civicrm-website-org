@@ -3,17 +3,19 @@
  * @file
  * Code for the CiviCRM Extensions Stats module.
  */
-
-class civicrm_org_stats_extensions {
+require_once("civicrm_org_stats.inc");
+class civicrm_org_stats_extensions extends civicrm_org_stats {
 
   private $stats = array();
   const URL = "http://stats.civicrm.org/bgm/extensions.php?output=json&minresults=1";
 
   public function fetch() {
     $returnedRawValues = drupal_http_request(self::URL);
-    $decodedValues = json_decode($returnedRawValues->data, TRUE);
+    if (!empty($returnedRawValues->data)) {
+      $decodedValues = json_decode($returnedRawValues->data, TRUE);
+    }
 
-    if ($decodedValues) {
+    if (!empty($decodedValues)) {
       foreach ($decodedValues as $val) {
         if (!empty($val['name'])) {
           $this->stats[$val['name']] = (int) $val['total'];
@@ -42,20 +44,15 @@ class civicrm_org_stats_extensions {
       $clear_cache = TRUE;
       // Update existing field
       if (!empty($node->cu_node)) {
-        db_query("UPDATE field_data_field_extension_current_usage SET field_extension_current_usage_value = :usage_value WHERE entity_id = {$node->nid} AND entity_type = 'node'", array(':usage_value' => $usage));
-        db_query("UPDATE field_revision_field_extension_current_usage SET field_extension_current_usage_value = :usage_value WHERE entity_id = {$node->nid} AND entity_type = 'node' and revision_id = {$node->revision_id}", array(':usage_value' => $usage));
+        $this->updateRecord($node, $usage);
       }
       // Insert if necessary
       else {
-        db_query("INSERT INTO field_data_field_extension_current_usage (entity_type, bundle, entity_id, revision_id, `language`, delta, field_extension_current_usage_value)
-          VALUES ('node', 'extension', {$node->nid}, {$node->revision_id}, '{$node->language}', 0, :usage_value)", array(':usage_value' => $usage));
-        db_query("INSERT INTO field_revision_field_extension_current_usage (entity_type, bundle, entity_id, revision_id, `language`, delta, field_extension_current_usage_value)
-          VALUES ('node', 'extension', {$node->nid}, {$node->revision_id}, '{$node->language}', 0, :usage_value)", array(':usage_value' => $usage));
+        $this->insertRecord($node, $usage);
       }
     }
     if (isset($clear_cache)) {
-      // FIXME: This is a bit of an overkill, really we just need to clear the cache for affected nodes
-      drupal_flush_all_caches();
+      $this->clearCache();
     }
   }
 

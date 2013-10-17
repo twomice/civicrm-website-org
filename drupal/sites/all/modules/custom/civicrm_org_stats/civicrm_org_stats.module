@@ -4,10 +4,29 @@
  * CiviCRM Stats module
  */
 
+/**
+ * Implements hook_cron()
+ * Update extension stats weekly
+ */
 function civicrm_org_stats_cron() {
-  include_once("civicrm_org_stats.extensions.inc");
-  $extension_stats = new civicrm_org_stats_extensions();
-  if ($extension_stats->fetch()) {
-    $extension_stats->update();
+  $now = time();
+  $last_run = variable_get('civicrm_org_stats_last_run', 0);
+
+  if ($last_run == 'drupal') {
+    require_once("civicrm_org_stats.drupal.inc");
+    $stats = new civicrm_org_stats_drupal();
+    $stats->update();
+    // See you next week :)
+    variable_set('civicrm_org_stats_last_run', $now);
+  }
+  // Has it been at least 6 days since last run?
+  elseif ($last_run < ($now - (60 * 60 * 24 * 6))) {
+    require_once("civicrm_org_stats.extensions.inc");
+    $stats = new civicrm_org_stats_extensions();
+    if ($stats->fetch()) {
+      $stats->update();
+      // Next run we'll do drupal
+      variable_set('civicrm_org_stats_last_run', 'drupal');
+    }
   }
 }
