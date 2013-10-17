@@ -15,11 +15,13 @@ class civicrm_org_stats_drupal extends civicrm_org_stats {
       FROM field_data_field_extension_fq_name fq
       INNER JOIN field_data_field_extension_cms cms ON cms.entity_id = fq.entity_id
       LEFT JOIN field_data_field_extension_current_usage cu ON cu.entity_id = fq.entity_id
-      WHERE fq.deleted = 0 AND fq.field_extension_fq_name_value NOT LIKE '%.%'
+      WHERE fq.deleted = 0
+      AND fq.field_extension_fq_name_value NOT LIKE '%.%'
+      AND fq.field_extension_fq_name_value NOT LIKE '% %'
       AND cms.field_extension_cms_tid = " . self::DRUPAL
     );
     foreach ($nodes as $node) {
-      $usage = $this->getStats($node->name);
+      $usage = $this->getStats(str_replace('-', '_', $node->name));
       // No need to update
       if ($usage === FALSE || (!empty($node->cu_node) && $node->usage_value == $usage)) {
         continue;
