@@ -86,73 +86,48 @@ body
     clear:none !important;
 }
 
-#search-block-form, #block-form{float:left;margin-top:8px;margin-left: -15px;/*opacity:0.5;*/}
-
-#block-nice_menus-6
-{
-    display: inline;
-    float: right;
-/*    clear:none !important;*/
-    margin-top: 15px;
-    /*opacity:0.5;*/
+#search-block-form, #block-form{
+    float:left;
+    margin-top:8px;
+    margin-left: -15px;
 }
 
-#block-nice_menus-6 #nice-menu-6 li
+#block-menu-menu-secondary-menu
 {
-    background-color:transparent;
-    border:0px;
-    background-image:none;
+    float:right;
+    clear:right;
 }
 
-#block-nice_menus-6 #nice-menu-6 li.last a
-{
-    border: 1px solid #B86E7A !important;
-    left: -1px;
-    letter-spacing: 2px;
-    padding: 2px;
-    position: relative;
+#block-menu-menu-secondary-menu ul{
+    margin:0px
 }
 
-#block-nice_menus-6 #nice-menu-6 li a
+#block-menu-menu-secondary-menu li
 {
-    color: #A55F53;
-    cursor: pointer;
-    display: inline;
-    font-family: "Lato", Cantarell, Helvetica, Arial, sans-serif;
+    background-color:none;
+    margin:0px;
+    padding:0px;
     font-size: 10px;
     letter-spacing: 1px;
+    list-style-type:none;
+    list-style-image:none;
+    display:inline;
+}
+
+#block-menu-menu-secondary-menu li a
+{
+    color: #A55F53;
     list-style-type: none;
-    padding: 0 5px;
+    padding-right: 5px;
     position: relative;
     text-decoration: none;
     text-transform:uppercase;
-}
-
-#block-nice_menus-6 #nice-menu-6 li.first{padding-left:0px;border-left:0px;}
-
-#block-nice_menus-6 #nice-menu-6 li a
-{
     border-right: 1px solid #B86E7A;
 }
 
-#block-nice_menus-6 #nice-menu-6 li ul
-{
-    border-left: 1px dotted #a55f53;
-    border-right: 1px dotted #a55f53;
-    border-top: 0 none;
-    margin-top: -7px;
-    width: 100px;
-}
-
-#block-nice_menus-6 #nice-menu-6 li ul li{width:100px;padding-bottom:3px;}
-
-#block-nice_menus-6 #nice-menu-6 li ul li a{border-right:0px;}
-
-#block-nice_menus-6 #nice-menu-6 li ul li:hover
-{
-    border-bottom:1px dotted #a55f53;
-    padding-bottom:3px;
-    background-color:#fcded8;
+#block-menu-menu-secondary-menu li.last a{
+    border-right:none;
+    padding-right: 0px;
 }
 
 #block-search-form .form-text, #search-form .form-text
@@ -266,44 +241,36 @@ body
 #block-nice_menus-1 #nice-menu-1 li
 {
     background-color:transparent;
-    /*margin:0 23px 0 0;*/
-    border:0px;
     background-image:none;
-    cursor:pointer;
-    margin:0 35px 0 0;
+    border:0px;
+    margin-left:35px;
+    text-transform:uppercase;
+    font-size:17px;
+    font-family:"Oswald", Helvetica, Arial, sans-serif;
+}
+
+
+#block-nice_menus-1 #nice-menu-1 li li{
+    text-transform:none;
 }
 
 #block-nice_menus-1 #nice-menu-1 li a:hover{color:#14688d;}
 
-#block-nice_menus-1 li.menu-3237 a, #block-nice_menus-1 li.menu-3230 a
+#block-nice_menus-1 li a
 {
     color:#000;
-    font-size:17px;
-    font-family:"Oswald", Helvetica, Arial, sans-serif;
     text-decoration:none;
     padding:0px;
-    letter-spacing: 0px;
     z-index:10;
     position:relative;
-    font-weight:normal;
 }
 
 #block-nice_menus-1 li.menu-3240 a, #block-nice_menus-1 li.menu-3228 a
 {
     color:#6d6e71;
-    font-size:17px;
-    font-family:"Oswald", Helvetica, Arial, sans-serif;
-    text-decoration:none;
-    padding:0px;
-    letter-spacing: 0px;
-    z-index:10;
-    position:relative;
-    font-weight:normal;
 }
 
-#block-nice_menus-1 li.last{margin-right:0px !important;}
-
-#block-nice_menus-1 #nice-menu-1 li a.active, .section-what #block-nice_menus-1 #nice-menu-1 li.menu-3237 a, .section-features #block-nice_menus-1 #nice-menu-1 li.menu-3240 a, .section-go #block-nice_menus-1 #nice-menu-1 li.menu-3230 a, .section-participate #block-nice_menus-1 #nice-menu-1 li.menu-3228 a, .section-casestudy #nice-menu-1 .menu-3237 a, .section-whats #block-nice_menus-1 #nice-menu-1 li.menu-3237 a, .section-contribute #block-nice_menus-1 #nice-menu-1 li.menu-3228 a, .section-mih #block-nice_menus-1 #nice-menu-1 li.menu-3228 a, .section-content #block-nice_menus-1 #nice-menu-1 li.menu-3237 a, .section-complete-expert #block-nice_menus-1 #nice-menu-1 li.menu-3237 a, .section-civi-upcoming-events #block-nice_menus-1 #nice-menu-1 li.menu-3228 a
+#block-nice_menus-1 li.active-trail a
 {
     color:#0f6588;
     border-bottom:2px solid #82c257;
@@ -837,38 +804,75 @@ h1.logo-site-name{
     list-style-image:none;
 }
 
-#block-static_block-homepage-joinus-block1 .dev-col .menu{margin:0px;}
-/*end events & news rss*/
+#block-static_block-homepage-joinus-block1 .dev-col .menu{
+    margin:0px;
+}
 
-/*footer block*/
 .region-footer
 {
     margin:auto;
-    width:960px !important;
+    width:960px;
+    padding-top:25px;
 }
 
-#block-static_block-footer_custom h2
-{
-    background-image:url(../images/bottom-logo.png);
-    background-repeat:no-repeat;
-    background-position:0 0;
-    height:55px;
+.region-footer p, .region-footer a{
+    color:#fff;
+    font-size:12px;
 }
 
-#block-static_block-footer_custom h2.slogan
-{
-    background-image: none;
-    color: #FFFFFF;
-    float: left;
-    font-family: "Lato", Cantarell,Helvetica,Arial,sans-serif;
-    font-size: 12px;
+#block-block-21{
+    width: 125px;
+    padding-left:10px;
+    padding-right:25px;
+}
+
+#block-block-21 p{
+    text-transform: uppercase;
     font-style: italic;
-    font-weight: normal;
-    line-height: 16px !important;
-    padding: 0 !important;
-    width: 101px;
+    font-size: 12px;
 }
 
+#block-block-21, #block-menu_block-1{
+    float: left;
+    clear: none;
+}
+
+#block-menu_block-1{
+    padding-left:10px;
+}
+
+.menu-block-1 ul.menu{
+    margin:0px;
+}
+
+.menu-block-1 ul.menu ul{
+    padding-top:5px;
+}
+.menu-block-1 ul.menu li{
+    margin:0px;
+    list-style-type:none;
+    list-style-image:none;
+    font-weight: bold;
+    text-transform: uppercase;
+    float:left;
+    padding-right:30px;
+    padding-bottom:30px;
+}
+
+.menu-block-1 ul.menu li li{
+    font-weight:normal;
+    text-transform:none;
+    float:none;
+    padding-bottom:0px;
+}
+
+.menu-block-1 li.active a{
+    border-bottom:1px dotted #fff;
+    color:#fff;
+}
+
+
+/* What is this used for? where should it go? MMcA */
 .gray, .white{color:transparent;}
 
 #block-static_block-footer_custom
@@ -883,7 +887,8 @@ h1.logo-site-name{
 {
     background-color:#056186;
     margin:0px;
-    width:100% !important;
+    width:100%;
+    overflow:hidden;
 }
 
 #block-static_block-footer_custom .footer-tab{margin:0px;}
@@ -927,7 +932,7 @@ h1.logo-site-name{
 /*end footer block*/
 
 /*crm solution*/
-
+/
 #block-static_block-crm-solution-block1
 {
     background-color: #056186;
@@ -1935,9 +1940,13 @@ block-views-casestudy_new_-block_1 .view-casestudy-new- .item-list ul li.last{bo
 
 #content-column
 {
-    display: inline;
-    float: right;
+    float: left;
     width: 780px;
+    padding-left:20px
+}
+.front #content-column
+{
+    padding-left:0px
 }
 
 #content-column .content-inner{
@@ -2792,7 +2801,7 @@ h3
     padding-left: 10px;
     width: 115px;
     padding-top:30px;
-    padding-right:37px;
+    padding-right:35px;
 }
 
 #block-static_block-crm-solution-block1 h2.block-title{
@@ -3123,8 +3132,6 @@ h3
 }
 
 
-/*#block-webform-client-block-2278/2296 = header signup*/
-/*#block-webform-client-block-2277/2295 = hp signup */
 
 #block-webform-client-block-2295,
 #block-webform-client-block-2296,
