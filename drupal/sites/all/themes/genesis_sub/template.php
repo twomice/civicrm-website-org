@@ -20,23 +20,24 @@ function genesis_sub_form_comment_form_alter(&$form, &$form_state) {
 }
 
 function genesis_sub_form_alter(&$form, &$form_state, $form_id) {
-    // Sign up to our mailing list
-    if($form_id == webform_client_form_2277) { 
-        foreach ($form["submitted"] as $key => $value) {
-            if (in_array($value["#type"], array("textfield", "webform_email", "textarea"))) {
-                $form["submitted"][$key]['#attributes']["placeholder"] = t("Enter ").strtolower(t($value["#title"])).t(" to subscribe");
-            } 
-        }
-        //hides the labels but keeps them accessible
-        $form["submitted"][$key]['#title_display'] = 'invisible';
-    }
-    if($form_id == webform_client_form_2052) { 
-        foreach ($form["submitted"] as $key => $value) {
-            if (in_array($value["#type"], array("textfield", "webform_email", "textarea"))) {
-                $form["submitted"][$key]['#attributes']["placeholder"] = t("Enter ").strtolower(t($value["#title"])).t(" to subscribe");
-            } 
-        }
-        //hides the labels but keeps them accessible
-        $form["submitted"][$key]['#title_display'] = 'invisible';
-    }
+	// hp signup on live
+	if($form_id == 'webform_client_form_2295') {
+      foreach ($form["submitted"] as $key => $value) {
+          if (in_array($value["#type"], array("textfield", "webform_email", "textarea"))) {
+              $form["submitted"][$key]['#attributes']["placeholder"] = t("Enter ").strtolower(t($value["#title"])).t(" to subscribe");
+          } 
+      }
+			//hides the labels but keeps them accessible
+			$form["submitted"][$key]['#title_display'] = 'invisible';
+  }
+	// header signup on live
+	if($form_id == 'webform_client_form_2296') {
+      foreach ($form["submitted"] as $key => $value) {
+          if (in_array($value["#type"], array("textfield", "webform_email", "textarea"))) {
+              $form["submitted"][$key]['#attributes']["placeholder"] = t("Enter ").strtolower(t($value["#title"])).t(" to subscribe");
+          } 
+      }
+			//hides the labels but keeps them accessible
+			$form["submitted"][$key]['#title_display'] = 'invisible';
+  }
 }

@@ -1,0 +1,13 @@
+<?php
+/**
+ * @file
+ * CiviCRM Stats module
+ */
+
+function civicrm_org_stats_cron() {
+  include_once("civicrm_org_stats.extensions.inc");
+  $extension_stats = new civicrm_org_stats_extensions();
+  if ($extension_stats->fetch()) {
+    $extension_stats->update();
+  }
+}

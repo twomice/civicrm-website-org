@@ -2,9 +2,11 @@ name = Workflow
 description = "Allows the creation and assignment of arbitrary workflows to node types."
 package = Workflow
 core = 7.x
-; Information added by drupal.org packaging script on 2012-01-05
-version = "7.x-1.0"
+files[] = workflow.pages.inc
+
+; Information added by drupal.org packaging script on 2013-07-04
+version = "7.x-1.2"
 core = "7.x"
 project = "workflow"
-datestamp = "1325791244"
+datestamp = "1372980654"
 
