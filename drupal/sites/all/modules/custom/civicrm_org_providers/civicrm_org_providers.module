@@ -1,0 +1,146 @@
+<?php
+//this module populates a custom field whenever a service provider becomes a partner or active contributor
+
+//At the moment, it is set to run whenever a group or membership is created or edited.
+
+//The reason we do this is because we need something we can add to a view, since it (IMHO) is impossible to do the view calculation in the view itself
+
+function civicrm_org_providers_civicrm_post($op, $objectName, $objectId, $ObjectRef){
+    if(!in_array($op, array('edit', 'create', 'delete'))){
+        return;
+    }
+    if($objectName = 'Membership'){
+        civicrm_org_providers_update_provider($ObjectRef->contact_id);
+    }
+    if($objectName = 'ContactGroup' AND $objectId = 131){
+        foreach($ObjectRef as $contact);
+        if(is_object($contact)){
+            civicrm_org_providers_update_provider($contact->id);
+        }else{
+            civicrm_org_providers_update_provider($contact);
+        }//$objectref is an array of contacts that are going to be added to the group, it seems...
+    }
+}
+
+function civicrm_org_providers_update_provider($contact_id){
+
+    //check that the contact is a service provider contact subtype
+    civicrm_initialize();
+
+    $params = array('version' => 3, 'contact_id' => $contact_id);
+    $contact=civicrm_api('Contact', 'getsingle', $params);
+    if(!is_array($contact['contact_sub_type']) OR !in_array('Service_provider', $contact['contact_sub_type'])){
+        return;
+    };
+
+    //find out if they are in the active contributors group. NOTE: this criteria is likely to change as we get more sophisticated about how we classify active contributors
+    $params = array('version' => 3, 'contact_id' => $contact_id);
+    $groups=civicrm_api('GroupContact', 'get', $params);
+    foreach($groups['values'] as $group){
+        if($group['group_id']==140){
+            $founder = true;
+            break;
+        }
+    }
+    $params = array('version' => 3, 'contact_id' => $contact_id);
+    $groups=civicrm_api('GroupContact', 'get', $params);
+    foreach($groups['values'] as $group){
+        if($group['group_id']==131){
+            $badges[]='active-contributor';
+            break;
+        }
+    }
+    //find out if they members and what type of members they are
+    $params = array('version' => 3, 'contact_id' => $contact_id);
+    $membership=civicrm_api('Membership', 'getsingle', $params);
+    if(in_array($membership['status_id'], array(1,2,3,5))){ //1=new, 2=current, 3=grace, 5=pending
+        $partnerText = str_replace(' ', '-', strtolower($membership['membership_name']));
+        if($founder){
+            $partnerText = 'founding-'.$partnerText;
+        }
+        $badges[]=$partnerText;
+    }
+    $updateParams = array('version' => 3, 'contact_id' => $contact_id, 'custom_160' => json_encode($badges));
+    $result=civicrm_api('contact', 'update', $updateParams);
+    return;
+}
+
+function civicrm_org_providers_block_info(){
+    $blocks['update_links'] = array(
+        'info' => 'Update profiles via user dashboard',
+        'cache' => DRUPAL_NO_CACHE
+    );
+    return $blocks;
+}
+
+
+function civicrm_org_providers_block_view($block_name){
+    switch($block_name){
+
+    case 'update_links':
+
+        civicrm_initialize();
+        $content = '<div class="crm-container"><div class="header-dark">Your Profile(s)</div>';
+        $session = CRM_Core_Session::singleton();
+        $myContactID = $session->get('userID');
+        $validStatuses = array("1","2","3","5");
+        $params = array(
+            'version' => 3,
+            'sequential' => 1,
+            'contact_id_a' => $myContactID,
+            'relationship_type_id' => 4,
+            'is_active' => 1,
+        );
+        $result = civicrm_api('Relationship', 'get', $params);
+        //    var_dump($result['values']);
+        foreach($result['values'] as $dontCare => $rel){
+            $showLink = FALSE;
+            $memParams = array(
+                'version' => 3,
+                'sequential' => 1,
+                'contact_id' => $rel['contact_id_b'],
+                'return' => 'status_id',
+            );
+            $memStatus = civicrm_api('Membership', 'getvalue', $memParams);
+            //      var_dump($memStatus);
+            // If org has membership (new, current, grace, or pending) show link. Else check if in active contributor group (gid=131)
+            if (in_array($memStatus, $validStatuses)) {
+                $showLink = TRUE;
+            } else {
+                $groupParams = array(
+                    'version' => 3,
+                    'sequential' => 1,
+                    'contact_id' => $rel['contact_id_b'],
+                );
+                $groups = civicrm_api('GroupContact', 'get', $groupParams);
+                foreach($groups['values'] as $dontCare => $group){
+                    if ($group['group_id'] == '131') {
+                        $showLink = TRUE;
+                    }
+                }
+            }
+
+            if ($showLink) {
+                // Get provider display-name
+                $params = array(
+                    'version' => 3,
+                    'sequential' => 1,
+                    'contact_id' => $rel['contact_id_b'],
+                    'return' => 'display_name',
+                );
+                $pName = civicrm_api('Contact', 'getvalue', $params);
+                $pLink = CRM_Utils_System::url("civicrm/profile/edit", "gid=48&reset=1&id={$rel['contact_id_b']}");
+                $content .= '<div class="bold"><a href="' . $pLink . '">Update Provider Listing for ' . $pName . '</a></li></div>';              
+            }
+        }
+
+        $myLink = CRM_Utils_System::url("civicrm/profile/edit", "gid=28&reset=1&id={$myContactID}");
+        $content .= '<div class="spacer"></div><div class="bold"><a href="' . $myLink . '">Update My Community Profile</a></div><div class="spacer"></div>';      
+        $content .= '</div>';      
+        $output = array(
+            'subject' => 'Your profiles',
+            'content' => $content
+        );
+        return $output;
+    }
+}
