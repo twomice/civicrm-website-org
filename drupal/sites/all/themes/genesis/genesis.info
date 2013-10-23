@@ -27,7 +27,6 @@
   stylesheets[all][] = css/admin-styles.css
 
 ; Redefine the default location of scripts.js
-  scripts[] = js/script.js
 
 ; Information added by drupal.org packaging script on January 1, 1970 - 00:00
 version = "7.x-1.1"
