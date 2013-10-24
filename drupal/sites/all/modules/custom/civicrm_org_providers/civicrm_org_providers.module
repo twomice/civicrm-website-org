@@ -80,19 +80,19 @@ function civicrm_org_providers_block_view($block_name){
     case 'update_links':
 
         civicrm_initialize();
-        $content = '<div class="crm-container"><div class="header-dark">Your Profile(s)</div>';
         $session = CRM_Core_Session::singleton();
         $myContactID = $session->get('userID');
         $validStatuses = array("1","2","3","5");
         $params = array(
             'version' => 3,
             'sequential' => 1,
+            'is_permission_a_b' => 1,
             'contact_id_a' => $myContactID,
             'relationship_type_id' => 4,
             'is_active' => 1,
         );
         $result = civicrm_api('Relationship', 'get', $params);
-        //    var_dump($result['values']);
+        $thereAreLinks = FALSE;
         foreach($result['values'] as $dontCare => $rel){
             $showLink = FALSE;
             $memParams = array(
@@ -122,6 +122,7 @@ function civicrm_org_providers_block_view($block_name){
 
             if ($showLink) {
                 // Get provider display-name
+                $thereAreLinks = TRUE;
                 $params = array(
                     'version' => 3,
                     'sequential' => 1,
@@ -133,9 +134,9 @@ function civicrm_org_providers_block_view($block_name){
                 $content .= '<div class="bold"><a href="' . $pLink . '">Update Provider Listing for ' . $pName . '</a></li></div>';              
             }
         }
-
-        $myLink = CRM_Utils_System::url("civicrm/profile/edit", "gid=28&reset=1&id={$myContactID}");
-        $content .= '<div class="spacer"></div><div class="bold"><a href="' . $myLink . '">Update My Community Profile</a></div><div class="spacer"></div>';      
+        if(!$thereAreLinks){
+            return;
+        }
         $content .= '</div>';      
         $output = array(
             'subject' => 'Your profiles',
