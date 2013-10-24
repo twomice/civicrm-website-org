@@ -6,7 +6,7 @@ You can use www-test to experiment with ad-hoc configuration changes (e.g. to vi
 
 Since the volume of development on the website quite low, it is often OK to make small and quick changes directly on master. However, if you are making more significant or independent changes (say over a few days) it is safer to create a branch for the development and merge it to master when ready.
 
-All custom modules should be added to the sites/all/modules/custom directory.
+All custom modules should be added to the sites/all/modules/custom directory and follow the naming convention civicrm_org_module_name.
 
 ##Releases
 
