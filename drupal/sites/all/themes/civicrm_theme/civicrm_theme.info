@@ -18,7 +18,9 @@
   stylesheets[all][] = css/comments.css
   stylesheets[all][] = css/navigation.css
   stylesheets[all][] = css/views-styles.css
+
   stylesheets[all][] = css/custom.css
+  stylesheets[all][] = css/service-provider.css
   stylesheets[all][] = css/chrome.css
   stylesheets[all][] = css/opera.css
 

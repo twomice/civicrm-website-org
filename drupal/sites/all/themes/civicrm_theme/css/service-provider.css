@@ -1,0 +1,159 @@
+
+.view-service-providers .views-label {
+	display: block;
+	font-weight: bold;
+	line-height: 17px;
+	margin-bottom: 1em;
+}
+.view-service-providers .image img {
+	max-width: 150px;
+	max-height: 150px;
+	margin: 0;
+	margin-bottom: 0;
+}
+.view-service-providers .view-content p, .view-clone-of-service-providers .view-content p {
+	margin:0 0 1em !important;
+}
+.view-service-providers .views-field-nothing .image img {
+	max-width: 240px;
+	max-height: 240px;
+	margin: 0;
+	margin-bottom: 0;
+}
+.view-service-providers .views-field-nothing .description, .view-service-providers .views-field-nothing .aboutus, .view-service-providers .views-field-nothing .contact-div, .view-service-providers .views-field-nothing .case-study {
+	float: none;
+	margin: 0;
+	padding-left: 20px;
+	width: auto;
+}
+.view-service-providers .views-field-nothing .case-study, .view-service-providers .views-field-nothing .case-study a, .view-service-providers .views-field-nothing .case-study span {
+	font-size:13px !important;
+	font-family:"Lato", Cantarell, Helvetica, Arial, sans-serif !important;
+}
+.view-service-providers .views-field-nothing .display-name {
+	border-bottom: 2px solid #EAE6E5;
+}
+.view-service-providers .views-field-nothing .display-name h2 {
+	font-size: 30px;
+	line-height: 1.5;
+	margin-bottom: 20px;
+	margin-top: 0;
+	text-align: center;
+	width: auto !important;
+	word-wrap: normal !important;
+}
+.view-service-providers .views-field-nothing .description {
+	padding-top: 20px;
+}
+.view-service-providers .views-field-nothing .image {
+	float: none;
+	margin-bottom: 20px;
+	margin-right: 0;
+	padding-top: 20px;
+	text-align: center;
+	width: 240px;
+}
+.view-service-providers .contact-div .url {
+	padding: 0;
+}
+.view-service-providers .contact-div .url a {
+	color: #056186;
+}
+.view-service-providers .views-field-nothing .civi-image {
+	float: none;
+	margin-bottom: 0;
+	padding-top: 20px;
+	text-align: center;
+	width: auto;
+}
+.view-service-providers .views-field-nothing table, .view-service-providers .views-field-nothing table td, .view-service-providers .views-field-nothing table tbody {
+	border:0;
+	padding:0;
+	vertical-align:top;
+	margin:0;
+}
+.view-service-providers .views-field-nothing table .p-data {
+	border-left:2px solid #EAE6E5;
+	width:458px;
+}
+.view-service-providers .views-field-nothing table .p-civi-img {
+	vertical-align:bottom;
+	width:240px;
+	text-align:center;
+}
+.view-service-providers .views-field-nothing table .p-logo {
+	text-align: center;
+	width: 250px;
+}
+/* service provider detail page */
+.view-clone-of-service-providers .views-field-nothing .display-name {
+	border-bottom: 2px solid #EAE6E5;
+}
+.view-clone-of-service-providers .views-field-nothing .display-name h2 {
+	font-size: 30px;
+	line-height: 1.5;
+	text-align: center;
+}
+.view-clone-of-service-providers .views-field-nothing .description, .view-clone-of-service-providers .views-field-nothing .aboutus, .view-clone-of-service-providers .views-field-nothing .contact-div, .view-clone-of-service-providers .views-field-nothing .case-study {
+	float: none;
+	margin: 0;
+	padding-left: 20px;
+	width: auto;
+}
+.view-clone-of-service-providers .views-field-nothing table, .view-clone-of-service-providers .views-field-nothing table td, .view-clone-of-service-providers .views-field-nothing table tbody {
+	border:0;
+	padding:0;
+	vertical-align:top;
+	margin:0;
+}
+.view-clone-of-service-providers .views-field-nothing .case-study, .view-clone-of-service-providers .views-field-nothing .case-study a, .view-clone-of-service-providers .views-field-nothing .case-study span {
+	font-size:13px !important;
+	font-family:"Lato", Cantarell, Helvetica, Arial, sans-serif !important;
+}
+.view-clone-of-service-providers .views-field-nothing table .p-logo {
+	text-align: center;
+	width: 250px;
+}
+.view-clone-of-service-providers .views-field-nothing table .p-data {
+	border-left: 2px solid #EAE6E5;
+	width: 458px;
+}
+.view-clone-of-service-providers .views-field-nothing table .p-civi-img {
+	text-align: center;
+	vertical-align: bottom;
+	width: 240px;
+}
+.view-clone-of-service-providers .views-field-nothing .civi-image {
+	float: none;
+	margin-bottom: 0;
+	padding-top: 20px;
+	text-align: center;
+	width: auto;
+}
+.view-clone-of-service-providers .views-label {
+	display: block;
+	font-weight: bold;
+	line-height: 17px;
+	margin-bottom: 1em;
+}
+.view-clone-of-service-providers .contact-div .contact-info {
+	font-weight: bold;
+	margin-top: 6px;
+}
+.view-clone-of-service-providers .views-field-nothing .description {
+	padding-top: 20px;
+}
+.view-clone-of-service-providers .views-field-nothing .image {
+	float: none;
+	margin-bottom: 20px;
+	margin-right: 0;
+	padding-top: 20px;
+	text-align: center;
+	width: 240px;
+}
+.view-clone-of-service-providers .views-field-nothing .image img {
+	margin: 0;
+	max-height: 240px;
+	max-width: 240px;
+}
+/*end service provider*/
