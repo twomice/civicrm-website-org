@@ -8,6 +8,8 @@ You can use www-test to experiment with ad-hoc configuration changes (e.g. to vi
 
 www-prod should always be on the master branch.  Developments should happen on seperate branches and merged to master when ready to deploy.
 
+## Custom modules
+
 All custom modules should be added to the sites/all/modules/custom directory and follow the naming convention civicrm_org_module_name.
 
 ##Releases
