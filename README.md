@@ -4,7 +4,9 @@ All new code, etc. should be developed locally, commited to this repository, tes
 
 You can use www-test to experiment with ad-hoc configuration changes (e.g. to views, permissions, etc.) but note that many peole have access to www-test, and it gets over written with data from www-prod on a regular basis, e.g. when testing upgrades of CiviCRM.  Therefore, you should NOT assume that your config changes will be on www-test next time you look. 
 
-Since the volume of development on the website quite low, it is often OK to make small and quick changes directly on master. However, if you are making more significant or independent changes (say over a few days) it is safer to create a branch for the development and merge it to master when ready.
+## Development branches
+
+www-prod should always be on the master branch.  Developments should happen on seperate branches and merged to master when ready to deploy.
 
 All custom modules should be added to the sites/all/modules/custom directory and follow the naming convention civicrm_org_module_name.
 
