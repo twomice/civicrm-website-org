@@ -45,7 +45,7 @@
 
 .section-extensions #main-content ul.primary li a {
 	background-color: #F9F8F6;
-	background-image: url(/sites/all/themes/civicrm_theme/images/slant-tile.png);
+	background-image: url(/sites/civicrm.org/themes/civicrm_theme/images/slant-tile.png);
 	font-family: "Open Sans Condensed",Arial,Helvetica,sans-serif;
 	font-size: 16px;
 	font-weight: lighter;
@@ -58,7 +58,7 @@
 }
 
 .section-extensions #main-content ul.primary li a.active {
-	background-image: url(/sites/all/themes/civicrm_theme/images/title-bg.gif);
+	background-image: url(/sites/civicrm.org/themes/civicrm_theme/images/title-bg.gif);
 	color: #000;
 }
 
@@ -73,7 +73,7 @@
     clear: both;
     margin: 2em 0; 
 	padding: 10px 15px;
-	background-image: url(/sites/all/themes/civicrm_theme/images/slant-tile.png);
+	background-image: url(/sites/civicrm.org/themes/civicrm_theme/images/slant-tile.png);
 }
 
 .view-filters form {
@@ -97,7 +97,7 @@
 	text-decoration: none;
 	background-color: #7EC756;
 	padding: 12px 10px;
-	background-image: url(/sites/all/themes/civicrm_theme/images/slant-tile.png);
+	background-image: url(/sites/civicrm.org/themes/civicrm_theme/images/slant-tile.png);
 	background-repeat: repeat;
 }
 
@@ -120,7 +120,7 @@
   text-decoration: none;
   background-color: #7EC756;
   padding: 12px 10px;
-  background-image: url(/sites/all/themes/civicrm_theme/images/slant-tile.png);
+  background-image: url(/sites/civicrm.org/themes/civicrm_theme/images/slant-tile.png);
   background-repeat: repeat;
 }
 
@@ -164,14 +164,6 @@
   background-position: -78px 0px;
 }
 
-.view-extensions-directory .views-field-field-usage {
-	padding-bottom: 1em;
-}
-
-.view-extensions-directory .views-field-field-usage .field-content{
-	display: inline;
-}
-
 #block-system-main .node-extension .node-links {
   float: right;
 }
@@ -203,8 +195,6 @@
 /* new window icon */
 
 .new-window {
-	background: transparent url(/sites/all/themes/civicrm_theme/images/new_window_icon.gif) no-repeat center right;
+	background: transparent url(/sites/civicrm.org/themes/civicrm_theme/images/new_window_icon.gif) no-repeat center right;
 	padding-right: 17px;
 }
-
-

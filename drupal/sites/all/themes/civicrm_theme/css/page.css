@@ -107,7 +107,7 @@ h1.logo-site-name  {}
  */
 /* Leaderboard */
 #leaderboard {}
-.region-leaderboard { position:relative; }
+.region-leaderboard {}
 
 /* Header blocks */
 #header-blocks {
