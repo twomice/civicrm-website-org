@@ -131,7 +131,7 @@ function civicrm_org_providers_block_view($block_name){
                 );
                 $pName = civicrm_api('Contact', 'getvalue', $params);
                 $pLink = CRM_Utils_System::url("civicrm/profile/edit", "gid=48&reset=1&id={$rel['contact_id_b']}");
-                $content .= '<div class="bold"><a href="' . $pLink . '">Update Provider Listing for ' . $pName . '</a></li></div>';              
+                $content .= '<div class="bold"><a href="' . $pLink . '">Edit listing for ' . $pName . '</a></li></div>';              
             }
         }
         if(!$thereAreLinks){
@@ -139,7 +139,7 @@ function civicrm_org_providers_block_view($block_name){
         }
         $content .= '</div>';      
         $output = array(
-            'subject' => 'Your profiles',
+            'subject' => 'Partner / active contributor listing(s)',
             'content' => $content
         );
         return $output;
