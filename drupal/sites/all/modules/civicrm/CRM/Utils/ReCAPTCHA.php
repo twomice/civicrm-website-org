@@ -80,9 +80,8 @@ class CRM_Utils_ReCAPTCHA {
     require_once 'packages/recaptcha/recaptchalib.php';
 
     // See if we are using SSL
-    if (CRM_Utils_System::isSSL()) {
-      $useSSL = TRUE;
-    }
+    // enforce ssl=true for https sites (civicrm.org)
+    $useSSL = TRUE;
     $html = recaptcha_get_html($config->recaptchaPublicKey, $error, $useSSL);
 
     $form->assign('recaptchaHTML', $html);
