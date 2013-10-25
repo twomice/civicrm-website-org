@@ -494,7 +494,8 @@ class CRM_Profile_Form extends CRM_Core_Form {
           }
         }
       }
-    } else {
+    }
+    else {
       foreach ($this->_fields as $name => $field) {
         if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($name)) {
           $htmlType = $field['html_type'];
@@ -511,9 +512,7 @@ class CRM_Profile_Form extends CRM_Core_Form {
 
           if ($htmlType == 'File') {
             $entityId = $this->_id;
-            if (CRM_Utils_Array::value('field_type', $field) == 'Activity' &&
-              $this->_activityId
-            ) {
+            if (CRM_Utils_Array::value('field_type', $field) == 'Activity' && $this->_activityId) {
               $entityId = $this->_activityId;
             }
             $url = CRM_Core_BAO_CustomField::getFileURL($entityId, $customFieldID);
@@ -553,6 +552,7 @@ class CRM_Profile_Form extends CRM_Core_Form {
       $this->assign("imageThumbWidth", $imageThumbWidth);
       $this->assign("imageThumbHeight", $imageThumbHeight);
       $this->assign("imageURL", $this->_defaults['image_URL']);
+      $this->removeFileRequiredRules('image_URL');
     }
 
     if (array_key_exists('contact_sub_type', $this->_defaults) &&
