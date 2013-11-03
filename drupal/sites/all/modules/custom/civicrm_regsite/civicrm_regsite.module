@@ -218,7 +218,7 @@ function _civicrm_regsite_civicrm_postProcess_Profile_RegSite( &$form ) {
     $smartyParams = array( );
 
     $smartyParams['organizationName']  = CRM_Utils_Array::value( 'organization_name', $params );
-    $smartyParams['contactName']       = "{CRM_Utils_Array::value( 'regsite_first_name', $params )} {CRM_Utils_Array::value( 'regsite_last_name', $params )} ({CRM_Utils_Array::value( 'regsite_email', $params )})";
+    $smartyParams['contactName'] = "{$params['regsite_first_name']} {$params['regsite_last_name']} ({$params['regsite_email']})";
 
     $profileValues = array( );
     CRM_Core_BAO_UFGroup::getValues( $form->getVar( '_id' ),
