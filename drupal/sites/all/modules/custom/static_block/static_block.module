@@ -112,7 +112,7 @@ function static_block_block_view($delta = '') {
         // $output .= '<p class="get-started">This open source, Web-based platform helps organizations realize their missions through fundraising, events management, mass-mail marketing, peer-to-peer campaigns and more via one unified solution.</p>';
         // $output .= '<p class="get-started-last">CiviCRM&rsquo;s community is committed to the public good and has created a reliable network of international resources for hosting, developing and supporting this effective solution.</p>';
 
-        $block['content'] .= $output;
+        // $block['content'] .= $output;
         return $block; 
     case 'homepage-joinus-block1':
         $block['title'] = 'Join Us';
