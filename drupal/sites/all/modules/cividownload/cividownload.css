@@ -52,7 +52,7 @@
   padding-bottom: 14px;
 }
 
-.crm-download-content .ui-widget-content {
+.crm-download-content .ui-widget-content, .crm-download-content .ui-state-default {
   border: 1px solid #AAAAAA;
   color: #3E3E3E;
 }
