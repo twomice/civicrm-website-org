@@ -1,0 +1,146 @@
+<?php
+/**
+ * Add menu item
+ *
+ * @return array
+ */
+function cividownload_menu() {
+  $items = array();
+  $items['cividownload'] = array(
+    'title' => t('CiviCRM Downloads'),
+    'page callback' => 'cividownload_download_page',
+    'access arguments' => array('access content'),
+    'type'             => MENU_SUGGESTED_ITEM,
+  );
+
+  $items['admin/config/content/cividownload'] = array(
+    'title' => 'CiviDowload module settings',
+    'description' => 'Set the CiviCRM version that is available for download',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('cividownload_settings'),
+    'access arguments' => array('administer modules'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  return $items;
+}
+
+function cividownload_download_page() {
+  drupal_add_css(drupal_get_path('module', 'cividownload') .'/cividownload.css', array('weight' => 1000));
+
+  // get the argument for type of download
+  $arg_list = func_get_args();
+  if (!empty($arg_list)) {
+    $fileType = $arg_list[0];
+    $content = cividownload_download($fileType);
+  }
+  else {
+    $content = cividownload_download_list();
+  }
+  return theme('cividownload_custompage_template', array('content' => $content));
+}
+
+function cividownload_download($fileType) {
+  drupal_set_title('');
+
+  drupal_add_library('system', 'ui.slider');
+  drupal_add_js(drupal_get_path('module', 'cividownload') .'/cividownload.js', array('weight' => 1000));
+
+  $content['download'] = 1;
+
+  // get the current stable version
+  $current_version = getCurrentVersion();
+
+  $downloadURL = '';
+  $fileName = '';
+  switch($fileType) {
+    case 'drupal':
+      $downloadURL = "http://downloads.sourceforge.net/project/civicrm/civicrm-stable/{$current_version}/civicrm-{$current_version}-drupal.tar.gz";
+      $fileName = "civicrm-{$current_version}-drupal.tar.gz";
+      break;
+    case 'wordpress':
+      $downloadURL = "http://downloads.sourceforge.net/project/civicrm/civicrm-stable/{$current_version}/civicrm-{$current_version}-wordpress.zip";
+      $fileName = "civicrm-{$current_version}-wordpress.zip";
+      break;
+    case 'joomla':
+      $downloadURL = "http://downloads.sourceforge.net/project/civicrm/civicrm-stable/{$current_version}/civicrm-{$current_version}-joomla.zip";
+      $fileName = "civicrm-{$current_version}-joomla.zip";
+      break;
+    case 'joomla-alt':
+      $downloadURL = "http://downloads.sourceforge.net/project/civicrm/civicrm-stable/{$current_version}/civicrm-{$current_version}-joomla-alt.zip";
+      $fileName = "civicrm-{$current_version}-joomla-alt.zip";
+      break;
+    case 'drupal6':
+      $downloadURL = "http://downloads.sourceforge.net/project/civicrm/civicrm-stable/{$current_version}/civicrm-{$current_version}-drupal6.tar.gz";
+      $fileName = "civicrm-{$current_version}-drupal6.tar.gz";
+      break;
+
+  }
+
+  $content['downloadURL'] = $downloadURL;
+  $content['fileName'] = $fileName;
+
+  return $content;
+
+}
+
+function cividownload_download_list() {
+  drupal_set_title('');
+
+  // get the current stable version
+  $current_version = getCurrentVersion();
+
+  $content['listing'] = 1;
+  // build urls for the releases
+  $content['download_urls'] = array(
+    'drupal' => array(
+      'title' => t('Drupal'),
+      'version' => $current_version,
+    ),
+    'wordpress' => array(
+      'title' => t('WordPress'),
+      'version' => $current_version,
+    ),
+    'joomla' => array(
+      'title' => t('Joomla'),
+      'version' => $current_version,
+    ),
+    'joomla-alt' => array(
+      'title' => t('Joomla alt'),
+      'version' => $current_version,
+    ),
+    'drupal6' => array(
+      'title' => t('Drupal 6'),
+      'version' => $current_version,
+    ),
+  );
+
+  return $content;
+}
+
+function cividownload_theme($existing, $type, $theme, $path) {
+  return array(
+    'cividownload_custompage_template' => array(
+      'template' => 'cividownload',
+      'arguments' => array(),
+    ),
+  );
+}
+
+function getCurrentVersion() {
+  return variable_get('civicrm_stable_version', '4.4.0');
+}
+
+function cividownload_settings() {
+  $form = array();
+  $form['civicrm_stable_version'] = array(
+    '#type' => 'textfield',
+    '#title' => t('CiviCRM version that should be available for download'),
+    '#default_value' => variable_get('civicrm_stable_version', '4.4.0'),
+    '#size' => 10,
+    '#maxlength' => 10,
+    '#description' => t("Please enter current stable version of CiviCRM, for eg: 4.4.0"),
+    '#required' => TRUE,
+  );
+  return system_settings_form($form);
+}

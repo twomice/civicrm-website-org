@@ -1,0 +1,58 @@
+.crm-support {
+  border: 1px gray;
+  background-color: #ffffff;
+  color: #58595B;
+  font-size: 14px;
+  padding: 16px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.crm-buttons {
+  padding-top: 30px;
+}
+
+.crm-input {
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.crm-amount {
+  font-size: 40px;
+  background-color: #056186;
+  border: 0;
+  color: #FFFFFF;
+  width: 3em;
+  font-weight: bold;
+}
+
+.crm-hidden {
+  display: none;
+}
+
+.crm-download-intro {
+  font-size: 18px;
+  padding-bottom: 5px;
+}
+
+.crm-title {
+  font-size: 18px;
+  color: #0B4151;
+  background-color: #7EC757;
+  font-family: "Lato","Lato",Cantarell,Helvetica,Arial,sans-serif;
+  padding: 10px;
+  font-weight: 900;
+}
+
+.crm-donate-option {
+  font-size: 16px;
+  padding-top: 15px;
+}
+
+.crm-introduction {
+  padding-bottom: 14px;
+}
+
+.crm-download-content .ui-widget-content {
+  border: 1px solid #AAAAAA;
+  color: #3E3E3E;
+}
