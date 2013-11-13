@@ -11,6 +11,7 @@
       }
     });
     $("#display_amount").val("$" + $("#slider").slider("value"));
+    $("#amount").val($("#slider").slider("value"));
 
     $('#is_donate').click(function () {
       if ($(this).attr('checked')) {

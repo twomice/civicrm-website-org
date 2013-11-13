@@ -25,7 +25,7 @@
     </div>
     <div class="crm-download-content">
       <div class="crm-download-intro">
-        CiviCRM is Member-supported Open Source Software. Please consider contributing support ongoing improvements to the project.
+        CiviCRM is Member-supported Open Source Software. Please consider contributing to support ongoing improvements to the project.
       </div>
       <p>
         <label for="display_amount">Contribution Amount</label>
