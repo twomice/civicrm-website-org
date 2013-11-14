@@ -1,0 +1,20 @@
+<?php
+/**
+* @file
+* Install , uninstall functions for the civipartnerblock module.
+*/
+
+function civipartnerblock_install() {
+  variable_set('civipartnerblock_displayedorgids' , array());
+  variable_set('civipartnerblock_lastrefreshdate' , date('d/m/Y'));
+
+}
+
+
+/**
+* Implements hook_uninstall
+*/
+function civipartnerblock_uninstall() {
+  variable_del('civipartnerblock_displayedorgids');
+  variable_del('civipartnerblock_lastrefreshdate');
+}
