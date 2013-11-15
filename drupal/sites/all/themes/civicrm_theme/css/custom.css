@@ -3068,7 +3068,7 @@ form#webform-client-form-2278,
 
 /*rotating parter logos*/
 #block-views-rotating_partner_logos-block {
-  display: inline;
+  margin-left:160px;
 }
 
 #block-views-rotating_partner_logos-block h2.block-title {
@@ -3128,7 +3128,7 @@ form#webform-client-form-2278,
   margin-bottom: 27px;
   max-height: 120px;
   max-width: 206px;
-  padding-top: 24px;
+  padding-top: 0px;
 }
 
 .view-rotating-partner-logos .jcarousel-container .jcarousel-item div {
@@ -3163,19 +3163,40 @@ form#webform-client-form-2278,
 }
 
 .view-rotating-partner-logos .jcarousel-container .jcarousel-item .views-field-description-of-services-156 p {
-  margin: 0;
-  line-height: 20px;
+  line-height: 14px;
 }
 
 #block-views-rotating_partner_logos-block .view-footer {
   float: left;
   font-size: 16px !important;
   margin-left: -150px;
-  margin-top: -127px;
+  margin-top: -107px;
   width: 137px;
+  line-height: 21px;
 }
 
 #block-views-rotating_partner_logos-block .view-footer p {
   color: #056186;
 }
+
+#block-views-rotating_partner_logos-block .view-footer a {
+  color: #DDDDDD;
+}
+
+#block-views-rotating_partner_logos-block .view-header a {
+  color: #FFFFFF !important;
+  font-family: "Oswald",Arial,Helvetica,sans-serif;
+  font-size: 27px !important;
+  font-weight: 300 !important;
+  line-height: 30px !important;
+  margin-left: -150px !important;
+  padding-top: 29px !important;
+  position: absolute !important;
+  width: 114px !important;
+}
+
+.jcarousel-container div.views-field-image-URL {
+  height: 125px;
+}
+
 /*end rotating partner logos*/
