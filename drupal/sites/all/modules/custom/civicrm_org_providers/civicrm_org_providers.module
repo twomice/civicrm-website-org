@@ -9,10 +9,10 @@ function civicrm_org_providers_civicrm_post($op, $objectName, $objectId, $Object
     if(!in_array($op, array('edit', 'create', 'delete'))){
         return;
     }
-    if($objectName = 'Membership'){
+    if($objectName == 'Membership'){
         civicrm_org_providers_update_provider($ObjectRef->contact_id);
     }
-    if($objectName = 'ContactGroup' AND $objectId = 131){
+    if($objectName == 'ContactGroup' && $objectId == 131){
         foreach($ObjectRef as $contact);
         if(is_object($contact)){
             civicrm_org_providers_update_provider($contact->id);
