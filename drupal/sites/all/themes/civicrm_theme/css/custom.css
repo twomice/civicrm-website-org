@@ -3067,11 +3067,8 @@ form#webform-client-form-2278,
 }
 
 /*rotating parter logos*/
-#block-views-rotating_partner_logos-block {
-  margin-left:160px;
-}
 
-#block-views-rotating_partner_logos-block h2.block-title {
+#block-views-rotating_partner_logos-block h2.block-title  {
   color: #FFFFFF;
   float: left;
   font-size: 27px;
@@ -3080,6 +3077,10 @@ form#webform-client-form-2278,
   padding-right: 35px;
   padding-top: 30px;
   width: 114px;
+}
+
+#block-views-rotating_partner_logos-block h2.block-title a {
+  color: #FFFFFF;
 }
 
 #block-views-rotating_partner_logos-block .content {
@@ -3200,3 +3201,13 @@ form#webform-client-form-2278,
 }
 
 /*end rotating partner logos*/
+
+/* block titles on front page */
+
+#block-static_block-homepage-joinus-block1 h2 a, #block-views-casestudy_new_-block h2 a {
+  color: #000000;
+}
+
+#block-static_block-crm-solution-block1 h2 a {
+  color: #FFFFFF;
+}
