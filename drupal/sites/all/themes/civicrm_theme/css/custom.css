@@ -47,7 +47,7 @@ body
 
 #leaderboard
 {
-    margin:0 auto 6px auto;
+    margin:0 auto 7px auto;
     width:960px !important;
 }
 
@@ -3049,6 +3049,11 @@ form#webform-client-form-2278,
 	color: #fff;
 }
 
+.civi-social-links {
+  display: block;
+  width: 261px;
+}
+
 #block-search-form {
 	float: right;
 	margin-bottom: 25px;
@@ -3059,4 +3064,150 @@ form#webform-client-form-2278,
 #block-nice_menus-6 {
 	margin-top: 0;
 	clear: right;
+}
+
+/*rotating parter logos*/
+
+#block-views-rotating_partner_logos-block h2.block-title  {
+  color: #FFFFFF;
+  float: left;
+  font-size: 27px;
+  line-height: 110%;
+  padding-left: 10px;
+  padding-right: 35px;
+  padding-top: 30px;
+  width: 114px;
+}
+
+#block-views-rotating_partner_logos-block h2.block-title a {
+  color: #FFFFFF;
+}
+
+#block-views-rotating_partner_logos-block .content {
+  float: left;
+  height: auto;
+  width: 344px;
+}
+
+.view-rotating-partner-logos .jcarousel-container {
+  height: 221px;
+  width: 314px;
+  padding: 14px 15px 15px;
+}
+
+.view-rotating-partner-logos {
+  background-image: url("../images/quick-tab-bg-image.jpg") !important;
+  background-position: 0 0;
+  background-repeat: repeat-y;
+}
+
+.view-rotating-partner-logos .jcarousel-container .jcarousel-clip {
+  height: 218px;
+  width: 314px;
+}
+
+.view-rotating-partner-logos .jcarousel-container ul {
+  top: 0 !important;
+}
+
+.view-rotating-partner-logos .jcarousel-container ul li {
+  float: left;
+  list-style: none outside none;
+  padding-top: 15px;
+  width: 276px;
+}
+
+.view-rotating-partner-logos .jcarousel-container .jcarousel-item {
+  background-color: rgba(0, 0, 0, 0);
+  border: 0 none;
+  display: table;
+  height: 195px !important;
+}
+
+.view-rotating-partner-logos .jcarousel-container .jcarousel-item img {
+  height: auto;
+  margin-bottom: 27px;
+  max-height: 120px;
+  max-width: 206px;
+  padding-top: 0px;
+}
+
+.view-rotating-partner-logos .jcarousel-container .jcarousel-item div {
+  display: table-row;
+  vertical-align: bottom;
+}
+
+.view-rotating-partner-logos .jcarousel-container .jcarousel-next, .view-rotating-partner-logos .jcarousel-container .jcarousel-prev {
+  top: 105px !important;
+  display: none;
+}
+
+.view-rotating-partner-logos .jcarousel-container:hover .jcarousel-next, .view-rotating-partner-logos .jcarousel-container:hover .jcarousel-prev {
+  display: block;
+}
+
+.view-rotating-partner-logos .jcarousel-container .jcarousel-next {
+  background-position: 70px 96px;
+}
+
+.view-rotating-partner-logos .jcarousel-container .jcarousel-prev {
+  background-position: -70px 128px;
+}
+
+.view-rotating-partner-logos .jcarousel-container .jcarousel-item .views-field-display-name {
+  font-weight: 700;
+  line-height: 0px;
+}
+
+.view-rotating-partner-logos .jcarousel-container .jcarousel-item .views-field-description-of-services-156 {
+  font-size: 12px;
+}
+
+.view-rotating-partner-logos .jcarousel-container .jcarousel-item .views-field-description-of-services-156 p {
+  line-height: 14px;
+}
+
+#block-views-rotating_partner_logos-block .view-footer {
+  float: left;
+  font-size: 16px !important;
+  margin-left: -150px;
+  margin-top: -107px;
+  width: 137px;
+  line-height: 21px;
+}
+
+#block-views-rotating_partner_logos-block .view-footer p {
+  color: #056186;
+}
+
+#block-views-rotating_partner_logos-block .view-footer a {
+  color: #DDDDDD;
+}
+
+#block-views-rotating_partner_logos-block .view-header a {
+  color: #FFFFFF !important;
+  font-family: "Oswald",Arial,Helvetica,sans-serif;
+  font-size: 27px !important;
+  font-weight: 300 !important;
+  line-height: 30px !important;
+  margin-left: -150px !important;
+  padding-top: 29px !important;
+  position: absolute !important;
+  width: 114px !important;
+}
+
+.jcarousel-container div.views-field-image-URL {
+  height: 158px;
+}
+
+/*end rotating partner logos*/
+
+/* block titles on front page */
+
+#block-static_block-homepage-joinus-block1 h2 a, #block-views-casestudy_new_-block h2 a {
+  color: #000000;
+}
+
+#block-static_block-crm-solution-block1 h2 a {
+  color: #FFFFFF;
 }

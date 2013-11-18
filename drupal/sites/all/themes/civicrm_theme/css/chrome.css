@@ -1,20 +1,18 @@
 @media screen and (-webkit-min-device-pixel-ratio:0)
 {
-#block-search-form .form-actions
-{
-    float: left !important;
-    position: absolute !important;
-	top:109px !important;
-	left:auto !important;
-	padding-left:8px;
+#block-search-form .form-actions {
+  float: left !important;
+  position: absolute !important;
+  left:auto !important;
+  padding-left:8px;
+  padding-top:7px;
 }
-
 
 #search-block-form, #block-form{margin-left:10px;}
 
 #block-search-form .form-text, #search-form .form-text{height:25px;}
 
-#block-views-casestudy_new_-block{margin-top:-2px;}
+#block-views-casestudy_new_-block{margin-top:2px;}
 
 #block-static_block-homepage-joinus-block1 .three-tab{width:798px;}
 

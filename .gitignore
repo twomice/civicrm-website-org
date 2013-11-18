@@ -4,6 +4,7 @@ drupal/sites/*/files
 
 extensions/cache
 
+.DS_Store
 *~
 \#*\#
 *.swp
