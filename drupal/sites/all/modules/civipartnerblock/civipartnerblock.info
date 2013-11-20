@@ -1,5 +1,0 @@
-name = CiviCRM partner listing block
-description = This module alters view display for partner listing block.
-version = VERSION
-core = 7.x
-
