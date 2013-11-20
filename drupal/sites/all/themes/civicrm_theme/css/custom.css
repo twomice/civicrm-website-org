@@ -823,7 +823,7 @@ h1.logo-site-name{
 #block-block-21{
     width: 125px;
     padding-left:10px;
-    padding-right:13px;
+    padding-right:25px;
 }
 
 #block-block-21 p{
@@ -3126,15 +3126,14 @@ form#webform-client-form-2278,
 
 .view-rotating-partner-logos .jcarousel-container .jcarousel-item img {
   height: auto;
-  margin-bottom: 27px;
   max-height: 120px;
   max-width: 206px;
-  padding-top: 0px;
 }
 
 .view-rotating-partner-logos .jcarousel-container .jcarousel-item div {
-  display: table-row;
-  vertical-align: bottom;
+  display: inline-flex;
+  margin: auto;
+  width: 206px;
 }
 
 .view-rotating-partner-logos .jcarousel-container .jcarousel-next, .view-rotating-partner-logos .jcarousel-container .jcarousel-prev {
@@ -3155,12 +3154,16 @@ form#webform-client-form-2278,
 }
 
 .view-rotating-partner-logos .jcarousel-container .jcarousel-item .views-field-display-name {
+  display: block;
   font-weight: 700;
-  line-height: 0px;
+  line-height: 0;
+  text-align: center;
+  width: 260px;
 }
 
 .view-rotating-partner-logos .jcarousel-container .jcarousel-item .views-field-description-of-services-156 {
   font-size: 12px;
+  width: 260px;
 }
 
 .view-rotating-partner-logos .jcarousel-container .jcarousel-item .views-field-description-of-services-156 p {
@@ -3210,4 +3213,9 @@ form#webform-client-form-2278,
 
 #block-static_block-crm-solution-block1 h2 a {
   color: #FFFFFF;
+}
+
+.field-content.partner-img {
+  display: block !important;
+  margin: auto;
 }
