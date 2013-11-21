@@ -1,0 +1,13 @@
+name = Views Distinct
+description = Allow filtering/aggregating "distinct" Views result rows based on arbitrary fields
+core = 7.x
+package = Views
+dependencies[] = views
+dependencies[] = views_ui
+
+; Information added by drupal.org packaging script on 2013-07-30
+version = "7.x-1.0-beta1"
+core = "7.x"
+project = "views_distinct"
+datestamp = "1375215392"
+
