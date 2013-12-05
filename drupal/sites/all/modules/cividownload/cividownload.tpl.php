@@ -46,7 +46,7 @@
         </form>
       </div>
       <br/>
-      <div class="crm-hidden" id="crm-download-link"></div>
+      <iframe src="<?php echo $content['downloadURL'];?>" class="crm-hidden"></iframe>
     </div>
   </div>
 <?php } ?>

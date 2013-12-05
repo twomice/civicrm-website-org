@@ -13,10 +13,6 @@
 
     $("#display_amount").val($("#slider").slider("value"));
     $("#amount").val($("#slider").slider("value"));
-
-    // note that load will work on actual live site
-    var downloadURL = $('#download-link').attr('href');
-    $('#crm-download-link').load(downloadURL);
   });
 }(jQuery));
 
