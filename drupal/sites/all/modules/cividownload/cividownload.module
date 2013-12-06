@@ -51,32 +51,26 @@ function cividownload_download($fileType) {
   // get the current stable version
   $current_version = getCurrentVersion();
 
-  $downloadURL = '';
   $fileName = '';
   switch($fileType) {
     case 'drupal':
-      $downloadURL = "http://download.civicrm.org/civicrm-{$current_version}-drupal.tar.gz";
       $fileName = "civicrm-{$current_version}-drupal.tar.gz";
       break;
     case 'wordpress':
-      $downloadURL = "http://download.civicrm.org/civicrm-{$current_version}-wordpress.zip";
       $fileName = "civicrm-{$current_version}-wordpress.zip";
       break;
     case 'joomla':
-      $downloadURL = "http://download.civicrm.org/civicrm-{$current_version}-joomla.zip";
       $fileName = "civicrm-{$current_version}-joomla.zip";
       break;
     case 'joomla-alt':
-      $downloadURL = "http://download.civicrm.org/civicrm-{$current_version}-joomla-alt.zip";
       $fileName = "civicrm-{$current_version}-joomla-alt.zip";
       break;
     case 'drupal6':
-      $downloadURL = "http://download.civicrm.org/civicrm-{$current_version}-drupal6.tar.gz";
       $fileName = "civicrm-{$current_version}-drupal6.tar.gz";
       break;
   }
 
-  $content['downloadURL'] = $downloadURL;
+  $content['downloadURL'] = "https://download.civicrm.org/{$fileName}";
   $content['fileName'] = $fileName;
 
   return $content;

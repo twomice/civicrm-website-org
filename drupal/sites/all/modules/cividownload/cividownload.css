@@ -11,6 +11,21 @@
   padding-top: 30px;
 }
 
+.crm-button-layout {
+  width: 350px;
+}
+
+.crm-button-inner-layout {
+  font-size: 30px;
+  color: #ffffff;
+}
+
+.crm-currency {
+  color: #ffffff;
+  padding: 7px 10px 9px 6px;
+  margin-left: -110px;
+}
+
 .crm-input {
   cursor: pointer;
   width: 206px;
@@ -23,7 +38,7 @@
 
 .crm-amount {
   border: 0 none;
-  width: 72px;
+  width: 102px;
   text-align: right;
   background: 0;
   color: #FFFFFF;
@@ -31,7 +46,7 @@
   background-color: #056186;
   font-size: 30px;
   height: 44px;
-  padding-right: 14px;
+  padding-right: 6px;
   padding-bottom: 4px;
 }
 
@@ -65,13 +80,6 @@
 .crm-download-content .ui-widget-content, .crm-download-content .ui-state-default {
   border: 1px solid #AAAAAA;
   color: #3E3E3E;
-}
-
-.crm-currency {
-  font-size: 30px;
-  background-color: #056186;
-  color: #ffffff;
-  padding: 7px 10px 9px 6px;
 }
 
 #slider {

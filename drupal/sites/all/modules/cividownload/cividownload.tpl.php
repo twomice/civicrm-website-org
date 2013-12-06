@@ -39,9 +39,11 @@
           <input type="hidden" name="currency_code" value="USD">
           <input type="hidden" name="no_note" value="0">
           <!--<input type="hidden" name="bn" value="PP-DonationsBF:btn_donateCC_LG.gif:NonHostedGuest">-->
-          <div>
-            <input type="submit" class="crm-input" name="download-donate" value="Donate">
-            <span class="crm-currency">$</span><input type="text" id="display_amount" class="crm-amount"/>
+          <div class="crm-button-layout">
+            <div class="crm-button-inner-layout">
+              <input type="submit" class="crm-input" name="download-donate" value="Donate">
+              <input type="text" id="display_amount" class="crm-amount"/><span class="crm-currency">$</span>
+            </div>
           </div>
         </form>
       </div>
