@@ -18,8 +18,11 @@ class civicrm_org_stats {
       VALUES ('node', 'extension', {$node->nid}, {$node->revision_id}, '{$node->language}', 0, :usage_value)", array(':usage_value' => $usage));
   }
 
+  /**
+   * Clear drupal's caches related to node field data
+   */
   protected function clearCache() {
-    // FIXME: This is a bit of an overkill, really we just need to clear the cache for affected nodes
-    drupal_flush_all_caches();
+    cache_clear_all('*', 'cache_field', TRUE);
+    cache_clear_all('*', 'cache_page', TRUE);
   }
 }
