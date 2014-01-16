@@ -83,7 +83,8 @@
 /* submit an extension button */
 /* based on: #block-views-call_to_action-block .view-call-to-action .view-footer h4 */
 
-#block-block-13 a {
+#block-block-13 .content a,
+#block-block-22 .content a {
 	float: right;
 	display: block;
 	margin: 0 0 2em 3em;
