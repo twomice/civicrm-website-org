@@ -52,6 +52,7 @@ class CDM_Form_Discount_Add extends CRM_Admin_Form {
     $this->_cloneID = CRM_Utils_Request::retrieve('cloneID', 'Positive', $this, false, 0);
     $this->set('BAOName', 'CDM_BAO_Item');
 
+    require_once 'CDM/BAO/Item.php';
     parent::preProcess();
 
     $session = CRM_Core_Session::singleton();
@@ -79,8 +80,6 @@ class CDM_Form_Discount_Add extends CRM_Admin_Form {
       'memberships'  => null,
       'events'       => null,
       'pricesets'    => null);
-
-    require_once 'CDM/BAO/Item.php';
   }
 
   function setDefaultValues() {
