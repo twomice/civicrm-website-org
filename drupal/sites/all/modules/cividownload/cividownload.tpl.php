@@ -19,8 +19,9 @@
       <br/>
     <?php } ?>
   </div>
+  <br/>
   <div class='crm-introduction'>
-    Looking for older or pre-release versions? <a href="http://sourceforge.net/projects/civicrm/files/" target="_blank">click
+    Looking for localization files, Long Term Support (LTS) releases, older releases or pre-release versions? <a href="http://sourceforge.net/projects/civicrm/files/" target="_blank">click
       here</a>
   </div>
   <div style="background-color: #7EC757; padding: 10px; color: white; font-weight: bold; font-size: 18px; width: 90%'">
