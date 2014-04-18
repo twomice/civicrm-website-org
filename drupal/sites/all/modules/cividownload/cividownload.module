@@ -120,7 +120,7 @@ function cividownload_civicrm_config(&$config = NULL) {
  * Implementation of CiviCRM's buildForm hook to modify contribution page
  */
 function cividownload_civicrm_buildForm($formName, &$form) {
-  if ($formName == 'CRM_Contribute_Form_Contribution_Main' && $form->_id = 63) {
+  if ($formName == 'CRM_Contribute_Form_Contribution_Main' && $form->_id == 63) {
     drupal_set_title('');
     // add require js and css files
     drupal_add_library('system', 'ui.slider');
