@@ -10,6 +10,43 @@
 /**
  * (Page Callback)
  *
+ * Get a list of extensions with Git URLs
+ */
+function extdir_pages_giturls() {
+  $query = db_select('node', 'extension')
+    ->fields('extension', array('nid'));
+  $helper = ExtdirQueryHelper::create($query, array(
+    'extension' => 'extension.nid',
+  ));
+
+  $helper->innerJoinFieldAPI('extension', 'field_git_url');
+  $query->fields('field_git_url', array('field_git_url_value'));
+
+  $helper->innerJoinFieldAPI('extension', 'field_extension_fq_name');
+  $query->fields('field_extension_fq_name', array('field_extension_fq_name_value'));  
+
+  $helper->innerJoinFieldAPI('extension', 'field_extension_cms');
+  $query->condition('field_extension_cms_tid', '127');
+
+  $helper->innerJoinFieldAPI('extension', 'field_extension_ready');
+  $query->fields('field_extension_ready', array('field_extension_ready_value'));
+
+  $qr = $query->execute();
+  $result = array();
+  while ($row = $qr->fetchAssoc()) {
+    $result[$row['field_extension_fq_name_value']] = array(
+      'key' => $row['field_extension_fq_name_value'],
+      'git_url' => $row['field_git_url_value'],
+      'ready' => $row['field_extension_ready_value'],
+    );
+  }
+  echo json_encode($result);
+  exit();
+}
+
+/**
+ * (Page Callback)
+ *
  * Get list of available extensions
  */
 function extdir_pages_listing($filterExpr) {
