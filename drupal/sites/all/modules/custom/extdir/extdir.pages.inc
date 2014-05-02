@@ -88,10 +88,10 @@ function extdir_pages_xml($filterExpr, $xmlFile) {
   foreach ($query->execute() as $row) {
     $extension = node_load($row->field_extension_nr_crm_nid);
     $release = node_load($row->entity_id);
-    if (!file_exists($release->field_extension_release_xml['und'][0]['uri'])) {
+    if (!file_exists($release->field_extension_release_xml[LANGUAGE_NONE][0]['uri'])) {
       throw new Exception('Failed to read extension XML: file not found: ');
     }
-    $xml = simplexml_load_file($release->field_extension_release_xml['und'][0]['uri']);
+    $xml = simplexml_load_file($release->field_extension_release_xml[LANGUAGE_NONE][0]['uri']);
     _extdir_pages_xml_cleanup($extension, $release, $xml);
     $count++;
   }
@@ -132,17 +132,17 @@ function extdir_pages_xml($filterExpr, $xmlFile) {
  */
 function _extdir_pages_xml_cleanup($extension, $release, $xml) {
   // lots of overlap between node and XML; we'll side with the node
-  if (!empty($extension->field_extension_fq_name['und'][0]['value'])) {
-    $xml['key'] = (string) $extension->field_extension_fq_name['und'][0]['value'];
+  if (!empty($extension->field_extension_fq_name[LANGUAGE_NONE][0]['value'])) {
+    $xml['key'] = (string) $extension->field_extension_fq_name[LANGUAGE_NONE][0]['value'];
   }
-  if (!empty($release->field_extension_release_url['und'][0]['url'])) {
-    $xml->downloadUrl = (string) $release->field_extension_release_url['und'][0]['url'];
+  if (!empty($release->field_extension_release_url[LANGUAGE_NONE][0]['url'])) {
+    $xml->downloadUrl = (string) $release->field_extension_release_url[LANGUAGE_NONE][0]['url'];
   }
-  if (!empty($release->field_extension_release_status['und'][0]['value'])) {
-    $xml->develStage = (string) $release->field_extension_release_status['und'][0]['value'];
+  if (!empty($release->field_extension_release_status[LANGUAGE_NONE][0]['value'])) {
+    $xml->develStage = (string) $release->field_extension_release_status[LANGUAGE_NONE][0]['value'];
   }
-  //if (!empty($release->field_extension_release_ver['und'][0]['value'])) {
-  //  $xml->version = (string) $release->field_extension_release_ver['und'][0]['value'];
+  //if (!empty($release->field_extension_release_ver[LANGUAGE_NONE][0]['value'])) {
+  //  $xml->version = (string) $release->field_extension_release_ver[LANGUAGE_NONE][0]['value'];
   //}
   //The title field gets munged, so don't use it
   //if (!empty($release->title)) {
