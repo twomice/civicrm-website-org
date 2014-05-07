@@ -103,7 +103,7 @@ function drush_extdir_scan($pattern = NULL) {
     if ($pattern && !preg_match($pattern, $extension->title)) {
       continue;
     }
-    printf("Processing extension %s (%s)\n", $id, $extension->title);
+    _extdir_debug(sprintf("Processing extension \"%s\" (%s)\n", $extension->title, $id));
 
     // Get email addresses of maintainers
     $maintainers = _extdir_get_maintainers($extension);
@@ -115,9 +115,11 @@ function drush_extdir_scan($pattern = NULL) {
 
     // Get sources releases from git tags
     $giturl = $extension->field_git_url[LANGUAGE_NONE][0]['value'];
-    // if (empty($giturl)) {
-    //   $giturl = _extdir_guess_git_url($lastRelease, $extension);
-    // }
+    if (empty($giturl)) {
+      _extdir_debug(sprintf("Skip extension \"%s\" (#%s) due to missing Git URL\n", $extension->title, $id));
+      continue;
+      // $giturl = _extdir_guess_git_url($lastRelease, $extension);
+    }
     $gittags = _extdir_get_tags($giturl);
     _extdir_debug(array('giturl' => $giturl, 'gittags' => $gittags));
 
