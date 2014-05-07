@@ -405,8 +405,11 @@ function _extdir_get_maintainers($extension) {
  *   - other git repos might be supported with the git archive command but this requires server components
  */
 function _extdir_git_getfile($giturl, $tag, $file) {
-  if (substr($giturl, 0, 19) == 'https://github.com/') {
-    $giturl = 'https://raw.githubusercontent.com/'.substr($giturl, 19, -4)."/$tag/$file";
+  if (preg_match(';(https|git)://github.com/;', $giturl)) {
+    $giturl = rtrim($giturl, '/');
+    $giturl = preg_replace(':\.git$:', '', $giturl);
+    $giturl = preg_replace(';(https|git)://github.com/;', 'https://raw.githubusercontent.com/', $giturl);
+    $giturl .= "/$tag/$file";
     return file_get_contents($giturl);
   }
   return FALSE;
