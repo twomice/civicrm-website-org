@@ -273,7 +273,8 @@ function _extdir_get_tags($giturl) {
   $gittags = array();
   if (!empty($giturl)) {
     $output = array();
-    exec(escapeshellcmd("git ls-remote --tags $giturl"), $output);
+    $cmd = sprintf("git ls-remote --tags %s", escapeshellarg($giturl));
+    exec($cmd, $output);
     foreach ($output as $line) {
       if ($pos = strpos($line, 'tags/')) {
         $tag = substr($line, $pos + 5);
