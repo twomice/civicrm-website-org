@@ -68,6 +68,10 @@ function extdir_drush_command() {
     'examples' => array(
       'Standard example' => 'drush extdir-scan',
     ),
+    'arguments' => array('pattern' => 'Regular expression for extensions to process (Optional)'),
+    'options' => array(
+      'test' => 'Test mode. (Do not write to DB or send emails)',
+    ),
     'aliases' => array('exs'),
   );
 
@@ -79,7 +83,7 @@ function extdir_drush_command() {
  *
  * Implementation of command 'extdir-scan'
  */
-function drush_extdir_scan() {
+function drush_extdir_scan($pattern = NULL) {
   // Load dependencies in other modules
   module_load_include('pages.inc', 'extdir');
 
@@ -96,22 +100,26 @@ function drush_extdir_scan() {
   // Foreach Extension
   foreach ($ids as $id) {
     $extension = node_load($id);
+    if ($pattern && !preg_match($pattern, $extension->title)) {
+      continue;
+    }
+    printf("Processing extension %s (%s)\n", $id, $extension->title);
 
     // Get email addresses of maintainers
     $maintainers = _extdir_get_maintainers($extension);
-    echo '  '.implode($maintainers, ', ').PHP_EOL;
+    _extdir_debug(array('maintainers' => $maintainers));
 
     // Get existing releases from database
     list($releases, $lastRelease) = _extdir_get_releases($id);
-    echo '  '.implode($releases, ', ').PHP_EOL;
+    _extdir_debug(array('releases' => $releases));
 
     // Get sources releases from git tags
-    $giturl = $extension->field_extension_git_url;
+    $giturl = $extension->field_git_url[LANGUAGE_NONE][0]['value'];
     // if (empty($giturl)) {
     //   $giturl = _extdir_guess_git_url($lastRelease, $extension);
     // }
     $gittags = _extdir_get_tags($giturl);
-    echo '  '.implode(array_keys($gittags), ', ').PHP_EOL;
+    _extdir_debug(array('giturl' => $giturl, 'gittags' => $gittags));
 
     // Foreach source release, create release if needed and possible
     foreach ($gittags as $version => $tag) {
@@ -120,19 +128,32 @@ function drush_extdir_scan() {
         list($errorMessages, $release) = _extdir_create_release($extension, $version, $giturl, $tag);
         // Have we had any errors in the validation process?
         if ($release != NULL && empty($errorMessages)) {
-          // Save new extension node
-          $release = node_submit($release);
-          node_save($release);
+          printf("Create release for %s %s (%s @ %s)\n", $extension->title, $version, $giturl, $tag);
+          _extdir_debug(array('new-release' => $release));
+          if (! drush_get_option('test')) {
+            $release = node_submit($release);
+            node_save($release);
+          }
+        } else {
+          printf("Skip release of %s %s (%s @ %s) due to %d error(s)\n", $extension->title, $version, $giturl, $tag, count($errorMessages));
         }
 
         // Format and send email with messages
         $body = _extdir_compose_email($tag, $extension, $errorMessages);
-        echo $body;
-        _extdir_send_email(implode($maintainers, ', '), t('Your extension release on civicrm.org'), $body);
+        printf("Send email (%s)\n", implode($maintainers, ', '));
+        _extdir_debug(array('email-body' => $body));
+        if (! drush_get_option('test')) {
+          _extdir_send_email(implode($maintainers, ', '), t('Your extension release on civicrm.org'), $body);
+        }
       } // end if version not in existing releases
     } // end foreach git tag
-    exit;
   } // end foreach extension
+}
+
+function _extdir_debug($mixed) {
+  if (drush_get_option('test')) {
+    print_r($mixed);
+  }
 }
 
 /**
@@ -217,8 +238,8 @@ function _extdir_create_release($extension, $version, $giturl, $tag) {
       return array($errorMessages, $release);
     }
     else {
-      $errorMessages[] = t('There was an error loading a DOMDocument from %1.', array(
-        1 => $file->uri,
+      $errorMessages[] = t('There was an error loading a DOMDocument from "@uri".', array(
+        '@uri' => $file->uri,
       ));
       return array($errorMessages, $release);
     }
@@ -356,7 +377,6 @@ function _extdir_get_releases($id) {
  */
 function _extdir_get_maintainers($extension) {
   $maintainers = array();
-  echo 'Processing: ' . $extension->title . PHP_EOL;
   if (sizeof($extension->field_maintainers[LANGUAGE_NONE])) {
     foreach ($extension->field_maintainers[LANGUAGE_NONE] as $user) {
       $maintainer = user_load($user['target_id']);
