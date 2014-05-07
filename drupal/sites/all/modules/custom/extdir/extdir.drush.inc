@@ -460,7 +460,10 @@ function _extdir_send_email($to, $subject = 'Test message', $body = 'This is a t
   // Format the message body.
   $message = $system->format($message);
   // Send e-mail.
-  $status = $system->mail($message);
-  if ($status) echo "Email sent to: $to".PHP_EOL;
+  if ($system->mail($message)) {
+    //echo "Email sent to: $to".PHP_EOL;
+  } else {
+    print_r(array('Failed to send message' => $message));
+  }
   return $status;
 }
