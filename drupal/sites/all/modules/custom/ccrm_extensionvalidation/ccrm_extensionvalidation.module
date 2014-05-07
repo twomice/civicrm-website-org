@@ -229,7 +229,7 @@ define('CCRM_EXTVALID_XMLFILE_FIELD', 'field_extension_release_xml');
     }
     if ($gotit == false) {
       // There is an error but we do not have all the details - come out with a generic message
-      return t("The Extension Release XML file contains an empty or invalid tag: @tag", array('@tag' => $tag));
+      return t("In info.xml, the element (\"@tag\") is missing or invalid.", array('@tag' => $tag));
     }
     // All is good, we have no error messages to return
     return null;

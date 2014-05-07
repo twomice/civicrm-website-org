@@ -232,7 +232,10 @@ function _extdir_create_release($extension, $version, $giturl, $tag) {
       }
       // One last sanity check on the release number
       if ($version != $release->field_extension_release_version[LANGUAGE_NONE][0]['value']) {
-        $errorMessages[] = t('The version numbers in info.xml does not match with the commit tag in your repository.');
+        $errorMessages[] = t('The version numbers in the info.xml ("@infoxml") and in the git tag ("@tag") do not match.', array(
+          '@infoxml' => $release->field_extension_release_version[LANGUAGE_NONE][0]['value'],
+          '@tag' => $version,
+        ));
         return array($errorMessages, $release);
       }
       return array($errorMessages, $release);
@@ -335,9 +338,11 @@ function _extdir_compose_email($tag, $extension, $errorMessages) {
     foreach ($errorMessages as $line) {
       $body .= "  - $line\n";
     }
-    $body .= "\n" . t('You will need to correct these errors before we can accept this release.') . ' '
+    $body .= "\n" . t('You will need to correct these errors before we can accept this release.') . "\n"
+      . "\n"
       . t('Further help is available in the wiki at @url.',
-        array('@url' => 'http://wiki.civicrm.org/confluence/display/CRMDOC/Publish+an+Extension')) . ' '
+        array('@url' => 'http://wiki.civicrm.org/confluence/display/CRMDOC/Publish+an+Extension')) . "\n"
+      . "\n"
       . t('You can also request help in the Extensions community forum at @url.',
         array('@url' => 'http://forum.civicrm.org/index.php/board,57.0.html')) . "\n";
   }
