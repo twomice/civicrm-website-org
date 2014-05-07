@@ -21,9 +21,9 @@ define('CCRM_EXTVALID_XMLFILE_FIELD', 'field_extension_release_xml');
   function ccrm_extensionvalidation_node_validate($node, $form, &$form_state) {
     // Make sure author of extension is in maintainers
     if ('extension' == $node->type) {
-      $authornid = $node->uid;  $delta = 0;  $foundauthor = FALSE; 
+      $authornid = $node->uid;  $delta = 0;  $foundauthor = FALSE;
       foreach ($form_state['values']['field_maintainers'][LANGUAGE_NONE] as $index => $ref) {
-        if (is_numeric($ref['target_id']) 
+        if (is_numeric($ref['target_id'])
             && $form_state['values']['field_maintainers'][LANGUAGE_NONE][$index]['target_id'] == $authornid) {
           $foundauthor = TRUE;
         }
@@ -39,12 +39,14 @@ define('CCRM_EXTVALID_XMLFILE_FIELD', 'field_extension_release_xml');
       $parentnid = $node->field_extension_nr_crm[LANGUAGE_NONE][0]['nid'];
     }
     if ($node->type == 'extension_release_cms') {
-      $parentnid = $node->field_extension_nr_cms[LANGUAGE_NONE][0]['nid'];      
+      $parentnid = $node->field_extension_nr_cms[LANGUAGE_NONE][0]['nid'];
     }
     if ($node->type == 'extension_release_civicrm' || $node->type == 'extension_release_cms') {
       $parent_node = is_numeric($parentnid) ? node_load($parentnid) : NULL;
       if (NULL == $parent_node) {
-        _ccrmextvalid_formseterror('title', t('Could not determine parent extension. Please add via extension page.'));
+        _ccrmextvalid_formseterror(array(
+          'title' => t('Could not determine parent extension. Please add via extension page.'),
+        ));
         return;
       }
     }
@@ -54,7 +56,7 @@ define('CCRM_EXTVALID_XMLFILE_FIELD', 'field_extension_release_xml');
         if (is_numeric($ref['target_id'])) {
           $form_state['values']['field_extension_release_na_mains'][LANGUAGE_NONE][$index]['target_id'] = NULL;
         }
-      } 
+      }
       // Check parent node has maintainers set and add maintainers from parent
       $delta = 0;
       foreach ($parent_node->field_maintainers[LANGUAGE_NONE] as $index => $ref) {
@@ -81,14 +83,17 @@ define('CCRM_EXTVALID_XMLFILE_FIELD', 'field_extension_release_xml');
       }
     }
     if ($node->type == 'extension_release_civicrm') {
-      _ccrmextvalid_validatexml($node, $form, $form_state, $parent_node);
+      $errors = _ccrmextvalid_validatexml($node, $form, $form_state, $parent_node);
+      if (!empty($errors)) {
+        _ccrmextvalid_formseterror($errors);
+      }
     }
   }
-  
-  function _ccrmextvalid_validatexml($node, $form, &$form_state, $parent_node) {    
-    $keeperrors =  array();    
+
+  function _ccrmextvalid_validatexml($node, $form, &$form_state, $parent_node) {
+    $keeperrors =  array();
     $file_id = $form_state['values'][CCRM_EXTVALID_XMLFILE_FIELD][LANGUAGE_NONE][0]['fid'];
-  
+
     if ($file_id != 0) {
       $file = file_load($file_id);
       if ($file) {
@@ -96,28 +101,21 @@ define('CCRM_EXTVALID_XMLFILE_FIELD', 'field_extension_release_xml');
         $doc = new DOMDocument();
         $doc->recover = TRUE;
         $doc->strictErrorChecking = FALSE;
-   
+
         if ($doc->load(drupal_realpath($file->uri))) {
           // Initialize variables to be read
           $got = array('version' => FALSE, 'releaseDate' => FALSE, 'develStage' => FALSE,
             'ver' => FALSE, 'extension' => FALSE, 'documentation' => FALSE); //'downloadUrl' =>FALSE (postponed)
           foreach ($got as $tag => $tagcontents) {
-            $wegotit =  _ccrmextvalid_validateTag($node, $form, $form_state, $doc, $tag, $tagcontents, $keeperrors, $parent_node);
+            $error =  _ccrmextvalid_validateTag($doc, $tag, $tagcontents, $parent_node);
             $got[$tag] = $tagcontents;
-            if ($wegotit) {
+            if (empty($error)) {
               _ccrmextvalid_assignTag($form, $form_state, $tag, $tagcontents);
+            } else {
+              _ccrmextvalid_seterror( 'title', $error, $keeperrors);
+              drupal_set_message(t('Invalid or empty tag in the extension release XML: @tag',  array('@tag' => $tag)));
             }
-            else {
-              if ($tag == 'extension') {
-                _ccrmextvalid_seterror('title', t("The Fully Qualified Name in the XML file did not match parent extension: @tagcont",
-                    array('@tagcont' => $tagcontents)), $keeperrors);
-               }
-               else {
-                 _ccrmextvalid_seterror('title', t("The Extension Release XML file contained an invalid or empty value for tag '@tag'",
-                     array('@tag' => $tag)), $keeperrors);
-               }
-             }
-           }
+          }
          }
          else {
            _ccrmextvalid_seterror( 'title', t('The XML file could not be read'), $keeperrors);
@@ -127,13 +125,19 @@ define('CCRM_EXTVALID_XMLFILE_FIELD', 'field_extension_release_xml');
      else {
        _ccrmextvalid_seterror( CCRM_EXTVALID_XMLFILE_FIELD, t('Please upload an XML file descriptor'), $keeperrors);
      }
-     if (!empty($keeperrors)) {
-       _ccrmextvalid_formseterror($keeperrors);
-     }
+     return $keeperrors;
   }
 
-  // return whether we had a
-  function _ccrmextvalid_validateTag($node, $form, &$form_state, $doc, $tag, &$tagcontents, &$keeperrors, $parent_node) {
+/**
+ * Checks the validity of an XML tag in an extension release XML file
+ * @param $doc XML as a DOMDocument() class
+ * @param $tag tag that needs validation
+ * @param $tagcontents value of the tag (will be returned)
+ * @param $parent_node Drupal node for the parent extension
+ * @return error message for the validation or empty string for success
+ * NOTE: this function is also used in the extdir module during automated release creation
+ */
+  function _ccrmextvalid_validateTag($doc, $tag, &$tagcontents, $parent_node) {
     $gotit = FALSE; $tagcount = 0; $contents = '';
     switch ($tag) {
       case 'version':
@@ -168,8 +172,7 @@ define('CCRM_EXTVALID_XMLFILE_FIELD', 'field_extension_release_xml');
         }
         break;
       default:
-        drupal_set_message(t('Invalid tag used in _ccrmextvalid_validateTag: @tag',  array('@tag' => $tag)));
-          return FALSE;
+        return t("The Extension Release XML file contained an invalid tag: '@tag'", array('@tag' => $tag));
     }
     if ($tagcount > 0) {
       switch ($tag) {
@@ -204,6 +207,8 @@ define('CCRM_EXTVALID_XMLFILE_FIELD', 'field_extension_release_xml');
           if (count($okvers) == count($vers)) {
             $gotit = TRUE;
             $contents = array_map('_ccrmextvalid_mapversionvaltid', $okvers);
+          } else {
+            return t("The Version Compatibility tag contains an incorrect value");
           }
           break;
         case 'documentation':
@@ -215,14 +220,19 @@ define('CCRM_EXTVALID_XMLFILE_FIELD', 'field_extension_release_xml');
           $contents = $parentkey . ' vs. ' . $tagcontents;
           if ($tagcontents == $parentkey) {
             $gotit = TRUE;
+          } else {
+            return t("The Fully Qualified Name did not match parent extension: @tagcont", array('@tagcont' => $tagcontents));
           }
           break;
-        default:
-          return FALSE;
       }
       $tagcontents = $contents;
     }
-    return $gotit;
+    if ($gotit == false) {
+      // There is an error but we do not have all the details - come out with a generic message
+      return t("In info.xml, the element (\"@tag\") is missing or invalid.", array('@tag' => $tag));
+    }
+    // All is good, we have no error messages to return
+    return null;
   }
 
   function _ccrmextvalid_assignTag($form, &$form_state, $tag, &$tagcontents) {
