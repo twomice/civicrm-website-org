@@ -55,7 +55,7 @@ function ccrm_extensionvalidation_version_split($ver, $pad = CCRM_EXTENSIONVALID
     } else {
       $newCharType = 'ALPHA';
     }
-    
+
     // printf("ver=[%s] state=%-5s newCharType=%-5s char=[%s] parts=[%-12s] buf=[%s]\n", $ver, $state, $newCharType, $ver{$i}, implode('/', $parts), $buf);
     switch ($state) {
       case 'NEW':
@@ -83,7 +83,7 @@ function ccrm_extensionvalidation_version_split($ver, $pad = CCRM_EXTENSIONVALID
         break;
     }
   }
-  
+
   $codes = array(
     'alpha' => 'pre010',
     'beta' => 'pre020',

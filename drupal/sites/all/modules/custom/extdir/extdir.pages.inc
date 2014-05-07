@@ -23,7 +23,7 @@ function extdir_pages_giturls() {
   $query->fields('field_git_url', array('field_git_url_value'));
 
   $helper->innerJoinFieldAPI('extension', 'field_extension_fq_name');
-  $query->fields('field_extension_fq_name', array('field_extension_fq_name_value'));  
+  $query->fields('field_extension_fq_name', array('field_extension_fq_name_value'));
 
   $helper->innerJoinFieldAPI('extension', 'field_extension_cms');
   $query->condition('field_extension_cms_tid', '127');
