@@ -98,191 +98,275 @@ function drush_extdir_scan() {
     $extension = node_load($id);
 
     // Get email addresses of maintainers
-    $maintainers = array();
-    echo 'Processing: '.$extension->title.PHP_EOL;
-    if (sizeof($extension->field_maintainers[LANGUAGE_NONE])) {
-      foreach ($extension->field_maintainers[LANGUAGE_NONE] as $user) {
-        $maintainer = user_load($user['target_id']);
-        if ($maintainer->mail) {
-          $maintainers[] = $maintainer->mail;
-        }
-      }
-    }
+    $maintainers = _extdir_get_maintainers($extension);
     echo '  '.implode($maintainers, ', ').PHP_EOL;
 
     // Get existing releases from database
-    $releases = array();
-    $query = new EntityFieldQuery();
-    $query->entityCondition('entity_type', 'node')
-      ->propertyCondition('type', 'extension_release_civicrm')
-      ->propertyCondition('status', '1')
-      ->fieldCondition('field_extension_nr_crm', 'nid', $id);
-    $result = $query->execute();
-    if (sizeof($result['node'])) {
-      $relids = array_keys($result['node']);
-      foreach ($relids as $relid) {
-        $release = node_load($relid);
-        $version = $release->field_extension_release_version[LANGUAGE_NONE][0]['value'];
-        $releases[] = str_replace('Version ', '', $version);
-      }
-    }
+    list($releases, $lastRelease) = _extdir_get_releases($id);
     echo '  '.implode($releases, ', ').PHP_EOL;
 
     // Get sources releases from git tags
-    $gittags = array();
     $giturl = $extension->field_extension_git_url;
-    // If no URL in Extension, try to guess it from Extension_release
-    if (empty($giturl)) {
-      $relurl = $release->field_extension_release_url[LANGUAGE_NONE][0]['url'];
-      if ($pos = strpos($relurl, '/archive')) {
-        // GitHub naming schema
-        $giturl = substr($relurl, 0, $pos).'.git';
-      }
-      // Save URL back to Extension node - TO BE DELETED after move to production
-      if (!empty($giturl)) {
-        // *** DISABLED *** in the testing phase
-        // $extension->field_extension_git_url = $giturl;
-        // node_save($extension);
-      }
-    }
-    if (!empty($giturl)) {
-      $output = array();
-      exec(escapeshellcmd("git ls-remote --tags $giturl"), $output);
-      foreach ($output as $line) {
-        if ($pos = strpos($line, 'tags/')) {
-          $tag = substr($line, $pos+5);
-          // Reject tags that contain certain descriptors
-          $rejects = array('^{}');
-          $rejected = false;
-          foreach ($rejects as $reject) {
-            if (strpos($tag, $reject) !== false) {
-              $rejected = true;
-            }
-          }
-          // If we do have a valid tag
-          if (!$rejected) {
-            $version = str_replace('v', '', $tag);
-            $gittags[$version] = $tag;
-          }
-        }
-      }
-    }
+    // if (empty($giturl)) {
+    //   $giturl = _extdir_guess_git_url($lastRelease, $extension);
+    // }
+    $gittags = _extdir_get_tags($giturl);
     echo '  '.implode(array_keys($gittags), ', ').PHP_EOL;
 
     // Foreach source release, create release if needed and possible
     foreach ($gittags as $version => $tag) {
       // Is this release not yet created on civicrm.org?
       if (!in_array($version, $releases)) {
-        $messages = array();
-        $info = _extdir_git_getfile($giturl, $tag, 'info.xml');
-        // Have we been able to get the XML and is it valid?
-        if ($info && ($xml = simplexml_load_string($info))) {
-          // Create the extension release node
-          $release = new stdClass();
-          $release->title = "Version $version";
-          $release->type = 'extension_release_civicrm';
-          node_object_prepare($release);
-          $release->language = LANGUAGE_NONE;
-          $release->status = 1; //(1 or 0): published or not
-          $release->promote = 0; //(1 or 0): promoted to front page
-          $release->comment = 1; // 0 = comments disabled, 1 = read only, 2 = read/write
-          // Add parent extension node
-          $release->field_extension_nr_crm[LANGUAGE_NONE][0]['nid'] = $extension->nid;
-          // Add creator as first in the list of maintainer
-          if (sizeof($extension->field_maintainers[LANGUAGE_NONE])) {
-            $release->uid = $extension->field_maintainers[LANGUAGE_NONE][0]['target_id'];
-          } else {
-            $release->uid = 1;
-          }
-          $release->revision_uid = $release->uid;
-          // Add maintainers
-          $release->field_extension_release_ci_mains[LANGUAGE_NONE] = $extension->field_maintainers[LANGUAGE_NONE];
-          // Add downloadURL
-          $release->field_extension_release_url[LANGUAGE_NONE][0]['url'] = _extdir_git_getdurl($giturl, $tag);
-          // Add develStage
-          $stage = 'stable';
-          foreach (array('alpha', 'beta') as $mark) {
-            if (strpos($tag, $mark) !== false) {
-              $stage = $mark;
-            }
-          }
-          $release->field_extension_release_status[LANGUAGE_NONE][0]['value'] = $stage;
-          // Add XML file (ie. we want to have the raw here so additional logic can be added at distribution)
-          $file = file_save_data($xml->asXML());
-          $file->display = 1;
-          $file->filename = 'info.xml';
-          $release->field_extension_release_xml[LANGUAGE_NONE][0] = (array)$file;
-          // Validate the XML tags (content in taxonomy, mandatory values set, etc.)
-          // 1. check that the XML does NOT include tags that should be empty
-          foreach (array('downloadUrl', 'develStage') as $path) {
-            if ($xml->xpath("/extension/$path")) {
-              // *** DISABLED *** while we are grandfathering older extensions
-              // $messages[] = t('The XML attribute @path should not be present in the info.xml', array('@path' => $path));
-            }
-          }
-          // 2. Switch the format to DOMDocument() as this is what's used by the form submission checks
-          libxml_use_internal_errors(TRUE);
-          $doc = new DOMDocument();
-          $doc->recover = TRUE;
-          $doc->strictErrorChecking = FALSE;
-          if ($doc->load(drupal_realpath($file->uri))) {
-            // Use the form submission checks to validate values/conformance of XML tags
-            $keys = array('version', 'releaseDate', 'ver', 'extension', 'documentation');
-            foreach ($keys as $xmltag) {
-              $tagcontents = false;
-              $error = _ccrmextvalid_validateTag($doc, $xmltag, $tagcontents, $extension);
-              if (empty($error)) {
-                _extdir_assignTag($release, $xmltag, $tagcontents);
-              } else {
-                $messages[] = $error;
-              }
-            }
-            // One last sanity check on the release number
-            if ($version != $release->field_extension_release_version[LANGUAGE_NONE][0]['value']) {
-              $messages[] = t('The version numbers in info.xml does not match with the commit tag in your repository.');
-            }
-            // Have we had any errors in the validation process?
-            if (empty($messages)) {
-              // Save new extension node
-              $release = node_submit($release);
-              node_save($release);
-            }
-          }
-        } else {
-          if ($info == false) {
-            if (strpos($giturl, 'https://github.com') === false) {
-              $messages[] = t('We are unable to automatically process releases if your extension is not on github.');
-            } else {
-              $messages[] = t('We were unable to find an info.xml in the root directory of this release.');
-            }
-          } else {
-            $messages[] = t('The info.xml you provided in this release is not valid.');
-          }
+        list($errorMessages, $release) = _extdir_create_release($extension, $version, $giturl, $tag);
+        // Have we had any errors in the validation process?
+        if ($release != NULL && empty($errorMessages)) {
+          // Save new extension node
+          $release = node_submit($release);
+          node_save($release);
         }
+
         // Format and send email with messages
-        $body = t('This is a message from the automated release system on civicrm.org.').' ';
-        $body .= t('Congratulations on releasing version @tag of extension \'@ext\'.',
-          array('@tag' => $tag, '@ext' => $extension->title)) . "\n\n";
-        if (sizeof($messages)) {
-          $body .= t('Unfortunately we have found a few errors while processing your release:') . "\n";
-          foreach ($messages as $line) {
-            $body .= "  - $line\n";
-          }
-          $body .= "\n".t('You will need to correct these errors before we can accept this release.').' '
-            .t('Further help is available in the wiki at @url.',
-              array('@url' => 'http://wiki.civicrm.org/confluence/display/CRMDOC/Publish+an+Extension')).' '
-            .t('You can also request help in the Extensions community forum at @url.',
-              array('@url' => 'http://forum.civicrm.org/index.php/board,57.0.html'))."\n";
-        } else {
-          $body .= t('Your release was successfully processed and is now live on the civicrm.org extensions directory.')."\n";
-        }
-        $body .= "\n".t('Thank you so much for being an active contributor to CiviCRM and our community.')."\n";
+        $body = _extdir_compose_email($tag, $extension, $errorMessages);
         echo $body;
-        _exdir_send_email(implode($maintainers, ', '), t('Your extension release on civicrm.org'), $body);
+        _extdir_send_email(implode($maintainers, ', '), t('Your extension release on civicrm.org'), $body);
       } // end if version not in existing releases
     } // end foreach git tag
     exit;
   } // end foreach extension
+}
+
+/**
+ * @param stdClass<Extension> $extension
+ * @param string $version
+ * @param string $giturl
+ * @param string $tag
+ * @return array (0 => array<String> $errorMessages, 1 => stdClass<ExtensionRelease> $release)
+ */
+function _extdir_create_release($extension, $version, $giturl, $tag) {
+  $errorMessages = array();
+  $info = _extdir_git_getfile($giturl, $tag, 'info.xml');
+  // Have we been able to get the XML and is it valid?
+  if ($info && ($xml = simplexml_load_string($info))) {
+    // Create the extension release node
+    $release = new stdClass();
+    $release->title = "Version $version";
+    $release->type = 'extension_release_civicrm';
+    node_object_prepare($release);
+    $release->language = LANGUAGE_NONE;
+    $release->status = 1; //(1 or 0): published or not
+    $release->promote = 0; //(1 or 0): promoted to front page
+    $release->comment = 1; // 0 = comments disabled, 1 = read only, 2 = read/write
+    // Add parent extension node
+    $release->field_extension_nr_crm[LANGUAGE_NONE][0]['nid'] = $extension->nid;
+    // Add creator as first in the list of maintainer
+    if (sizeof($extension->field_maintainers[LANGUAGE_NONE])) {
+      $release->uid = $extension->field_maintainers[LANGUAGE_NONE][0]['target_id'];
+    }
+    else {
+      $release->uid = 1;
+    }
+    $release->revision_uid = $release->uid;
+    // Add maintainers
+    $release->field_extension_release_ci_mains[LANGUAGE_NONE] = $extension->field_maintainers[LANGUAGE_NONE];
+    // Add downloadURL
+    $release->field_extension_release_url[LANGUAGE_NONE][0]['url'] = _extdir_git_getdurl($giturl, $tag);
+    // Add develStage
+    $stage = 'stable';
+    foreach (array('alpha', 'beta') as $mark) {
+      if (strpos($tag, $mark) !== FALSE) {
+        $stage = $mark;
+      }
+    }
+    $release->field_extension_release_status[LANGUAGE_NONE][0]['value'] = $stage;
+    // Add XML file (ie. we want to have the raw here so additional logic can be added at distribution)
+    $file = file_save_data($xml->asXML());
+    $file->display = 1;
+    $file->filename = 'info.xml';
+    $release->field_extension_release_xml[LANGUAGE_NONE][0] = (array) $file;
+    // Validate the XML tags (content in taxonomy, mandatory values set, etc.)
+    // 1. check that the XML does NOT include tags that should be empty
+    foreach (array('downloadUrl', 'develStage') as $path) {
+      if ($xml->xpath("/extension/$path")) {
+        // *** DISABLED *** while we are grandfathering older extensions
+        // $messages[] = t('The XML attribute @path should not be present in the info.xml', array('@path' => $path));
+      }
+    }
+    // 2. Switch the format to DOMDocument() as this is what's used by the form submission checks
+    libxml_use_internal_errors(TRUE);
+    $doc = new DOMDocument();
+    $doc->recover = TRUE;
+    $doc->strictErrorChecking = FALSE;
+    if ($doc->load(drupal_realpath($file->uri))) {
+      // Use the form submission checks to validate values/conformance of XML tags
+      $keys = array('version', 'releaseDate', 'ver', 'extension', 'documentation');
+      foreach ($keys as $xmltag) {
+        $tagcontents = FALSE;
+        $error = _ccrmextvalid_validateTag($doc, $xmltag, $tagcontents, $extension);
+        if (empty($error)) {
+          _extdir_assignTag($release, $xmltag, $tagcontents);
+        }
+        else {
+          $errorMessages[] = $error;
+        }
+      }
+      // One last sanity check on the release number
+      if ($version != $release->field_extension_release_version[LANGUAGE_NONE][0]['value']) {
+        $errorMessages[] = t('The version numbers in info.xml does not match with the commit tag in your repository.');
+        return array($errorMessages, $release);
+      }
+      return array($errorMessages, $release);
+    }
+    else {
+      $errorMessages[] = t('There was an error loading a DOMDocument from %1.', array(
+        1 => $file->uri,
+      ));
+      return array($errorMessages, $release);
+    }
+  }
+  else {
+    $release = NULL;
+    if ($info == FALSE) {
+      if (strpos($giturl, 'https://github.com') === FALSE) {
+        $errorMessages[] = t('We are unable to automatically process releases if your extension is not on github.');
+        return array($errorMessages, $release);
+      }
+      else {
+        $errorMessages[] = t('We were unable to find an info.xml in the root directory of this release.');
+        return array($errorMessages, $release);
+      }
+    }
+    else {
+      $errorMessages[] = t('The info.xml you provided in this release is not valid.');
+      return array($errorMessages, $release);
+    }
+  }
+}
+
+/**
+ * Get a list of tags in a git repo
+ *
+ * @param string|NULL $giturl
+ * @return array (string $version => string $tag) list of tags. if $giturl is missing/invalid, then array()
+ */
+function _extdir_get_tags($giturl) {
+  $gittags = array();
+  if (!empty($giturl)) {
+    $output = array();
+    exec(escapeshellcmd("git ls-remote --tags $giturl"), $output);
+    foreach ($output as $line) {
+      if ($pos = strpos($line, 'tags/')) {
+        $tag = substr($line, $pos + 5);
+        // Reject tags that contain certain descriptors
+        $rejects = array('^{}');
+        $rejected = FALSE;
+        foreach ($rejects as $reject) {
+          if (strpos($tag, $reject) !== FALSE) {
+            $rejected = TRUE;
+          }
+        }
+        // If we do have a valid tag
+        if (!$rejected) {
+          $version = str_replace('v', '', $tag);
+          $gittags[$version] = $tag;
+        }
+      }
+    }
+  }
+  return $gittags;
+}
+
+/**
+ * Guess the URL of a git repo based on a download URL
+ *
+ * @param stdClass<ExtensionRelease> $release
+ * @param stdClass<Extension> $extension
+ * @return array|string
+ */
+function _extdir_guess_git_url($release, $extension) {
+  $relurl = $release->field_extension_release_url[LANGUAGE_NONE][0]['url'];
+  if ($pos = strpos($relurl, '/archive')) {
+    // GitHub naming schema
+    $giturl = substr($relurl, 0, $pos) . '.git';
+  }
+  // Save URL back to Extension node - TO BE DELETED after move to production
+  if (!empty($giturl)) {
+
+    $extension->field_extension_git_url = $giturl;
+    node_save($extension);
+    return $giturl;
+  }
+  return $giturl;
+}
+
+/**
+ * @param string $tag
+ * @param stdClass<Extension> $extension
+ * @param array<String> $messages
+ * @return string
+ */
+function _extdir_compose_email($tag, $extension, $errorMessages) {
+  $body = t('This is a message from the automated release system on civicrm.org.') . ' ';
+  $body .= t('Congratulations on releasing version @tag of extension \'@ext\'.',
+    array('@tag' => $tag, '@ext' => $extension->title)) . "\n\n";
+  if (sizeof($errorMessages)) {
+    $body .= t('Unfortunately we have found a few errors while processing your release:') . "\n";
+    foreach ($errorMessages as $line) {
+      $body .= "  - $line\n";
+    }
+    $body .= "\n" . t('You will need to correct these errors before we can accept this release.') . ' '
+      . t('Further help is available in the wiki at @url.',
+        array('@url' => 'http://wiki.civicrm.org/confluence/display/CRMDOC/Publish+an+Extension')) . ' '
+      . t('You can also request help in the Extensions community forum at @url.',
+        array('@url' => 'http://forum.civicrm.org/index.php/board,57.0.html')) . "\n";
+  }
+  else {
+    $body .= t('Your release was successfully processed and is now live on the civicrm.org extensions directory.') . "\n";
+  }
+  $body .= "\n" . t('Thank you so much for being an active contributor to CiviCRM and our community.') . "\n";
+  return $body;
+}
+
+/**
+ * @param int $id nid of the extension node
+ * @return array (0 => array<String>, 1 => NULL|stdClass<ExtensionRelease>)
+ */
+function _extdir_get_releases($id) {
+  $releases = array();
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'node')
+    ->propertyCondition('type', 'extension_release_civicrm')
+    ->propertyCondition('status', '1')
+    ->fieldCondition('field_extension_nr_crm', 'nid', $id);
+  $result = $query->execute();
+  if (sizeof($result['node'])) {
+    $relids = array_keys($result['node']);
+    foreach ($relids as $relid) {
+      $release = node_load($relid);
+      $version = $release->field_extension_release_version[LANGUAGE_NONE][0]['value'];
+      $releases[] = str_replace('Version ', '', $version);
+    }
+    return array($releases, $release);
+  }
+  return array($releases, NULL);
+}
+
+/**
+ * @param stdClass<Extension> $extension
+ * @return array<String> email addresses
+ */
+function _extdir_get_maintainers($extension) {
+  $maintainers = array();
+  echo 'Processing: ' . $extension->title . PHP_EOL;
+  if (sizeof($extension->field_maintainers[LANGUAGE_NONE])) {
+    foreach ($extension->field_maintainers[LANGUAGE_NONE] as $user) {
+      $maintainer = user_load($user['target_id']);
+      if ($maintainer->mail) {
+        $maintainers[] = $maintainer->mail;
+      }
+    }
+    return $maintainers;
+  }
+  return $maintainers;
 }
 
 /**
@@ -297,14 +381,14 @@ function _extdir_git_getfile($giturl, $tag, $file) {
     $giturl = 'https://raw.githubusercontent.com/'.substr($giturl, 19, -4)."/$tag/$file";
     return file_get_contents($giturl);
   }
-  return false;
+  return FALSE;
 }
 
 function _extdir_git_getdurl($giturl, $tag) {
   if (substr($giturl, 0, 19) == 'https://github.com/') {
     return substr($giturl, 0, -4)."/archive/$tag.zip";
   }
-  return false;
+  return FALSE;
 }
 
 /**
@@ -337,7 +421,7 @@ function _extdir_assignTag(&$release, $tag, $tagcontents) {
 }
 
 // Shamelessly copied from https://drupal.org/sandbox/jfhovinne/2131795
-function _exdir_send_email($to, $subject = 'Test message', $body = 'This is a test.') {
+function _extdir_send_email($to, $subject = 'Test message', $body = 'This is a test.') {
   // Define $from and headers
   if (!$from = drush_get_option('from')) $from = variable_get('site_mail', ini_get('sendmail_from'));
   $headers = array();
