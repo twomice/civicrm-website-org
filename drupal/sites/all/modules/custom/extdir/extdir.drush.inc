@@ -283,16 +283,7 @@ function _extdir_get_tags($giturl) {
     foreach ($output as $line) {
       if ($pos = strpos($line, 'tags/')) {
         $tag = substr($line, $pos + 5);
-        // Reject tags that contain certain descriptors
-        $rejects = array('^{}');
-        $rejected = FALSE;
-        foreach ($rejects as $reject) {
-          if (strpos($tag, $reject) !== FALSE) {
-            $rejected = TRUE;
-          }
-        }
-        // If we do have a valid tag
-        if (!$rejected) {
+        if (preg_match('/^v?[0-9](0|1|2|3|4|5|6|7|8|9|\.|-|alpha|beta)*$/', $tag)) {
           $version = str_replace('v', '', $tag);
           $gittags[$version] = $tag;
         }
