@@ -48,7 +48,7 @@ function _civicrm_api3_initialize() {
 /**
  * Wrapper Function for civicrm_verify_mandatory to make it simple to pass either / or fields for checking
  *
- * @param array $params array of fields to check
+ * @param array $params array of fields to checkl
  * @param array $daoName string DAO to check for required fields (create functions only)
  * @param array $keyoptions
  *
@@ -116,7 +116,9 @@ function civicrm_api3_verify_mandatory($params, $daoName = NULL, $keys = array(
       }
     }
     else {
-      if (!array_key_exists($key, $params) || empty($params[$key])) {
+      // Disallow empty values except for the number zero.
+      // TODO: create a utility for this since it's needed in many places
+      if (!array_key_exists($key, $params) || (empty($params[$key]) && $params[$key] !== 0 && $params[$key] !== '0')) {
         $unmatched[] = $key;
       }
     }
@@ -251,7 +253,13 @@ function civicrm_api3_create_success($values = 1, $params = array(
   else {
     $result['values'] = $values;
   }
-
+  if(!empty($params['options']['metadata'])) {
+    // we've made metadata an array but only supporting 'fields' atm
+    if(in_array('fields', $params['options']['metadata'])) {
+      $fields = civicrm_api3($entity, 'getfields', array('action' => $action));
+      $result['metadata']['fields'] = $fields['values'];
+    }
+  }
   return array_merge($result, $extraReturnValues);
 }
 
@@ -382,6 +390,8 @@ function _civicrm_api3_store_values(&$fields, &$params, &$values) {
  *  others that use the query object. Note that this function passes permission information in.
  *  The others don't
  *
+ * * Ideally this would be merged with _civicrm_get_query_object but we need to resolve differences in what the
+ * 2 variants call
  * @param $entity
  * @param array $params as passed into api get or getcount function
  * @param array $additional_options
@@ -453,7 +463,6 @@ function _civicrm_api3_get_using_query_object($entity, $params, $additional_opti
 
   }
   $skipPermissions = CRM_Utils_Array::value('check_permissions', $params)? 0 :1;
-
   list($entities, $options) = CRM_Contact_BAO_Query::apiQuery(
     $newParams,
     $returnProperties,
@@ -470,6 +479,45 @@ function _civicrm_api3_get_using_query_object($entity, $params, $additional_opti
   }
 
   return $entities;
+}
+
+/**
+ * get dao query object based on input params
+ * Ideally this would be merged with _civicrm_get_using_query_object but we need to resolve differences in what the
+ * 2 variants call
+ *
+ * @param array $params
+ * @param string $mode
+ * @param string $entity
+ * @return CRM_Core_DAO query object
+ */
+function _civicrm_api3_get_query_object($params, $mode, $entity) {
+  $options          = _civicrm_api3_get_options_from_params($params, TRUE, $entity, 'get');
+  $sort             = CRM_Utils_Array::value('sort', $options, NULL);
+  $offset           = CRM_Utils_Array::value('offset', $options);
+  $rowCount         = CRM_Utils_Array::value('limit', $options);
+  $inputParams      = CRM_Utils_Array::value('input_params', $options, array());
+  $returnProperties = CRM_Utils_Array::value('return', $options, NULL);
+  if (empty($returnProperties)) {
+    $returnProperties = CRM_Contribute_BAO_Query::defaultReturnProperties($mode);
+  }
+
+  $newParams = CRM_Contact_BAO_Query::convertFormValues($inputParams);
+  $query = new CRM_Contact_BAO_Query($newParams, $returnProperties, NULL,
+    FALSE, FALSE, $mode
+  );
+  list($select, $from, $where, $having) = $query->query();
+
+  $sql = "$select $from $where $having";
+
+  if (!empty($sort)) {
+    $sql .= " ORDER BY $sort ";
+  }
+  if(!empty($rowCount)) {
+    $sql .= " LIMIT $offset, $rowCount ";
+  }
+  $dao = CRM_Core_DAO::executeQuery($sql);
+  return array($dao, $query);
 }
 
 /**
@@ -557,6 +605,7 @@ function _civicrm_api3_dao_set_filter(&$dao, $params, $unique = TRUE, $entity) {
       $dao->selectAdd($allfields[$uniqueVal]);
     }
   }
+  $dao->setApiFilter($params);
 }
 
 /**
@@ -697,7 +746,9 @@ function _civicrm_api3_apply_options_to_dao(&$params, &$dao, $entity) {
 
   $options = _civicrm_api3_get_options_from_params($params,FALSE,$entity);
   if(!$options['is_count']) {
-    $dao->limit((int)$options['offset'], (int)$options['limit']);
+    if(!empty($options['limit'])) {
+      $dao->limit((int)$options['offset'], (int)$options['limit']);
+    }
     if (!empty($options['sort'])) {
       $dao->orderBy($options['sort']);
     }
@@ -752,12 +803,15 @@ function _civicrm_api3_get_unique_name_array(&$bao) {
  * @static void
  * @access public
  */
-function _civicrm_api3_dao_to_array($dao, $params = NULL, $uniqueFields = TRUE, $entity = "") {
+function _civicrm_api3_dao_to_array($dao, $params = NULL, $uniqueFields = TRUE, $entity = "", $autoFind = TRUE) {
   $result = array();
   if(isset($params['options']) && CRM_Utils_Array::value('is_count', $params['options'])) {
     return $dao->count();
   }
-  if (empty($dao) || !$dao->find()) {
+  if (empty($dao)) {
+    return array();
+  }
+  if ($autoFind && !$dao->find()) {
     return array();
   }
 
@@ -915,7 +969,7 @@ function _civicrm_api3_check_required_fields($params, $daoName, $return = FALSE)
  * @param $entity string API entity being accessed
  * @param $action string API action being performed
  * @param $params array  params of the API call
- * @param $throw bool    whether to throw exception instead of returning false
+ * @param $throw deprecated bool    whether to throw exception instead of returning false
  *
  * @throws Exception
  * @return bool whether the current API user has the permission to make the call
@@ -934,16 +988,20 @@ function _civicrm_api3_api_check_permission($entity, $action, &$params, $throw =
     return TRUE;
   }
 
-  foreach ($permissions as $perm) {
-    if (!CRM_Core_Permission::check($perm)) {
-      if ($throw) {
-        throw new Exception("API permission check failed for $entity/$action call; missing permission: $perm.");
+  if (!CRM_Core_Permission::check($permissions)) {
+    if ($throw) {
+      if(is_array($permissions)) {
+        $permissions = implode(' and ', $permissions);
       }
-      else {
-        return FALSE;
-      }
+      throw new Exception("API permission check failed for $entity/$action call; insufficient permission: require $permissions");
+    }
+    else {
+      //@todo remove this - this is an internal api function called with $throw set to TRUE. It is only called with false
+      // in tests & that should be tidied up
+      return FALSE;
     }
   }
+
   return TRUE;
 }
 
@@ -959,9 +1017,9 @@ function _civicrm_api3_api_check_permission($entity, $action, &$params, $throw =
  */
 function _civicrm_api3_basic_get($bao_name, &$params, $returnAsSuccess = TRUE, $entity = "") {
   $bao = new $bao_name();
-  _civicrm_api3_dao_set_filter($bao, $params, TRUE,$entity);
+  _civicrm_api3_dao_set_filter($bao, $params, TRUE, $entity);
   if ($returnAsSuccess) {
-      return civicrm_api3_create_success(_civicrm_api3_dao_to_array($bao, $params, FALSE, $entity), $params, $entity);
+      return civicrm_api3_create_success(_civicrm_api3_dao_to_array($bao, $params, FALSE, $entity), $params, $entity, 'get');
   }
   else {
     return _civicrm_api3_dao_to_array($bao, $params, FALSE, $entity);
@@ -1000,6 +1058,16 @@ function _civicrm_api3_basic_create($bao_name, &$params, $entity = NULL) {
 
   if (is_null($bao)) {
     return civicrm_api3_create_error('Entity not created (' . $fct_name . ')');
+  }
+  elseif (is_a($bao, 'CRM_Core_Error')) {
+    //some wierd circular thing means the error takes itself as an argument
+    $msg = $bao->getMessages($bao);
+    // the api deals with entities on a one-by-one basis. However, the contribution bao pushes entities
+    // onto the error object - presumably because the contribution import is not handling multiple errors correctly
+    // so we need to reset the error object here to avoid getting concatenated errors
+    //@todo - the mulitple error handling should be moved out of the contribution object to the import / multiple entity processes
+    CRM_Core_Error::singleton()->reset();
+    throw new API_Exception($msg);
   }
   else {
     $values = array();
@@ -1193,7 +1261,8 @@ function _civicrm_api3_validate_date(&$params, &$fieldName, &$fieldInfo) {
     if (strtotime($params[$fieldInfo['name']]) === FALSE) {
       throw new Exception($fieldInfo['name'] . " is not a valid date: " . $params[$fieldInfo['name']]);
     }
-    $params[$fieldInfo['name']] = CRM_Utils_Date::processDate($params[$fieldInfo['name']]);
+    $format = ($fieldInfo['type'] == CRM_Utils_Type::T_DATE) ? 'Ymd000000' : 'YmdHis';
+    $params[$fieldInfo['name']] = CRM_Utils_Date::processDate($params[$fieldInfo['name']], NULL, FALSE, $format);
   }
   if ((CRM_Utils_Array::value('name', $fieldInfo) != $fieldName) && CRM_Utils_Array::value($fieldName, $params)) {
     //If the unique field name differs from the db name & is set handle it here

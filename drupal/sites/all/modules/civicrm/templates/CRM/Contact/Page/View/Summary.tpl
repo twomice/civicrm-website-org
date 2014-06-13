@@ -58,7 +58,7 @@
             </li>
           {/if}
           {* Include Edit button if contact has 'edit contacts' permission OR user is viewing their own contact AND has 'edit my contact' permission. *}
-          {if $permission EQ 'edit' && call_user_func(array('CRM_Core_Permission','check'), 'edit my contact')}
+          {if $permission EQ 'edit' || call_user_func(array('CRM_Core_Permission','check'), 'edit my contact')}
             <li>
               {assign var='editParams' value=$urlParams|cat:"&action=update&cid=$contactId"}
               <a href="{crmURL p='civicrm/contact/add' q=$editParams}" class="edit button" title="{ts}Edit{/ts}">
@@ -353,7 +353,7 @@ cj(document).ready(function($) {
     saveAnywayLabel: "{/literal}{ts escape='js'}Save Anyway{/ts}{literal}",
     reloadLabel: "{/literal}{ts escape='js'}Reload Page{/ts}{literal}"
   });
-	//Enhance styling of "View Contact" tabs to indicate empty/non-empty tags
+  //Enhance styling of "View Contact" tabs to indicate empty/non-empty tags
   $('div#mainTabContainer ul').find('li').each(function(n){
     if($(this).find('em').html()==0){
       $(this).addClass("disabled");

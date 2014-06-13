@@ -174,6 +174,7 @@ function _civicrm_api3_contact_get_spec(&$params) {
   $params['street_address']['title'] = 'Primary Address Street Address';
   $params['supplemental_address_1']['title'] = 'Primary Address Supplemental Address 1';
   $params['supplemental_address_2']['title'] = 'Primary Address Supplemental Address 2';
+  $params['current_employer']['title'] = 'Current Employer';
   $params['city']['title'] = 'Primary Address City';
   $params['postal_code_suffix']['title'] = 'Primary Address Post Code Suffix';
   $params['postal_code']['title'] = 'Primary Address Post Code';
@@ -200,6 +201,10 @@ function _civicrm_api3_contact_get_spec(&$params) {
   $params['group_id']['title'] = 'Group Memberships (filter)';
   $params['group']['title'] = 'Group Memberships (filter, array)';
   $params['tag']['title'] = 'Assigned tags (filter, array)';
+  $params['birth_date_low'] = array('name' => 'birth_date_low', 'type' => CRM_Utils_Type::T_DATE, 'title' => ts('Birthdate is equal to or greater than'));
+  $params['birth_date_high'] = array('name' => 'birth_date_high', 'type' => CRM_Utils_Type::T_DATE, 'title' => ts('Birthdate is equal to or less than'));
+  $params['deceased_date_low'] = array('name' => 'deceased_date_low','type' => CRM_Utils_Type::T_DATE, 'title' => ts('Deceased Date is equal to or greater than'));
+  $params['deceased_date_high'] = array('name' => 'deceased_date_high', 'type' => CRM_Utils_Type::T_DATE, 'title' => ts('Deceased Date is equal to or less than'));
 }
 
 /**
@@ -647,6 +652,11 @@ function civicrm_api3_contact_getquick($params) {
         }
       }
     }
+  }
+
+  if (CRM_Utils_Array::value('contact_sub_type', $params)) {
+    $contactSubType = CRM_Utils_Type::escape($params['contact_sub_type'], 'String');
+    $where .= " AND cc.contact_sub_type = '{$contactSubType}'";
   }
 
   //set default for current_employer or return contact with particular id

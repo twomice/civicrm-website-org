@@ -232,7 +232,7 @@ function views_distinct_process_views_view(&$vars) {
   // $cache before passing it to hook_views_post_render() implementations.
   $cache = FALSE;
   if (!empty($view->live_preview)) {
-    $cache = &$view->display_handler->get_plugin('cache');
+    $cache = $view->display_handler->get_plugin('cache');
   }
 
   // Get the query fields that will need filtering/aggregation:

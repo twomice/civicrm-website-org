@@ -185,12 +185,17 @@ function _civicrm_api3_job_geocode_spec(&$params) {
  *
  */
 function civicrm_api3_job_send_reminder($params) {
+  //note that $params['rowCount' can be overridden by one of the preferred syntaxes ($options['limit'] = x
+  //It's not clear whether than syntax can be passed in via the UI config - but this keeps the pre 4.4.4 behaviour
+  // in that case (ie. makes it unconfigurable via the UI). Another approach would be to set a default of 0
+  // in the _spec function - but since that is a deprecated value it seems more contentious than this approach
+  $params['rowCount'] = 0;
   $lock = new CRM_Core_Lock('civimail.job.EmailProcessor');
   if (!$lock->isAcquired()) {
     return civicrm_api3_create_error('Could not acquire lock, another EmailProcessor process is running');
   }
 
-  $result = CRM_Core_BAO_ActionSchedule::processQueue(CRM_Utils_Array::value('now', $params));
+  $result = CRM_Core_BAO_ActionSchedule::processQueue(CRM_Utils_Array::value('now', $params), $params);
   $lock->release();
 
   if ($result['is_error'] == 0) {
@@ -200,7 +205,20 @@ function civicrm_api3_job_send_reminder($params) {
     return civicrm_api3_create_error($result['messages']);
   }
 }
-
+/**
+ * Adjust metadata for "send_reminder" action
+ *
+ * The metadata is used for setting defaults, documentation & validation
+ * @param array $params array or parameters determined by getfields
+ */
+function _civicrm_api3_job_send_reminder(&$params) {
+  //@todo this function will now take all fields in action_schedule as params
+  // as it is calling the api fn to set the filters - update getfields to reflect
+  $params['id'] = array(
+    'type' => CRM_Utils_Type::T_INT,
+    'title' => 'Action Schedule ID'
+  );
+}
 /**
  * Execute a specific report instance and send the output via email
  *
@@ -421,7 +439,7 @@ function civicrm_api3_job_process_participant($params) {
 function civicrm_api3_job_process_membership($params) {
   $lock = new CRM_Core_Lock('civimail.job.updateMembership');
   if (!$lock->isAcquired()) {
-    return civicrm_api3_create_error('Could not acquire lock, another EmailProcessor process is running');
+    return civicrm_api3_create_error('Could not acquire lock, another Membership Processing process is running');
   }
 
   $result = CRM_Member_BAO_Membership::updateAllMembershipStatus();

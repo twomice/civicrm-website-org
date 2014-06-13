@@ -121,19 +121,14 @@ function webform_civicrm_node_load($nodes, $types) {
 
 /**
  * Implements hook_node_insert().
+ * Preserve webform_civicrm data when cloning or importing a node
  *
  * @param object $node
  */
 function webform_civicrm_node_insert($node) {
-  // For compatibility with node_clone module
-  if (arg(2) == 'clone') {
-    $db = db_query('SELECT * FROM {webform_civicrm_forms} WHERE nid = :nid', array(':nid' => arg(1)));
-    foreach ($db as $settings) {
-      $settings->nid = $node->nid;
-      $settings->data = unserialize($settings->data);
-      drupal_write_record('webform_civicrm_forms', $settings);
-      return;
-    }
+  if (isset($node->webform_civicrm)) {
+    $node->webform_civicrm['nid'] = $node->nid;
+    drupal_write_record('webform_civicrm_forms', $node->webform_civicrm);
   }
 }
 
@@ -202,6 +197,7 @@ function webform_civicrm_webform_component_info() {
  */
 function webform_civicrm_webform_submission_presave($node, &$submission) {
   if (!empty($node->webform_civicrm)) {
+    module_load_include('inc', 'webform_civicrm', 'includes/wf_crm_webform_postprocess');
     $processor = wf_crm_webform_postprocess::singleton($node);
     $processor->preSave($submission);
   }
@@ -251,11 +247,13 @@ function webform_civicrm_webform_submission_load(&$submissions) {
   foreach ($db as $row) {
     $sid = $row->sid;
     unset($row->sid);
-    if ($cid = $row->contact_id) {
-      $cid = explode('-', rtrim($cid, '-'));
+    if ($row->contact_id) {
+      $cid = explode('-', rtrim($row->contact_id, '-'));
       unset($cid[0]);
       $row->contact_id = $cid;
-      $contacts[$cid[1]] = '';
+      if (!empty($cid[1])) {
+        $contacts[$cid[1]] = '';
+      }
     }
     $submissions[$sid]->civicrm = (array) $row;
   }

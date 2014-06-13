@@ -126,7 +126,7 @@ var wfCivi = (function ($, D) {
           $(':input', this).not(':radio, :checkbox, :button, :submit').val('');
           $('.civicrm-remove-image', this).click();
           $('input:checkbox, input:radio', this).each(function() {
-            $(this).attr('checked', '');
+            $(this).removeAttr('checked');
           });
           // Trigger chain select when changing country
           if (n[5] === 'country') {
@@ -213,21 +213,23 @@ var wfCivi = (function ($, D) {
   function populateStates(stateSelect, countryId, stateVal) {
     $(stateSelect).attr('disabled', 'disabled');
     if (stateProvinceCache[countryId]) {
-      populateCounty(stateSelect, stateVal, countryId);
       fillOptions(stateSelect, stateProvinceCache[countryId], stateVal);
     }
     else {
       $.get(setting.callbackPath+'/stateProvince/'+countryId, function(data) {
-        populateCounty(stateSelect, stateVal);
         fillOptions(stateSelect, data, stateVal, countryId);
         stateProvinceCache[countryId] = data;
       }, 'json');
     }
   }
 
-  function populateCounty(stateSelect, stateVal, countryId) {
-    var key = parseName(stateSelect.attr('name'));
-    var countySelect = stateSelect.parents('form').find('.civicrm-enabled[name*="['+(key.replace('state_province','county' ))+']"]');
+  function populateCounty() {
+    var
+      stateSelect = $(this),
+      key = parseName(stateSelect.attr('name')),
+      countryId = stateSelect.parents('form').find('.civicrm-enabled[name*="['+(key.replace('state_province', 'country'))+']"]').val(),
+      countySelect = stateSelect.parents('form').find('.civicrm-enabled[name*="['+(key.replace('state_province','county' ))+']"]'),
+      stateVal = stateSelect.val();
     if (countySelect.length) {
       if (!stateVal) {
         fillOptions(countySelect, {'': Drupal.t('- First Choose a State -')});
@@ -276,7 +278,7 @@ var wfCivi = (function ($, D) {
       $(element).removeClass('has-default');
       $(element).append('<option value="-">'+Drupal.t('- N/A -')+'</option>');
     }
-    $(element).removeAttr('disabled');
+    $(element).removeAttr('disabled').change();
   }
 
   function sharedAddress(item, action, speed) {
@@ -315,12 +317,13 @@ var wfCivi = (function ($, D) {
   }
 
   function makeSelect(ele) {
-    var value = ele.val();
-    var classes = ele.attr('class').replace('text', 'select');
+    var value = ele.val(),
+      classes = ele.attr('class').replace('text', 'select'),
+      disabled = ele.is(':disabled') ? ' disabled="disabled"' : '';
     if (value !== '') {
       classes = classes + ' has-default';
     }
-    ele.replaceWith('<select id="'+ele.attr('id')+'" name="'+ele.attr('name')+'" class="'+classes+' civicrm-processed"><option selected="selected" value="'+value+'"> </option></select>');
+    ele.replaceWith('<select id="'+ele.attr('id')+'" name="'+ele.attr('name')+'"' + disabled + ' class="' + classes + ' civicrm-processed"><option selected="selected" value="'+value+'"> </option></select>');
   }
 
   D.behaviors.webform_civicrmForm = {
@@ -350,10 +353,8 @@ var wfCivi = (function ($, D) {
         }
         countryVal || (countryVal = '');
 
+        $('#'+id).change(populateCounty);
         populateStates($('#'+id), countryVal);
-        $('#'+id).change(function() {
-          populateCounty($(this), $(this).val(), countryVal);
-        });
       });
 
       // Add handler to country field to trigger ajax refresh of corresponding state/prov

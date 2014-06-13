@@ -222,7 +222,10 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task {
     // check the current path, if search based, then dont get participantID
     // CRM-5792
     $path = CRM_Utils_System::currentPath();
-    if (strpos($path, 'civicrm/contact/search') === 0) {
+    if (
+      strpos($path, 'civicrm/contact/search') === 0 ||
+      strpos($path, 'civicrm/group/search') === 0
+      ) {
       $this->_id = NULL;
     }
     else {
@@ -574,9 +577,10 @@ SELECT civicrm_custom_group.name as name,
       if (CRM_Utils_Array::value('event_id', $defaults[$this->_id])) {
         $contributionTypeId = CRM_Core_DAO::getFieldValue('CRM_Event_DAO_Event',
           $defaults[$this->_id]['event_id'],
-                                                                    'financial_type_id' );
+          'financial_type_id' 
+        );
         if ($contributionTypeId) {
-                    $defaults[$this->_id]['financial_type_id'] = $contributionTypeId;
+          $defaults[$this->_id]['financial_type_id'] = $contributionTypeId;
         }
       }
 
@@ -990,8 +994,13 @@ loadCampaign( {$this->_eID}, {$eventCampaigns} );
       CRM_Core_Payment_Form::validateCreditCard($values, $errorMsg);
     }
 
-    if (CRM_Utils_Array::value('record_contribution', $values) && !CRM_Utils_Array::value('financial_type_id', $values)) {
-      $errorMsg['financial_type_id'] = ts('Please enter the associated Financial Type');
+    if (CRM_Utils_Array::value('record_contribution', $values)) {
+      if (!CRM_Utils_Array::value('financial_type_id', $values)) {
+        $errorMsg['financial_type_id'] = ts('Please enter the associated Financial Type');
+      }
+      if (!CRM_Utils_Array::value('payment_instrument_id', $values)) {
+        $errorMsg['payment_instrument_id'] = ts('Paid By is a required field.');
+      }
     }
 
     // validate contribution status for 'Failed'.

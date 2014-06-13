@@ -99,6 +99,10 @@ class CRM_Core_Component {
     return self::_info($force);
   }
 
+  static public function flushEnabledComponents() {
+    self::getEnabledComponents(TRUE);
+  }
+
   public static function &getNames($translated = FALSE) {
     $allComponents = self::getComponents();
 

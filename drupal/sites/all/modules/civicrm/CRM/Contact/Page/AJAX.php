@@ -51,7 +51,8 @@ class CRM_Contact_Page_AJAX {
       'fieldName' => 'field_name',
       'tableName' => 'table_name',
       'context' => 'context',
-      'rel' => 'rel'
+      'rel' => 'rel',
+      'contact_sub_type' => 'contact_sub_type'
     );
     foreach ($whitelist as $key => $param) {
       if (!empty($_GET[$key])) {
@@ -1073,7 +1074,7 @@ LIMIT {$offset}, {$rowCount}
     $sEcho     = CRM_Utils_Type::escape($_REQUEST['sEcho'], 'Integer');
     $offset    = isset($_REQUEST['iDisplayStart']) ? CRM_Utils_Type::escape($_REQUEST['iDisplayStart'], 'Integer') : 0;
     $rowCount  = isset($_REQUEST['iDisplayLength']) ? CRM_Utils_Type::escape($_REQUEST['iDisplayLength'], 'Integer') : 25;
-    $sort      = isset($_REQUEST['iSortCol_0']) ? $sortMapper[CRM_Utils_Type::escape($_REQUEST['iSortCol_0'], 'Integer')] : 'sort_name';
+    $sort      = 'sort_name';
     $sortOrder = isset($_REQUEST['sSortDir_0']) ? CRM_Utils_Type::escape($_REQUEST['sSortDir_0'], 'String') : 'asc';
 
     $gid         = isset($_REQUEST['gid']) ? CRM_Utils_Type::escape($_REQUEST['gid'], 'Integer') : 0;
@@ -1134,7 +1135,7 @@ LIMIT {$offset}, {$rowCount}
   /**
    * Function to retrieve Paper Size dimensions
    */
-  function paperSize() {
+  static function paperSize() {
     $paperSizeName = CRM_Utils_Type::escape($_REQUEST['paperSizeName'], 'String');
 
     $paperSize = CRM_Core_BAO_PaperSize::getByName($paperSizeName);

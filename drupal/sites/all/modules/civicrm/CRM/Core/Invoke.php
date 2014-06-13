@@ -456,8 +456,13 @@ class CRM_Core_Invoke {
       }
     }
 
-    $page = new CRM_Profile_Page_Listings();
-    return $page->run();
+    if ($secondArg == 'view' || empty($secondArg)) {
+      $page = new CRM_Profile_Page_Listings();
+      return $page->run();
+    }
+
+    CRM_Utils_System::permissionDenied();
+    return;
   }
 
   /**
@@ -478,16 +483,19 @@ class CRM_Core_Invoke {
     $config = CRM_Core_Config::singleton();
     $config->clearModuleList();
 
+    // also cleanup all caches
+    $config->cleanupCaches($sessionReset || CRM_Utils_Request::retrieve('sessionReset', 'Boolean', CRM_Core_DAO::$_nullObject, FALSE, 0, 'GET'));
+
     CRM_Core_Menu::store();
 
     // also reset navigation
     CRM_Core_BAO_Navigation::resetNavigation();
 
-    // also cleanup all caches
-    $config->cleanupCaches($sessionReset || CRM_Utils_Request::retrieve('sessionReset', 'Boolean', CRM_Core_DAO::$_nullObject, FALSE, 0, 'GET'));
-
     // also cleanup module permissions
     $config->cleanupPermissions();
+
+    // also rebuild word replacement cache
+    CRM_Core_BAO_WordReplacement::rebuild();
 
     CRM_Core_BAO_Setting::updateSettingsFromMetaData();
     CRM_Core_Resources::singleton()->resetCacheCode();
@@ -499,7 +507,7 @@ class CRM_Core_Invoke {
     ) {
       CRM_Core_DAO::triggerRebuild();
     }
-
+    CRM_Core_DAO_AllCoreTables::reinitializeCache(TRUE);
     CRM_Core_ManagedEntities::singleton(TRUE)->reconcile();
   }
 }

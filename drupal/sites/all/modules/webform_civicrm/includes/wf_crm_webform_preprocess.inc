@@ -92,7 +92,7 @@ class wf_crm_webform_preprocess extends wf_crm_webform_base {
       }
       if ($this->settings['block_unknown_users']) {
         $this->form['submitted']['#access'] = $this->form['actions']['#access'] = FALSE;
-        drupal_set_message(t('Sorry, you do not have permission to access this form.'), 'warning', FALSE);
+        $this->setMessage(t('Sorry, you do not have permission to access this form.'), 'warning');
         return;
       }
     }
@@ -119,8 +119,8 @@ class wf_crm_webform_preprocess extends wf_crm_webform_base {
       if ($this->settings['prefix_known']) {
         $this->form['#prefix'] = wf_crm_aval($this->form, '#prefix', '') . '<div class="webform-civicrm-prefix contact-known">' . nl2br($this->replaceTokens($this->settings['prefix_known'], $this->info['contact'][1]['contact'][1])) . '</div>';
       }
-      if ($this->settings['message'] && empty($this->form_state['input']) && empty($this->form_state['storage'])) {
-        $this->setMessage($this->settings['message'], $this->info['contact'][1]['contact'][1]);
+      if ($this->settings['message']) {
+        $this->showNotYouMessage($this->settings['message'], $this->info['contact'][1]['contact'][1]);
       }
     }
     // Store ids
@@ -157,11 +157,7 @@ class wf_crm_webform_preprocess extends wf_crm_webform_base {
     }
     // Preprocess contribution page
     if (!empty($this->data['contribution'])) {
-      $credit_card_types = CRM_Core_Payment_Form::getCreditCardCSSNames();
-      CRM_Core_Resources::singleton()
-        ->addCoreResources()
-        ->addSetting(array('config' => array('creditCardTypes' => $credit_card_types)))
-        ->addScriptFile('civicrm', 'templates/CRM/Core/BillingBlock.js', -10, 'html-header');
+      $this->addPaymentJs();
       $this->form['#attached']['js'][] = array(
         'data' => drupal_get_path('module', 'webform_civicrm') . '/js/webform_civicrm_payment.js',
         'scope' => 'footer',
@@ -184,17 +180,23 @@ class wf_crm_webform_preprocess extends wf_crm_webform_base {
    * @param $aid
    */
   private function populateActivityAndCaseFromUrl($aid) {
+    $return = array('target_contact_id', 'assignee_contact_id', 'source_contact_id', 'activity_type_id');
+    foreach ($this->enabled as $field => $id) {
+      if (strpos($field, 'civicrm_1_activity_1_activity_') === 0) {
+        $return[] = substr($field, 30);
+      }
+    };
     $result = wf_crm_apivalues('activity', 'get', array(
-      'activity_id' => $aid,
-      'options' => array('return' => array('target_contact_id', 'assignee_contact_id'))
+      'id' => $aid,
+      'return' => $return,
     ));
     if (isset($result[$aid])) {
-      $act = $result[$aid];
+      $act = $result[$aid];dsm($act);
       // Verify that this activity is the right type and that our contacts have some involvement in it
       if ($act['activity_type_id'] == $this->data['activity'][1]['activity'][1]['activity_type_id']) {
         foreach ($this->id['cid'] as $cid) {
           if ($act['source_contact_id'] == $cid || in_array($cid, $act['target_contact_id']) || in_array($cid, $act['assignee_contact_id'])) {
-            $activity = array('activity' => array(1 => $result['values'][$aid]));
+            $activity = array('activity' => array(1 => $act));
             $custom = $this->getCustomData($aid, 'activity');
             $this->info['activity'] = array(1 => ($activity + $custom));
             $this->id['act'][1] = $aid;
@@ -300,23 +302,22 @@ class wf_crm_webform_preprocess extends wf_crm_webform_base {
       $this->loadEvents();
       foreach ($this->events as $eid => $event) {
         if ($event['ended']) {
-          if (!empty($reg['show_remaining']) && empty($this->form_state['input']) && empty($this->form_state['storage'])) {
-            drupal_set_message(t('Sorry, %event has ended.', array('%event' => $event['title'])), 'warning', FALSE);
+          if (!empty($reg['show_remaining'])) {
+            $this->setMessage(t('Sorry, %event has ended.', array('%event' => $event['title'])), 'warning');
           }
         }
         elseif ($event['full']) {
-          if (!empty($reg['show_remaining']) && empty($this->form_state['input']) && empty($this->form_state['storage'])) {
-            drupal_set_message('<em>' . $event['title'] . '</em>: ' . $event['full_message'], 'warning', FALSE);
+          if (!empty($reg['show_remaining'])) {
+            $this->setMessage('<em>' . $event['title'] . '</em>: ' . $event['full_message'], 'warning');
           }
         }
         else {
           $reg['block_form'] = FALSE;
-          if ($event['max_participants'] && empty($this->form_state['input']) && empty($this->form_state['storage'])
-            && ($reg['show_remaining'] == 'always' || intval($reg['show_remaining']) >= $event['remaining'])) {
-            drupal_set_message(format_plural($event['remaining'],
+          if ($event['max_participants'] && ($reg['show_remaining'] == 'always' || intval($reg['show_remaining']) >= $event['remaining'])) {
+            $this->setMessage(format_plural($event['remaining'],
               '%event has 1 remaining space.',
               '%event has @count remaining spaces.',
-              array('%event' => $event['title'])), 'status', FALSE);
+              array('%event' => $event['title'])));
           }
         }
       }
@@ -379,25 +380,23 @@ class wf_crm_webform_preprocess extends wf_crm_webform_base {
    * @param int $cid
    */
   private function loadMemberships($c, $cid) {
-    static $status_types;
-    $existing = wf_crm_apivalues('membership', 'get', array('contact_id' => $cid, 'filters' => array('is_current' => 1)));
-    if (!$existing) {
-      return;
-    }
-    if (!$status_types) {
-      $status_types = wf_crm_apivalues('membership', 'getoptions', array('field' => 'status_id', 'context' => 'get'));
-    }
-    foreach ($existing as $membership) {
+    $today = date('Y-m-d');
+    foreach ($this->findMemberships($cid) as $num => $membership) {
+      // Only show 1 expired membership, and only if there are no active ones
+      if (!$membership['is_active'] && $num) {
+        break;
+      }
       $type = $membership['membership_type_id'];
       $msg = t('@type membership for @contact has a status of "@status".', array(
         '@type' => $this->getMembershipTypeField($type, 'name'),
         '@contact' => $this->info['contact'][$c]['contact'][1]['display_name'],
-        '@status' => $status_types[$membership['status_id']]
+        '@status' => $membership['status'],
       ));
       if (!empty($membership['end_date'])) {
-        $msg .= ' ' . t('Expires @date.', array('@date' => CRM_Utils_Date::customFormat($membership['end_date'])));
+        $end = array('@date' => CRM_Utils_Date::customFormat($membership['end_date']));
+        $msg .= ' ' . ($membership['end_date'] > $today ? t('Expires @date.', $end) : t('Expired @date.', $end));
       }
-      drupal_set_message($msg);
+      $this->setMessage($msg);
       for ($n = 1; $n <= $this->data['membership'][$c]['number_of_membership']; ++$n) {
         $fid = "civicrm_{$c}_membership_{$n}_membership_membership_type_id";
         if (empty($info['membership'][$c]['membership'][$n]) && ($this->getData($fid) == $type ||
@@ -478,10 +477,6 @@ class wf_crm_webform_preprocess extends wf_crm_webform_base {
         }
       }
     }
-    // Identify contact 1 as acting user if not already logged in
-    if (!empty($this->id['cid'][1]) && $c == 1 && user_is_anonymous()) {
-      CRM_Core_DAO::executeQuery('SET @civicrm_user_id = %1', array(1 => array($this->id['cid'][1], 'Integer')));
-    }
   }
   
   /**
@@ -521,7 +516,7 @@ class wf_crm_webform_preprocess extends wf_crm_webform_base {
             }
           }
           // Provide live options from the Civi DB
-          elseif (!empty($component['extra']['civicrm_live_options']) && isset($element['#options'])) {
+          if (!empty($component['extra']['civicrm_live_options']) && isset($element['#options'])) {
             $params = array('extra' => wf_crm_aval($field, 'extra', array())) + $component;
             $new = wf_crm_field_options($params, 'live_options', $this->data);
             $old = $element['#options'];
@@ -638,6 +633,18 @@ class wf_crm_webform_preprocess extends wf_crm_webform_base {
   }
 
   /**
+   * Wrapper for drupal_set_message
+   * Ensures we only set the message on the first page of the node display
+   * @param $message
+   * @param string $type
+   */
+  function setMessage($message, $type='status') {
+    if (node_is_page($this->node) && empty($_POST)) {
+      drupal_set_message($message, $type, FALSE);
+    }
+  }
+
+  /**
    * Displays the admin-defined message with "not you?" link to known contacts
    *
    * @param string $message
@@ -645,7 +652,7 @@ class wf_crm_webform_preprocess extends wf_crm_webform_base {
    * @param array $contact
    *   CiviCRM contact array
    */
-  private function setMessage($message, $contact) {
+  private function showNotYouMessage($message, $contact) {
     $message = $this->replaceTokens($message, $contact);
     preg_match_all('#\{([^}]+)\}#', $message, $matches);
     if (!empty($matches[0])) {
@@ -659,7 +666,7 @@ class wf_crm_webform_preprocess extends wf_crm_webform_base {
         $message = str_replace($match, $link, $message);
       }
     }
-    drupal_set_message($message);
+    $this->setMessage($message);
   }
 
   /**

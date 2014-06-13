@@ -51,6 +51,7 @@ function civicrm_api3_mailing_group_event_unsubscribe($params) {
 
 /**
  * Handle a site-level unsubscribe event
+ * @deprecated
  *
  * @param array $params
  *

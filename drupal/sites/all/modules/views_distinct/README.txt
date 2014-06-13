@@ -69,9 +69,13 @@ Or, Aggregating on both Instructor and Term fields:
 
 INSTALLATION
 ------------
-Activate the module, then administer a desired View. Under any field you want
-to affect, Edit the field and select the appropriate Aggregate or Filter option
-under the "Views Distinct Settings" section of the configuration form.
+Activate the Views Distinct module, then administer a desired View via Views UI.
+Note: Although Views UI is not strictly a dependency of Views Distinct, Views UI
+is required to initially configure Views Distinct options.
+
+Under any field you want to affect, Edit the field and select the appropriate
+Aggregate or Filter option under the "Views Distinct Settings" section of the
+configuration form.
 
 If you don't have have a good field to disambiguate "duplicate" rows, you can
 add a Global: Text and rewrite it with some combination of existing fields,
@@ -89,12 +93,24 @@ it's best if folks know about them:
     1) Pager counts and the number of rows displayed are incorrect when
       filtering (removing) duplicates, and aggregation cannot aggregate fields
       from outside the scope of each page, since each page only has access to
-      the rows on that page.  This is a known issue without a fix for now.
-      Results won't be scrambled, but fewer-than-expected results may show up
-      on pagers; please test the outcome and choose if the pager is worth the
+      the rows on that page. This is a known issue without a fix for now.
+      Results won't be scrambled, but fewer-than-expected results may show up on
+      pagers; please test the outcome and choose if the pager is worth the
       oddness.
-    2) Filtering out results does not update pager displays correctly, even in
-      hook_views_post_execute() when unset()ing entries in $view->results.
+    2) Aggregating fields pre-render actually aggregates the base field in the
+      query results, so any other display fields that in some way use those
+      results will be using the aggregated versions. As far as I know there
+      isn't another way to do this, because hook_views_post_execute() does not
+      have access to the display fields, only the query result rows.
+    3) Potential incompatibility with some style plugins: The "Use the rendered
+      output of this field" option in Views Distinct may cause odd things to
+      happen with some style plugins that change output when called twice (e.g.
+      Views Slideshow - see #1956878: Interference with Views Slideshow). This
+      is because Views Distinct needs to re-render the rows when it makes
+      changes to the View output after the fields have been rendered. If you
+      encounter this issue, uncheck the "Use the rendered output of this field"
+      option.
+
 
 MAINTAINERS
 -----------

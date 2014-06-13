@@ -213,15 +213,20 @@ var wfCiviAdmin = (function ($, D) {
   function changeSelect() {
     var $el = $(this).siblings('select');
     var triggerChange;
+    var val = $el.val();
     $(this).toggleClass('select-multiple');
     if ($el.is('[multiple]')) {
-      if ($el.val() && $el.val().length > 1) {
+      if (val && val.length > 1) {
         triggerChange = true;
       }
       if (!$el.hasClass('required') && $('option[value=""]', $el).length < 1) {
         $el.prepend('<option value="">'+ Drupal.t('- None -') +'</option>');
       }
       $el.removeAttr('multiple');
+      // Choose first option if nothing is already selected
+      if (!val || val.length < 1) {
+        $el.val($('option:first', $el).attr('value'));
+      }
     }
     else {
       $el.attr('multiple', 'multiple');
@@ -451,15 +456,18 @@ var wfCiviAdmin = (function ($, D) {
       }).change();
 
       // Membership constraints
-      $('select[name$=_membership_num_terms]', context).once('crm-mem-date').change(function() {
+      $('select[name$=_membership_num_terms]', context).once('crm-mem-date').change(function(e, type) {
         var $dateWrappers = $(this).parent().siblings('[class$="-date"]');
         if ($(this).val() == '0') {
-          $dateWrappers.show().find('input').attr('checked', 'checked');
+          $dateWrappers.show();
+          if (type !== 'init') {
+            $('input', $dateWrappers).attr('checked', 'checked');
+          }
         }
         else {
           $dateWrappers.hide().find('input').removeAttr('checked');
         }
-      }).change();
+      }).trigger('change', 'init');
 
       function billingMessages() {
         var $pageSelect = $('[name=civicrm_1_contribution_1_contribution_contribution_page_id]');

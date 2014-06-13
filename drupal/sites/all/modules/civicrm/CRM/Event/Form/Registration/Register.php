@@ -72,6 +72,11 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration {
   public $_snippet;
 
   /**
+   * @var boolean determines if fee block should be shown or hidden
+   */
+  public $_noFees;
+
+  /**
    * Function to set variables up before form is built
    *
    * @return void
@@ -89,8 +94,8 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration {
     // Get payment processors if appropriate for this event
     // We hide the payment fields if the event is full or requires approval,
     // and the current user has not yet been approved CRM-12279
-    $noFees = (($eventFull || $this->_requireApproval) && !$this->_allowConfirmation);
-    CRM_Contribute_Form_Contribution_Main::preProcessPaymentOptions($this, $noFees);
+    $this->_noFees = (($eventFull || $this->_requireApproval) && !$this->_allowConfirmation);
+    CRM_Contribute_Form_Contribution_Main::preProcessPaymentOptions($this, $this->_noFees);
     if ($this->_snippet) {
       return;
     }
@@ -321,11 +326,10 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration {
     $this->buildCustom($this->_values['custom_pre_id'], 'customPre');
     $this->buildCustom($this->_values['custom_post_id'], 'customPost');
 
-    if (!empty($this->_fields)) {
+    if (!empty($this->_fields) && !empty($this->_values['custom_pre_id'])) {
       $profileAddressFields = array();
       foreach ($this->_fields as $key => $value) {
-        CRM_Core_BAO_UFField::assignAddressField($key, $profileAddressFields);
-      }
+        CRM_Core_BAO_UFField::assignAddressField($key, $profileAddressFields, array('uf_group_id' => $this->_values['custom_pre_id']));      }
       $this->set('profileAddressFields', $profileAddressFields);
     }
 
@@ -543,9 +547,15 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration {
    * @static
    */
   static public function buildAmount(&$form, $required = TRUE, $discountId = NULL) {
+    // build amount only when needed, skip incase of event full and waitlisting is enabled
+    // and few other conditions check preProcess()
+    if (!empty($form->_noFees)) {
+      return;
+    }
+
     //if payment done, no need to build the fee block.
     if (!empty($form->_paymentId)) {
-      //fix to diaplay line item in update mode.
+      //fix to display line item in update mode.
       $form->assign('priceSet', isset($form->_priceSet) ? $form->_priceSet : NULL);
       return;
     }
@@ -841,7 +851,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration {
     }
 
     if ($self->_values['event']['is_monetary']) {
-      if ($fields['amount'] > 0 && !isset($fields['payment_processor'])) {
+      if (empty($self->_requireApproval) && !empty($fields['amount']) && $fields['amount'] > 0 && !isset($fields['payment_processor'])) {
         $errors['payment_processor'] = ts('Please select a Payment Method');
       }
       if (is_array($self->_paymentProcessor)) {
@@ -1039,8 +1049,13 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration {
         $params['amount'] = $this->_values['discount'][$discountId][$params['amount']]['value'];
       }
       elseif (empty($params['priceSetId'])) {
-        $params['amount_level'] = $this->_values['fee'][$params['amount']]['label'];
-        $params['amount'] = $this->_values['fee'][$params['amount']]['value'];
+        if (!empty($params['amount'])) {
+          $params['amount_level'] = $this->_values['fee'][$params['amount']]['label'];
+          $params['amount'] = $this->_values['fee'][$params['amount']]['value'];
+        }
+        else {
+          $params['amount_level'] = $params['amount'] = '';
+        }
       }
       else {
         $lineItem = array();

@@ -23,7 +23,6 @@ class wf_crm_admin_form {
     $this->node = &$node;
     $this->fields = wf_crm_get_fields();
     $this->sets = wf_crm_get_fields('sets');
-    $this->settings = isset($node->webform_civicrm) ? $node->webform_civicrm : array();
   }
 
   /**
@@ -41,29 +40,11 @@ class wf_crm_admin_form {
     // Add css & js
     $this->addResources();
 
-    // Initialize form on first view
     if (empty($this->form_state['values'])) {
-      // For a new civi-webform, set up some defaults
-      if (!$this->settings) {
-        $this->setDefaultSettings();
-      }
-      $this->data = &$this->settings['data'];
-      // Warn of incompatible modules
-      $incompatibilities = array(
-        'form_builder_webform' => t('Form builder Webform UI'),
-        'webform_alt_ui' => t('Webform Alternate UI'),
-      );
-      foreach ($incompatibilities as $module => $label) {
-        if (module_exists($module)) {
-          drupal_set_message(t('The module %module is not compatible with Webform CiviCRM Integration. Please disable it before continuing.', array('%module' => $label)), 'error');
-        }
-      }
+      $this->initializeForm();
     }
-    // On rebuilding the form
     else {
-      $this->settings = wf_crm_aval($this->form_state['storage'], 'vals', $this->form_state['values']);
-      $this->rebuildData();
-      unset($this->form_state['storage']['vals']);
+      $this->rebuildForm();
     }
     // Merge in existing fields
     $existing = array_keys(wf_crm_enabled_fields($this->node, NULL, TRUE));
@@ -98,6 +79,33 @@ class wf_crm_admin_form {
       '#value' => t('Save Settings'),
     );
     return $this->form;
+  }
+
+  /**
+   * Initialize form on first view
+   */
+  private function initializeForm() {
+    $this->settings = isset($this->node->webform_civicrm) ? $this->node->webform_civicrm : $this->defaultSettings();
+    $this->data = &$this->settings['data'];
+    // Warn of incompatible modules
+    $incompatibilities = array(
+      'form_builder_webform' => t('Form builder Webform UI'),
+      'webform_alt_ui' => t('Webform Alternate UI'),
+    );
+    foreach ($incompatibilities as $module => $label) {
+      if (module_exists($module)) {
+        drupal_set_message(t('The module %module is not compatible with Webform CiviCRM Integration. Please disable it before continuing.', array('%module' => $label)), 'error');
+      }
+    }
+  }
+
+  /**
+   * On rebuilding the form
+   */
+  private function rebuildForm() {
+    $this->settings = wf_crm_aval($this->form_state['storage'], 'vals', $this->form_state['values']);
+    $this->rebuildData();
+    unset($this->form_state['storage']['vals']);
   }
 
   /**
@@ -837,8 +845,8 @@ class wf_crm_admin_form {
   /**
    * Set defaults when visiting the civicrm tab for the first time
    */
-  private function setDefaultSettings() {
-    $this->settings = array(
+  private function defaultSettings() {
+    return array(
       'data' => array(
         'contact' => array(
           1 => array(
@@ -1095,10 +1103,13 @@ class wf_crm_admin_form {
           // Git rid of the "User Select" and "None" options
           unset($val['create_civicrm_webform_element'], $val['']);
         }
-        elseif ($val == 'create_civicrm_webform_element') {
+        elseif ($val === 'create_civicrm_webform_element') {
           $val = '';
         }
-        if (isset($this->fields[$table . '_' . $name]['expose_list']) && !empty($val)) {
+        // Saves all non-empty values with a hack for fields which needs to be saved even when 0
+        // FIXME: Really ought to change the select placeholder value to be '' instead of 0
+        if (isset($this->fields[$table . '_' . $name]['expose_list']) &&
+          (!empty($val) || (in_array($name, array('num_terms', 'is_active', 'is_test'))))) {
           // Don't add data for non-existent contacts
           if (!in_array($ent, array('contact', 'participant', 'membership')) || isset($this->data['contact'][$c])) {
             $this->data[$ent][$c][$table][$n][$name] = $val;
@@ -1347,7 +1358,7 @@ class wf_crm_admin_form {
       $vals = $enabled + $settings;
       // Set the allow_create flag based on presence of name or email fields
       $field['extra']['allow_create'] = $a = wf_crm_name_field_exists($vals, $c, $contact_type);
-      $field['extra']['none_prompt'] = $a ? t('+ Create new contact +') : t('- None Found -');
+      $field['extra']['none_prompt'] = $a ? t('+ Create new +') : t('- None Found -');
       if ($c == 1 && $contact_type == 'individual') {
         // Default to hidden field for 1st contact
         $field['extra'] += array(
