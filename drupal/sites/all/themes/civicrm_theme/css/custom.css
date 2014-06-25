@@ -2939,6 +2939,21 @@ h3
 }
 
 
+#block-block-23 h3 {
+    width: 300px;
+    text-align: center;
+    color: white;
+    font-size: 18px;
+    margin-top: 30px;
+}
+
+#block-block-23 {
+    padding: 0px;
+    margin-top: -1.5em;
+    clear: none;
+    float: right;
+    width: 424px;
+}
 
 #block-webform-client-block-2295,
 #block-webform-client-block-2296,
@@ -3219,3 +3234,4 @@ form#webform-client-form-2278,
   display: block !important;
   margin: auto;
 }
+
