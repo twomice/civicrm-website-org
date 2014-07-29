@@ -3066,7 +3066,7 @@ form#webform-client-form-2278,
 
 /* checkboxes in two columns on the site registration form */
 .webform-client-form-2700 .form-type-checkbox{
-	width: 50%
+	width: 50%;
 	float: left;
 }
 
