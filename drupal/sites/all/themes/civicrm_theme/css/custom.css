@@ -3070,6 +3070,10 @@ form#webform-client-form-2278,
 	float: left;
 }
 
+.webform-client-form-2700 .form-type-checkboxes .description {
+    clear: left;
+}
+
 .civi-social-links {
   display: block;
   width: 261px;
