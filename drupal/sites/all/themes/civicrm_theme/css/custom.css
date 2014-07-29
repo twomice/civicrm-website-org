@@ -3064,6 +3064,12 @@ form#webform-client-form-2278,
 	color: #fff;
 }
 
+/* checkboxes in two columns on the site registration form */
+.webform-client-form-2700 .form-type-checkbox{
+	width: 50%
+	float: left;
+}
+
 .civi-social-links {
   display: block;
   width: 261px;
