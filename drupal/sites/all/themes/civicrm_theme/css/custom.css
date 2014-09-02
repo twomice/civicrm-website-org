@@ -30,6 +30,10 @@ body
     background-repeat:repeat-x;
 }
 
+.front td h2{
+    margin: 0px;
+}
+
 #header-blocks
 {
     display: inline-block;
