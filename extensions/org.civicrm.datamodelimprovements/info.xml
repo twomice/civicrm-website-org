@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
-<extension key="org.civicrm.customdataimprovements" type="module">
-  <file>customdataimprovements</file>
-  <name>Custom data improvements</name>
-  <description>Historically CiviCRM's custom data is a bit messy. This extension cleans and improves our custom data</description>
+<extension key="org.civicrm.datamodelimprovements" type="module">
+  <file>datamodelimprovements</file>
+  <name>Data model improvements</name>
+  <description>Historically CiviCRM's data structures are a bit messy. This extension cleans and improves our data</description>
   <license>AGPL-3.0</license>
   <maintainer>
     <author>Michael McAndrew</author>
@@ -16,6 +16,6 @@
   </compatibility>
   <comments></comments>
   <civix>
-    <namespace>CRM/Customdataimprovements</namespace>
+    <namespace>CRM/Datamodelmprovements</namespace>
   </civix>
 </extension>

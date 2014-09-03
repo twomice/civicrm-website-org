@@ -1,14 +1,14 @@
 <?php
 
-require_once 'customdataimprovements.civix.php';
+require_once 'datamodelimprovements.civix.php';
 
 /**
  * Implementation of hook_civicrm_config
  *
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_config
  */
-function customdataimprovements_civicrm_config(&$config) {
-  _customdataimprovements_civix_civicrm_config($config);
+function datamodelimprovements_civicrm_config(&$config) {
+  _datamodelimprovements_civix_civicrm_config($config);
 }
 
 /**
@@ -18,8 +18,8 @@ function customdataimprovements_civicrm_config(&$config) {
  *
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_xmlMenu
  */
-function customdataimprovements_civicrm_xmlMenu(&$files) {
-  _customdataimprovements_civix_civicrm_xmlMenu($files);
+function datamodelimprovements_civicrm_xmlMenu(&$files) {
+  _datamodelimprovements_civix_civicrm_xmlMenu($files);
 }
 
 /**
@@ -27,8 +27,8 @@ function customdataimprovements_civicrm_xmlMenu(&$files) {
  *
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_install
  */
-function customdataimprovements_civicrm_install() {
-  return _customdataimprovements_civix_civicrm_install();
+function datamodelimprovements_civicrm_install() {
+  return _datamodelimprovements_civix_civicrm_install();
 }
 
 /**
@@ -36,8 +36,8 @@ function customdataimprovements_civicrm_install() {
  *
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_uninstall
  */
-function customdataimprovements_civicrm_uninstall() {
-  return _customdataimprovements_civix_civicrm_uninstall();
+function datamodelimprovements_civicrm_uninstall() {
+  return _datamodelimprovements_civix_civicrm_uninstall();
 }
 
 /**
@@ -45,8 +45,8 @@ function customdataimprovements_civicrm_uninstall() {
  *
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_enable
  */
-function customdataimprovements_civicrm_enable() {
-  return _customdataimprovements_civix_civicrm_enable();
+function datamodelimprovements_civicrm_enable() {
+  return _datamodelimprovements_civix_civicrm_enable();
 }
 
 /**
@@ -54,8 +54,8 @@ function customdataimprovements_civicrm_enable() {
  *
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_disable
  */
-function customdataimprovements_civicrm_disable() {
-  return _customdataimprovements_civix_civicrm_disable();
+function datamodelimprovements_civicrm_disable() {
+  return _datamodelimprovements_civix_civicrm_disable();
 }
 
 /**
@@ -69,8 +69,8 @@ function customdataimprovements_civicrm_disable() {
  *
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_upgrade
  */
-function customdataimprovements_civicrm_upgrade($op, CRM_Queue_Queue $queue = NULL) {
-  return _customdataimprovements_civix_civicrm_upgrade($op, $queue);
+function datamodelimprovements_civicrm_upgrade($op, CRM_Queue_Queue $queue = NULL) {
+  return _datamodelimprovements_civix_civicrm_upgrade($op, $queue);
 }
 
 /**
@@ -81,8 +81,8 @@ function customdataimprovements_civicrm_upgrade($op, CRM_Queue_Queue $queue = NU
  *
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_managed
  */
-function customdataimprovements_civicrm_managed(&$entities) {
-  return _customdataimprovements_civix_civicrm_managed($entities);
+function datamodelimprovements_civicrm_managed(&$entities) {
+  return _datamodelimprovements_civix_civicrm_managed($entities);
 }
 
 /**
@@ -94,8 +94,8 @@ function customdataimprovements_civicrm_managed(&$entities) {
  *
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_caseTypes
  */
-function customdataimprovements_civicrm_caseTypes(&$caseTypes) {
-  _customdataimprovements_civix_civicrm_caseTypes($caseTypes);
+function datamodelimprovements_civicrm_caseTypes(&$caseTypes) {
+  _datamodelimprovements_civix_civicrm_caseTypes($caseTypes);
 }
 
 /**
@@ -103,6 +103,6 @@ function customdataimprovements_civicrm_caseTypes(&$caseTypes) {
  *
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_alterSettingsFolders
  */
-function customdataimprovements_civicrm_alterSettingsFolders(&$metaDataFolders = NULL) {
-  _customdataimprovements_civix_civicrm_alterSettingsFolders($metaDataFolders);
+function datamodelimprovements_civicrm_alterSettingsFolders(&$metaDataFolders = NULL) {
+  _datamodelimprovements_civix_civicrm_alterSettingsFolders($metaDataFolders);
 }

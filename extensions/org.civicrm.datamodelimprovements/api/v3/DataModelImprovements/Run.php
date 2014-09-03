@@ -8,7 +8,7 @@
  * @return void
  * @see http://wiki.civicrm.org/confluence/display/CRM/API+Architecture+Standards
  */
-function _civicrm_api3_custom_data_improvements_run_spec(&$spec) {
+function _civicrm_api3_data_model_improvements_run_spec(&$spec) {
 }
 
 /**
@@ -20,12 +20,24 @@ function _civicrm_api3_custom_data_improvements_run_spec(&$spec) {
  * @see civicrm_api3_create_error
  * @throws API_Exception
  */
-function civicrm_api3_custom_data_improvements_run($params) {
+function civicrm_api3_data_model_improvements_run($params) {
+
+    switch($params['set']){
+        case 1:
+            DataModelImprovements_set1();
+            break;
+        case 2:
+            DataModelImprovements_set2();
+            break;
     
+    }
+}
+
+function DataModelImprovements_set1(){
     echo "Community profile custom data set should only apply to individuals\n";
-    CustomDataImprovements_Change_Entity(11,'Individual');
+    DataModelImprovements_Change_Entity(11,'Individual');
     echo "Community profile custom data set should only apply to individuals\n";
-    CustomDataImprovements_Change_Entity(8,'Individual');
+    DataModelImprovements_Change_Entity(8,'Individual');
     echo "People that have filled in the site registration should be classed as End Users\n";
     $query = "UPDATE civicrm_contact AS cc
         JOIN civicrm_value_civicrm_site_registration_4 AS cd ON cd.entity_id = cc.id
@@ -42,7 +54,7 @@ function civicrm_api3_custom_data_improvements_run($params) {
     CRM_Core_DAO::singleValueQuery($query);
 }
 
-function CustomDataImprovements_Change_Entity($custom_group_id, $contact_type){
+function DataModelImprovements_Change_Entity($custom_group_id, $contact_type){
     $tableName = CRM_Core_DAO::getFieldValue('CRM_Core_DAO_CustomGroup', $custom_group_id, 'table_name');
     CRM_Core_DAO::dropTriggers($tableName);
     echo "- Delete custom data set with id $custom_group_id for organistions that are not of type '$contact_type'\n";
@@ -58,5 +70,32 @@ function CustomDataImprovements_Change_Entity($custom_group_id, $contact_type){
         WHERE id = $custom_group_id";
     CRM_Core_DAO::singleValueQuery($query);
     CRM_Core_DAO::triggerRebuild($tableName);
+}
+
+function DataModelImprovements_set2(){
+    $query = "SELECT cr.contact_id_a, cr.contact_id_b
+        FROM civicrm_contact AS cc
+        JOIN civicrm_group_contact AS ccg ON ccg.contact_id = cc.id AND ccg.group_id = 15
+        JOIN civicrm_relationship AS cr ON cc.id = cr.contact_id_b AND cr.relationship_type_id=4
+        JOIN civicrm_contact AS ci ON cr.contact_id_a = ci.id";
+    $result = CRM_Core_DAO::ExecuteQuery($query);
+    while($result->fetch()){
+        echo $result->contact_id_a.' ';
+        $params = array(
+            'version' => 3,
+            'sequential' => 1,
+            'contact_id_a' => $result->contact_id_a,
+            'contact_id_b' => $result->contact_id_b,
+            'relationship_type_id' => 12,
+        );
+        $result = civicrm_api('Relationship', 'create', $params);
+        $params = array(
+            'version' => 3,
+            'sequential' => 1,
+            'target_contact_id' => array($result->contact_id_a, $result->contact_id_b)
+            'activity_type_id' => ,
+        );
+        $result = civicrm_api('Relationship', 'create', $params);
+    }
 
 }
