@@ -2,7 +2,9 @@
 
 All new code, etc. should be developed locally, commited to this repository, tested on www-test.civicrm.org, and the deployed on production. www-test should NOT be used for code based development.
 
-You can use www-test to experiment with ad-hoc configuration changes (e.g. to views, permissions, etc.) but note that many peole have access to www-test, and it gets over written with data from www-prod on a regular basis, e.g. when testing upgrades of CiviCRM.  Therefore, you should NOT assume that your config changes will be on www-test next time you look.
+It is good practice to use www-test to experiment with anything that does not happen at the code level (like configuration changes, creating views, permissions changes, etc.) but if you are making trivial changes, just adding content, etc., and you are confident of the results, please feel free to make the changes directly on the live site.
+
+Note that many people have access to www-test, and it gets over written with data from www-prod on a regular basis, e.g. when testing upgrades of CiviCRM.  Therefore, you should let people on the infra list know about any changes you are making on www-test so they don't overwrite them, and NOT assume that your config changes will be on www-test next time you look.  Backup/Export any complex views, etc. to ensure they are there next time you look.
 
 **Note:** Access www-test.civicrm.org with http username/password civicrm/civicrm.
 
