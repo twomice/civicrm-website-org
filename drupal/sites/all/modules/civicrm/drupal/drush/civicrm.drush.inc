@@ -97,6 +97,47 @@ function civicrm_drush_command() {
     ),
     'aliases' => array('cvi'),
   );
+  $items['civicrm-ext-list'] = array(
+    'description' => "List of CiviCRM extensions enabled.",
+    'examples' => array(
+      'Standard example' => 'drush civicrm-ext-list',
+    ),
+    'aliases' => array('cel'),
+  );
+  $items['civicrm-ext-install'] = array(
+    'description' => "Install a CiviCRM extension.",
+    'arguments' => array(
+      'ename' => 'Extension name.',
+    ),
+    'required-arguments' => TRUE,
+    'examples' => array(
+      'Standard example' => 'drush civicrm-ext-install civimobile',
+    ),
+    'aliases' => array('cei'),
+  );
+  $items['civicrm-ext-disable'] = array(
+    'description' => "Disable a CiviCRM extension.",
+    'arguments' => array(
+      'ename' => 'Extension name.',
+    ),
+    'required-arguments' => TRUE,
+    'examples' => array(
+      'Standard example' => 'drush civicrm-ext-disable civimobile',
+    ),
+    'aliases' => array('ced'),
+  );
+  $items['civicrm-ext-uninstall'] = array(
+    'description' => "Uninstall a CiviCRM extension.",
+    'arguments' => array(
+      'ename' => 'Extension name.',
+    ),
+    'required-arguments' => TRUE,
+    'examples' => array(
+      'Standard example' => 'drush civicrm-ext-uninstall civimobile',
+    ),
+    'aliases' => array('ceui'),
+  );
+
   $items['civicrm-upgrade-db'] = array(
     'description' => "Execute the civicrm/upgrade?reset=1 process from the command line.",
     'aliases' => array('cvupdb'),
@@ -492,6 +533,98 @@ function civicrm_drush_help($section) {
 }
 
 /**
+ * Implementation of command 'civicrm-ext-list'
+ */
+function drush_civicrm_ext_list() {
+  civicrm_initialize();
+  try{
+    $result = civicrm_api('extension', 'get', array('version' => 3));
+    $rows = array(array(dt('App name'), dt('Status')));
+    foreach ($result['values'] as $k => $extension_data) {
+      $rows[] = array(
+        $extension_data['key'],
+        $extension_data['status'],
+      );
+    }
+    unset($result);
+    drush_print_table($rows, TRUE);
+  }
+  catch (CiviCRM_API3_Exception $e) {
+    // handle error here
+    $errorMessage = $e->getMessage();
+    $errorCode = $e->getErrorCode();
+    $errorData = $e->getExtraParams();
+    drush_log(dt("!error", array('!error' => $errorData), 'error'));
+  }
+}
+
+/**
+ * Implementation of command 'civicrm-ext-install'
+ */
+function drush_civicrm_ext_install($extension_name) {
+  civicrm_initialize();
+  try{
+    $result = civicrm_api('extension', 'install', array('key' => $extension_name, 'version' => 3));
+    if($result['values'] && $result['values'] == 1) {
+      drush_print(dt("Extension !ename installed.", array('!ename' => $extension_name)));
+    } else {
+      drush_log(t('Extension !ename could not be installed.', array('!ename' => $extension_name)), 'error');    
+    }
+  }
+  catch (CiviCRM_API3_Exception $e) {
+    // handle error here
+    $errorMessage = $e->getMessage();
+    $errorCode = $e->getErrorCode();
+    $errorData = $e->getExtraParams();
+    drush_log(dt("!error", array('!error' => $errorData), 'error'));
+  }
+}
+
+/**
+ * Implementation of command 'civicrm-ext-disable'
+ */
+function drush_civicrm_ext_disable($extension_name) {
+  civicrm_initialize();
+  try{
+    $result = civicrm_api('extension', 'disable', array('key' => $extension_name, 'version' => 3));
+    if($result['values'] && $result['values'] == 1) {
+      drush_print(dt("Extension !ename disabled.", array('!ename' => $extension_name)));
+    } else {
+      drush_log(t('Extension !ename could not be disabled.', array('!ename' => $extension_name)), 'error');
+    }
+  }
+  catch (CiviCRM_API3_Exception $e) {
+    // handle error here
+    $errorMessage = $e->getMessage();
+    $errorCode = $e->getErrorCode();
+    $errorData = $e->getExtraParams();
+    drush_log(dt("!error", array('!error' => $errorData), 'error'));
+  }
+}
+
+/**
+ * Implementation of command 'civicrm-ext-uninstall'
+ */
+function drush_civicrm_ext_uninstall($extension_name) {
+  civicrm_initialize();
+  try{
+    $result = civicrm_api('extension', 'uninstall', array('key' => $extension_name, 'version' => 3));
+    if($result['values'] && $result['values'] == 1) {
+      drush_print(dt("Extension !ename uninstalled.", array('!ename' => $extension_name)));
+    } else {
+      drush_log(t('Extension !ename could not be uninstalled.', array('!ename' => $extension_name)), 'error');    
+    }
+  }
+  catch (CiviCRM_API3_Exception $e) {
+    // handle error here
+    $errorMessage = $e->getMessage();
+    $errorCode = $e->getErrorCode();
+    $errorData = $e->getExtraParams();
+    drush_log(dt("!error", array('!error' => $errorData), 'error'));
+  }
+}
+
+/**
  * Implementation of drush_hook_COMMAND_validate for command 'civicrm-upgrade-db'
  */
 function drush_civicrm_upgrade_db_validate() {
@@ -627,8 +760,7 @@ function drush_civicrm_cacheclear() {
   variable_del('civicrm_class_loader');
 
   // Flush all caches using the API
-  $params = array();
-
+  $params = array('version' => 3);
   if (drush_get_option('triggers', FALSE)) {
     $params['triggers'] = 1;
   }
@@ -637,6 +769,8 @@ function drush_civicrm_cacheclear() {
     $params['session'] = 1;
   }
 
+  // Need to set API version or drush cc civicrm fails
+  $params['version'] = 3;
   $result = civicrm_api('System', 'flush', $params);
 
   if ($result['is_error']) {
@@ -1022,14 +1156,20 @@ function drush_civicrm_sqlconnect_validate() {
  * Implementation of command 'civicrm-sql-connect'
  */
 function drush_civicrm_sqlconnect() {
-  drush_sql_connect();
+  return drush_sql_connect();
+}
+
+/**
+ * Implements drush_post_COMMAND hook
+ */
+function drush_civicrm_post_civicrm_sql_connect() {
   _civicrm_dsn_close();
 }
 
 /**
- * Implementation of drush_hook_COMMAND_validate for command 'civicrm-sql-query'
+ * Implementation of drush_hook_pre_COMMAND for command 'civicrm-sql-query'
  */
-function drush_civicrm_sqlquery_validate() {
+function drush_civicrm_pre_civicrm_sql_query() {
   _civicrm_dsn_init();
 }
 
@@ -1037,7 +1177,10 @@ function drush_civicrm_sqlquery_validate() {
  * Implementation of command 'civicrm-sql-query'
  */
 function drush_civicrm_sqlquery($query) {
-  drush_sql_query($query);
+  return drush_sql_query($query);
+}
+
+function drush_civicrm_post_civicrm_sql_query() {
   _civicrm_dsn_close();
 }
 

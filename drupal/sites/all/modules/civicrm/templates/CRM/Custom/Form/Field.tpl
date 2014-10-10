@@ -1,8 +1,8 @@
 {*
  +--------------------------------------------------------------------+
- | CiviCRM version 4.4                                                |
+ | CiviCRM version 4.5                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2013                                |
+ | Copyright CiviCRM LLC (c) 2004-2014                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -156,7 +156,13 @@ function custom_option_html_type( ) {
     {/if}
             </td>
         </tr>
-        <tr class="crm-custom-field-form-block-text_length"  id="textLength" {if !( $action eq 1 || $action eq 2 ) && ($form.data_type.value.0.0 != 0)}class="hide-block"{/if}>
+       {if $form.in_selector}
+       <tr class='crm-custom-field-form-block-in_selector'>
+          <td class='label'>{$form.in_selector.label}</td>
+          <td class='html-adjust'>{$form.in_selector.html} {help id="id-in_selector"}</td>
+       </tr>
+       {/if}
+       <tr class="crm-custom-field-form-block-text_length"  id="textLength" {if !( $action eq 1 || $action eq 2 ) && ($form.data_type.value.0.0 != 0)}class="hide-block"{/if}>
             <td class="label">{$form.text_length.label}</td>
             <td class="html-adjust">{$form.text_length.html}</td>
         </tr>
@@ -184,7 +190,7 @@ function custom_option_html_type( ) {
               {$form.filter.html}
               &nbsp;&nbsp;<span><a href="#" onclick="toggleContactRefFilter('Group'); return false;">{ts}Filter by Group{/ts}</a></span>
         <br />
-        <span class="description">{ts}Filter contact search results for this field using Contact Lookup API parameters. EXAMPLE: To list Students in group 3:{/ts} "action=lookup&group=3&contact_sub_type=Student" {docURL page="developer/techniques/api"}</span>
+        <span class="description">{ts}Filter contact search results for this field using Contact Lookup API parameters. EXAMPLE: To list Students in group 3:{/ts} "action=lookup&group=3&contact_sub_type=Student" {docURL page="Using the API" resource="wiki"}</span>
             </td>
         </tr>
         <tr  class="crm-custom-field-form-block-options_per_line" id="optionsPerLine" {if $action neq 2 && ($form.data_type.value.0.0 >= 4 && $form.data_type.value.1.0 neq 'CheckBox' || $form.data_type.value.1.0 neq 'Radio' )}class="hide-block"{/if}>

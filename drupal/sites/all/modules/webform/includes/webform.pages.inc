@@ -108,14 +108,17 @@ function webform_configure_form($form, &$form_state, $node) {
     '#default_value' => $node->webform['total_submit_limit'] != -1 ? $node->webform['total_submit_limit'] : '',
     '#parents' => array('total_submit_limit'),
   );
-  $form['submission']['total_submit_limit']['total_submit_interval'] = array(
-    '#type' => 'select',
-    '#options' => array(
+  $interval_options = array(
       '-1' => t('ever'),
+      '60' => t('every minute'),
+      '300' => t('every 5 minutes'),
       '3600' => t('every hour'),
       '86400' => t('every day'),
       '604800' => t('every week'),
-    ),
+    );
+  $form['submission']['total_submit_limit']['total_submit_interval'] = array(
+    '#type' => 'select',
+    '#options' => $interval_options,
     '#default_value' => $node->webform['total_submit_interval'],
     '#parents' => array('total_submit_interval'),
   );
@@ -142,12 +145,7 @@ function webform_configure_form($form, &$form_state, $node) {
   );
   $form['submission']['submit_limit']['submit_interval'] = array(
     '#type' => 'select',
-    '#options' => array(
-      '-1' => t('ever'),
-      '3600' => t('every hour'),
-      '86400' => t('every day'),
-      '604800' => t('every week'),
-    ),
+    '#options' => $interval_options,
     '#default_value' => $node->webform['submit_interval'],
     '#parents' => array('submit_interval'),
   );
@@ -333,9 +331,9 @@ function webform_configure_form($form, &$form_state, $node) {
   );
   $form['advanced']['auto_save'] = array(
     '#type' => 'checkbox',
-    '#title' => t('Automatically save as draft between pages'),
+    '#title' => t('Automatically save as draft between pages and when there are validation errors'),
     '#default_value' => $node->webform['auto_save'],
-    '#description' => t('Automatically save partial submissions when users click the "Next" or "Previous" buttons in a multipage form.'),
+    '#description' => t('Automatically save partial submissions when users click the "Next" or "Previous" buttons in a multipage form or when validation errors prevent form submission.'),
   );
   $form['advanced']['submit_notice'] = array(
     '#type' => 'checkbox',

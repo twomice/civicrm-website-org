@@ -4,11 +4,11 @@ description = Add a layout container type element to Webform.
 core = 7.x
 package = Webform
 
-dependencies[] = webform
+dependencies[] = webform (3.x)
 
-; Information added by drupal.org packaging script on 2012-07-28
-version = "7.x-1.0"
+; Information added by Drupal.org packaging script on 2014-08-06
+version = "7.x-1.2"
 core = "7.x"
 project = "webform_layout"
-datestamp = "1343437088"
+datestamp = "1407362028"
 

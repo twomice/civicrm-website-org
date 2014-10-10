@@ -3,8 +3,8 @@
   word-spacing: -1em; /* remove the space between inline-blocks */
 }
 
-.webform-layout-box.horiz  > *,
-.webform-layout-box.equal  > * {
+.webform-layout-box.horiz > *,
+.webform-layout-box.equal > * {
   display: inline-block;
   vertical-align: top;
   word-spacing: normal;
@@ -15,6 +15,10 @@
 
 .webform-layout-box.horiz > * + * {
   margin-left: 1em; /* add space between variable-width blocks */
+}
+
+.webform-layout-box > .form-item input{
+  max-width: 100%;
 }
 
 .webform-layout-box.equal.child-width-2  > * {width: 50%;}

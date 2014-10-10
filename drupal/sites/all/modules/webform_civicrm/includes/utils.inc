@@ -458,6 +458,7 @@ function wf_crm_get_fields($var = 'fields') {
       'phone' => array('entity_type' => 'contact', 'label' => t('Phone'), 'max_instances' => 9),
       'email' => array('entity_type' => 'contact', 'label' => t('Email'), 'max_instances' => 9),
       'website' => array('entity_type' => 'contact', 'label' => t('Website'), 'max_instances' => 9),
+      'im' => array('entity_type' => 'contact', 'label' => t('Instant Message'), 'max_instances' => 9),
       'activity' => array('entity_type' => 'activity', 'label' => t('Activity')),
       'relationship' => array('entity_type' => 'contact', 'label' => t('Relationship'), 'help_text' => TRUE),
     );
@@ -541,6 +542,7 @@ function wf_crm_get_fields($var = 'fields') {
         'name' => t('Upload Image'),
         'type' => 'file',
         'extra' => array('width' => 40),
+        'data_type' => 'File',
       );
     }
     $fields['contact_contact_id'] = array(
@@ -647,7 +649,16 @@ function wf_crm_get_fields($var = 'fields') {
       'table' => 'phone',
       'expose_list' => TRUE,
     );
-    foreach (array('address' => t('Address # Location'), 'phone' => t('Phone # Location'), 'email' => t('Email # Location')) as $key => $label) {
+    $fields['im_name'] = array(
+      'name' => t('Screen Name'),
+      'type' => 'textfield',
+    );
+    $fields['im_provider_id'] = array(
+      'name' => t('IM Provider'),
+      'type' => 'select',
+      'expose_list' => TRUE,
+    );
+    foreach (array('address' => t('Address # Location'), 'phone' => t('Phone # Location'), 'email' => t('Email # Location'), 'im' => t('IM # Location')) as $key => $label) {
       $fields[$key . '_location_type_id'] = array(
         'name' => $label,
         'type' => 'select',
@@ -1002,6 +1013,7 @@ function wf_crm_get_fields($var = 'fields') {
       'Select State/Province' => array('type' => 'select'),
       'Multi-Select State/Province' => array('type' => 'select', 'extra' => array('multiple' => 1)),
       'Autocomplete-Select' => array('type' => 'select'),
+      'File' => array('type' => 'file'),
     );
     list($contact_types) = wf_crm_get_contact_types();
     $custom_extends = "'" . implode("','", array_keys($contact_types + $sets)) . "'";
@@ -1288,6 +1300,9 @@ function wf_civicrm_api($entity, $operation, $params) {
  *   Values from API call
  */
 function wf_crm_apivalues($entity, $operation, $params = array(), $value = NULL) {
+  if (is_numeric($params)) {
+    $params = array('id' => $params);
+  }
   $params += array('options' => array());
   // Work around the api's default limit of 25
   $params['options'] += array('limit' => 9999);
@@ -1345,24 +1360,7 @@ function wf_crm_required_contact_fields($contact_type) {
  * @return array
  */
 function wf_crm_location_fields() {
-  return array('address', 'email', 'phone', 'website');
-}
-
-/**
- * Fetch the path of a file
- * And format it as a public url that CiviCRM can read
- *
- * @param $id
- *   Drupal file id
- *
- * @return string|void: url of file if found
- */
-function wf_crm_filepath($id) {
-  if ($file = file_load($id)) {
-    global $base_url;
-    // Escape all characters except : and /
-    return str_replace('public://', $base_url . '/' . variable_get('file_public_path', conf_path() . '/files') . '/', str_replace(array('%3A', '%2F'), array(':', '/'), rawurlencode($file->uri)));
-  }
+  return array('address', 'email', 'phone', 'website', 'im');
 }
 
 /**

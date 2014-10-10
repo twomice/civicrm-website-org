@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 4.4                                                |
+ | CiviCRM version 4.5                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2014                                |
  +--------------------------------------------------------------------+
@@ -88,7 +88,7 @@ class CRM_Utils_Check_Security {
     $config = CRM_Core_Config::singleton();
 
     $log = CRM_Core_Error::createDebugLogger();
-    $log_filename = $log->_filename;
+    $log_filename = str_replace('\\', '/', $log->_filename);
 
     $filePathMarker = $this->getFilePathMarker();
 
@@ -267,6 +267,11 @@ class CRM_Utils_Check_Security {
     return $result;
   }
 
+  /**
+   * @param $topic
+   *
+   * @return string
+   */
   public function createDocUrl($topic) {
     return CRM_Utils_System::getWikiBaseURL() . $topic;
   }
@@ -282,7 +287,7 @@ class CRM_Utils_Check_Security {
     $config = CRM_Core_Config::singleton();
 
     list ($heuristicBaseUrl, $ignore) = explode($filePathMarker, $config->imageUploadURL);
-    list ($ignore, $heuristicSuffix) = explode($filePathMarker, $targetDir);
+    list ($ignore, $heuristicSuffix) = explode($filePathMarker, str_replace('\\', '/', $targetDir));
     return $heuristicBaseUrl . $filePathMarker . $heuristicSuffix;
   }
 }

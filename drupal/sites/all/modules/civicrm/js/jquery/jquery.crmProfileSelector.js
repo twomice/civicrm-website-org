@@ -1,4 +1,4 @@
-(function($) {
+(function($, _) {
   var ufGroupCollection = new CRM.UF.UFGroupCollection(_.sortBy(CRM.initialProfileList.values, 'title'));
   //var ufGroupCollection = new CRM.UF.UFGroupCollection(CRM.initialProfileList.values, {
   //  comparator: 'title' // no point, this doesn't work with subcollections
@@ -25,9 +25,9 @@
     return this.each(function() {
       // Hide the existing <SELECT> and instead construct a ProfileSelector view.
       // Keep them synchronized.
-      var select = this;
+      var matchingUfGroups,
+        $select = $(this).hide().addClass('rendered');
 
-      var matchingUfGroups;
       if (options.groupTypeFilter) {
         matchingUfGroups = ufGroupCollection.subcollection({
           filter: function(ufGroupModel) {
@@ -39,29 +39,28 @@
       }
 
       var view = new CRM.ProfileSelector.View({
-        ufGroupId: $(select).val(),
+        ufGroupId: $select.val(),
         ufGroupCollection: matchingUfGroups,
         ufEntities: options.entities
       });
       view.on('change:ufGroupId', function() {
-        $(select).val(view.getUfGroupId()).change();
-      })
+        $select.val(view.getUfGroupId()).change();
+      });
       view.render();
-      $(select).after(view.el);
+      $select.after(view.el);
       setTimeout(function() {
         view.doPreview();
       }, 100);
     });
   };
 
-  // FIXME: this needs a better place to live
-  CRM.scanProfileSelectors = function() {
-    $('.crm-profile-selector').each(function(){
+  $('#crm-container').on('crmLoad', function() {
+    $('.crm-profile-selector:not(.rendered)', this).each(function() {
       $(this).crmProfileSelector({
-        groupTypeFilter: $(this).attr('data-group-type'),
-        entities: eval('(' + $(this).attr('data-entities') + ')')
+        groupTypeFilter: $(this).data('groupType'),
+        entities: $(this).data('entities')
       });
     });
-  };
+  });
 
-})(cj);
+})(CRM.$, CRM._);
