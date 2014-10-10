@@ -53,7 +53,7 @@ function cividownload_download_list() {
       'url' => "{$url}joomla",
     ),
     'wordpress' => array(
-      'title' => t('WordPress 3.x'),
+      'title' => t('WordPress 3.x / 4.x'),
       'url' => "{$url}wordpress",
     ),
   );

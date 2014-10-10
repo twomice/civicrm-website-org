@@ -5,7 +5,7 @@
     The current stable version of CiviCRM is <?php echo $civicrm_version; ?>. You will
     need to know which host Content Management software (CMS) and which version you are using.
     CiviCRM <?php echo $civicrm_version; ?> is compatible with Drupal version 7.x,
-    Joomla! version 2.5.x / 3.x, and WordPress 3.x. There is a separate download for Drupal
+    Joomla! version 2.5.x / 3.x, and WordPress 3.x / 4.x. There is a separate download for Drupal
     version 6.x which is supported by the community. Click on your CMS below to begin.
   </div>
 
