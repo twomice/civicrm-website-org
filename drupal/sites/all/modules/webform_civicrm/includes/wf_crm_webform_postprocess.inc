@@ -663,6 +663,10 @@ class wf_crm_webform_postprocess extends wf_crm_webform_base {
               $params['state_province_id'] = '';
             }
           }
+          // Substitute county stub ('-' is a hack to get around required field when there are no available counties)
+          if (isset($params['county_id']) && $params['county_id'] === '-') {
+            $params['county_id'] = '';
+          }
           // Update drupal email address
           if ($location == 'email' && !empty($params['email']) && $i == 1) {
             $uid = wf_crm_user_cid($cid, 'contact');
@@ -1024,6 +1028,10 @@ class wf_crm_webform_postprocess extends wf_crm_webform_base {
           $params['is_pay_later'] = TRUE;
           $params['status_id'] = 'Pending';
         }
+      }
+      // Override status
+      else {
+        $params['is_override'] = 1;
       }
       $params['contact_id'] = $cid;
       // The api won't let us manually set status without this weird param
@@ -1561,7 +1569,7 @@ class wf_crm_webform_postprocess extends wf_crm_webform_base {
           }
           // Implode data that will be stored as a string
           if ($table !== 'other' && $name !== 'event_id' && $name !== 'relationship_type_id' && $table !== 'contact' && $dataType != 'ContactReference') {
-            $val = $sp . implode($sp, $val) . $sp;
+            $val = CRM_Utils_Array::implodePadded($val);
           }
         }
         elseif ($name === 'image_URL') {

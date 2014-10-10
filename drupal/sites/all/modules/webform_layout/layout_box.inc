@@ -38,8 +38,10 @@ function _webform_edit_layout_box($component) {
       'vert' => t('Vertical'),
     ),
   );
-  // Hide the description box.
-  $form['extra']['description']['#access'] = FALSE;
+  // Hide name, it's never shown
+  $form['name']['#type'] = 'value';
+  // Hack - name is required by webform but we don't expose it to the user. Instead we'll replace it with the value of form_key.
+  $form['name']['#value'] = 'box';
   return $form;
 }
 
@@ -62,13 +64,16 @@ function _webform_render_layout_box($component, $value = NULL, $filter = TRUE) {
  * Pre-render function to set a layout_box ID and classes.
  */
 function webform_layout_box_prerender($element) {
-  $classes = array('webform-layout-box', $element['#webform_component']['extra']['align']);
-  if ($element['#webform_component']['extra']['align'] == 'equal'
-  && ($n = count($element['#webform_component']['children'])) > 1) {
-    $classes[] = 'child-width-' . $n;
+  $attributes = empty($element['#attributes']) ? array('class' => array()) : $element['#attributes'];
+  $attributes['class'][] = 'webform-layout-box';
+  $attributes['class'][] = $element['#webform_component']['extra']['align'];
+  $attributes['class'][] = 'webform-component--' . str_replace('_', '-', implode('--', array_slice($element['#parents'], 1)));
+  // css class for number of children
+  $n = empty($element['#webform_component']['children']) ? 0 : count($element['#webform_component']['children']);
+  if ($element['#webform_component']['extra']['align'] == 'equal' && $n > 1) {
+    $attributes['class'][] = 'child-width-' . $n;
   }
-  $id = 'webform-component-' . str_replace('_', '-', implode('--', array_slice($element['#parents'], 1)));
-  $element['#prefix'] = '<div id="' . $id . '" class="' . implode(' ', $classes) . '">';
+  $element['#prefix'] = '<div ' . drupal_attributes($attributes) . '>';
   return $element;
 }
 
@@ -87,7 +92,6 @@ function _webform_display_layout_box($component, $value, $format = 'html') {
     $element = _webform_render_layout_box($component, $value);
   }
 
-  $element['#webform_component'] = $component;
   $element['#format'] = $format;
 
   return $element;

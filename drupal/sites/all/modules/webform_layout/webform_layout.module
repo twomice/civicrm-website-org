@@ -2,8 +2,6 @@
 
 /**
  * This module provides a layout container for webforms.
- *
- * @author Gergely Szász <szaszg@hu.inter.net>
  */
 
 /**
@@ -32,8 +30,51 @@ function webform_layout_webform_component_info() {
         'conditional' => FALSE,
         'group' => TRUE,
         'title_display' => FALSE,
+        'title_inline' => FALSE,
+        'description' => FALSE,
+        'wrapper_classes' => FALSE,
       ),
       'file' => 'layout_box.inc',
     ),
   );
+}
+
+/**
+ * Implements hook_form_alter().
+ * @param array $form
+ * @param array $form_state
+ * @param string $form_id
+ */
+function webform_layout_form_alter(&$form, &$form_state, $form_id) {
+  if ($form_id == 'webform_components_form') {
+    $form['add']['add']['#submit'][] = 'webform_layout_form_add_submit';
+  }
+}
+
+/**
+ * Implements hook_webform_component_presave().
+ * @param array $component
+ */
+function webform_layout_webform_component_presave(&$component) {
+  if ($component['type'] === 'layout_box') {
+    $component['name'] = $component['form_key'];
+  }
+}
+
+/**
+ * Immediately add a new layout box to the webform instead of being redirected to the component form
+ * @param array $form
+ * @param array $form_state
+ */
+function webform_layout_form_add_submit($form, &$form_state) {
+  $component = $form_state['values']['add'];
+  if ($component['type'] === 'layout_box') {
+    $nid = $component['nid'] = $form_state['values']['nid'];
+    $component['form_key'] = _webform_safe_name($component['name']);
+    unset($component['required'], $component['cid'], $component['add']);
+    webform_component_defaults($component);
+    $cid = webform_component_insert($component);
+
+    $form_state['redirect'] = array("node/$nid/webform/components", array('query' => array('cid' => $cid)));
+  }
 }
