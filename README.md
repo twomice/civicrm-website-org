@@ -10,21 +10,35 @@ Note that many people have access to www-test, and it gets over written with dat
 
 ## Development branches
 
-www-prod should always be on the master branch.  Developments should happen on seperate branches and merged to master when ready to deploy.
+www-prod should track the master branch.  Developments should happen on seperate branches and be merged to master when ready to deploy.
 
 ## Custom modules
 
 All custom modules should be added to the sites/all/modules/custom directory and follow the naming convention civicrm_org_module_name.
 
-##Releases
+## Releases
 
-http://civicrm.org is served from www-prod.  All files are owned by the co user.  To release new code on the master branch, do something like this:
+http://civicrm.org is served from www-prod.  All source-code is owned by the co user.  To do a release, use the latest code from the master branch to create a tag and then check out the tag on www-prod, e.g.
 
-    user@www-prod~$ cd /var/www/civicrm-website-org
-    user@www-prod/var/www/civicrm-website-org$ sudo -s -u co
-    co@www-prod/var/www/civicrm-website-org$ git pull 
+```bash
+localhost$ ssh www-test
+me@www-test$ sudo -u co -H bash
+co@www-test$ cd /var/www/civicrm-website-org/
+co@www-test$ git checkout master
+co@www-test$ git pull
+co@www-test$ ./tag.sh origin
+## Make a mental note of the tag name (e.g. "deploy-2014-10-15-22-42")
+localhost$ ssh www-prod
+me@www-prod$ sudo -u co -H bash
+co@www-prod$ cd /var/www/civicrm-website-org/
+co@www-prod$ git fetch origin
+## Checkout the appropriate tag, e.g.
+co@www-prod$ git checkout deploy-2014-10-15-22-42
+```
 
-#Syncing to test and local environments
+This process gives a clear trail of the timeline for code that has been deployed on www-prod -- which can assist in future debugging/auditing.
+
+# Syncing to test and local environments
 
 Syncing to www-test and local development environments is done in the standard way (mysqldump and restore the databases and rsync/copy the files).  You can then do a git pull (and so on) to check out appropriate code.
 
@@ -32,18 +46,18 @@ There is a script /home/michael/sync_co.sh on www-test that does this.  It needs
 
 You should not need to worry about backing up the www-test database because no important data should be stored there (see development workflow above).
 
-#Local development environments
+# Local development environments
 
 You can develop locally as long as you are not storing any unencrypted personal data in your local development environment.
 
 Drupal and CiviCRM databases can be encrypted on www-test.civicrm.org before being transferred to local development environments.
 
-#Upgrades
+# Upgrades
 
 Upgrades (especially CiviCRM upgrades) should be tested locally and on the test infrastructure before being carried out on the production server.
 
 Put the site into maintanence mode before upgrading
 
-#CiviCRM customisations
+# CiviCRM customisations
 
 Any CiviCRM customisations should be places in the php and templates directory rather than being directly overwritted in order to make it easy to keep track of customisations through upgrades.
