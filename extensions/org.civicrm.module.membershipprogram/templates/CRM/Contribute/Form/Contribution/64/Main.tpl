@@ -132,8 +132,7 @@
         $('input[name="email-5"]').attr('placeholder', 'Email Address');
         $('.crm-organization-details').html($('#onBehalfOfOrg').html());
         $('#onBehalfOfOrg').remove();
-        $('.crm-your-details').html($('.custom_pre_profile-group').html());
-        $('.custom_pre_profile-group').remove();
+        $('.custom_pre_profile-group').appendTo('.crm-your-details');
         $('.crm-payment-options').html($('.payment_options-group').html());
         $('.payment_options-group').remove();
         $('.crm-contribute-button').html($('.crm-submit-buttons').html());
