@@ -151,13 +151,17 @@
 a.download-link {
   text-shadow: 0 1px 0 black;
   background: #70716B url(../civicrm/i/crm-button-bg.gif) repeat-x top left;
-  color: #FFF;
-  font-size: 13px;
+  color: #FFF !important;
+  font-size: 1.25em !important;
   font-weight: normal;
   margin-right: 6px;
-  padding: 4px 10px;
+  padding: 4px 30px;
   text-decoration: none;
   cursor: pointer;
   border: 1px solid #3e3e3e;
   border-radius: 3px;
+}
+
+div.crm-download-buttons {
+  font-size: 1.25em !important;
 }
