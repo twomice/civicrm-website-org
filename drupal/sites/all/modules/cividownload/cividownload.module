@@ -187,7 +187,7 @@ function cividownload_civicrm_buildForm($formName, &$form) {
       }
 
       $form->assign('downloadURL', "https://download.civicrm.org/{$fileName}?src=donate");
-      $pageTitle = "Downloading CiviCRM {$version} for {$cmsType} ({$fileName})";
+      $pageTitle = "Downloading CiviCRM {$current_version} for {$cmsType} ({$fileName})";
       $form->assign('pageTitle', $pageTitle);
     }
   }
