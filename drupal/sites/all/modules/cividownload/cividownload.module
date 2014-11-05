@@ -33,7 +33,7 @@ function cividownload_download_page() {
 }
 
 function cividownload_download_list() {
-  drupal_set_title('');
+  drupal_set_title('Download CiviCRM');
 
   // contribution page
   $url = '/civicrm/contribute/transact?reset=1&id=63&cms=';
