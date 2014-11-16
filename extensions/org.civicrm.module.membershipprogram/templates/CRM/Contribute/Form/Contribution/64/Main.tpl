@@ -121,6 +121,12 @@
   {literal}
     <script type="text/javascript">
       CRM.$(function($) {
+        // hide the discount section
+        {/literal}
+        {if $hideDiscount}
+          $('#discountcode').closest('table').hide();
+        {/if}
+        {literal}
         $('.crm-intro-text').html($('#intro_text').html());
         $('#intro_text').remove();
         $('.crm-member-benefits').html($('#membership-intro').html());
