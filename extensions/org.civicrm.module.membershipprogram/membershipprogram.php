@@ -68,3 +68,21 @@ function membershipprogram_civicrm_upgrade($op, CRM_Queue_Queue $queue = NULL) {
 function membershipprogram_civicrm_managed(&$entities) {
   return _membershipprogram_civix_civicrm_managed($entities);
 }
+
+/**
+ * Implementation of CiviCRM's buildForm hook
+ */
+function membershipprogram_civicrm_buildForm($formName, &$form) {
+  if ($formName == 'CRM_Contribute_Form_Contribution_Main' && $form->_id == 64) {
+    $hideDiscount = TRUE;
+    // get the filename from the url
+    $affiliate = CRM_Utils_Request::retrieve('affiliate', 'String', $form);
+    $validAffiliates = array('ncrp');
+
+    if (in_array($affiliate, $validAffiliates)) {
+      $hideDiscount = FALSE;
+    }
+
+    $form->assign('hideDiscount', $hideDiscount);
+  }
+}
