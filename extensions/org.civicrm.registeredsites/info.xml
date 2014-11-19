@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<extension key="org.civicrm.registeredsites" type="module">
+  <file>registeredsites</file>
+  <name>Code to assist with the mantainence and display of registered CiviCRM sites</name>
+  <description></description>
+  <license>AGPL-3.0</license>
+  <maintainer>
+    <author>Michael McAndrew</author>
+    <email>michael@civicrm.org</email>
+  </maintainer>
+  <releaseDate>2014-11-05</releaseDate>
+  <version>1.0</version>
+  <develStage>alpha</develStage>
+  <compatibility>
+    <ver>4.5</ver>
+  </compatibility>
+  <comments>Code to assist with the mantainence and display of registered CiviCRM sites</comments>
+  <civix>
+    <namespace>CRM/Registeredsites</namespace>
+  </civix>
+</extension>
