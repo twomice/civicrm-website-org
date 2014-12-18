@@ -96,6 +96,11 @@ body
     margin-left: -15px;
 }
 
+#block-system-user-menu
+{
+    float:left;
+    clear:left;
+}
 #block-menu-menu-secondary-menu
 {
     float:right;
@@ -106,7 +111,7 @@ body
     margin:0px
 }
 
-#block-menu-menu-secondary-menu li
+#block-system-user-menu li, #block-menu-menu-secondary-menu li
 {
     background-color:none;
     margin:0px;
@@ -118,17 +123,22 @@ body
     display:inline;
 }
 
-#block-menu-menu-secondary-menu li a
+#block-system-user-menu li a, #block-menu-menu-secondary-menu li a
 {
     color: #A55F53;
     list-style-type: none;
-    padding-right: 5px;
+    padding-left: 3px;
+    padding-right: 3px;
     position: relative;
     text-decoration: none;
     text-transform:uppercase;
     border-right: 1px solid #B86E7A;
 }
 
+#block-system-user-menu li.last a{
+    border-right:none;
+    padding-left: 0px;
+}
 #block-menu-menu-secondary-menu li.last a{
     border-right:none;
     padding-right: 0px;

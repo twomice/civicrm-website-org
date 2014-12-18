@@ -10,7 +10,7 @@ ul.menu,
 ul.menu ul, 
 ul.menu ul ul, 
 ul.menu ul ul ul {
-  margin: 0 0 0 0.75em; /* LTR */
+  margin: 0; /* LTR */
   padding: 0;
 }
 
