@@ -33,7 +33,7 @@ function civicrm_org_providers_update_provider($contact_id){
         return;
     };
 
-    //find out if they are in the active contributors group. NOTE: this criteria is likely to change as we get more sophisticated about how we classify active contributors
+    //find out if they are in the founding members group
     $params = array('version' => 3, 'contact_id' => $contact_id);
     $groups=civicrm_api('GroupContact', 'get', $params);
     foreach($groups['values'] as $group){
@@ -42,11 +42,22 @@ function civicrm_org_providers_update_provider($contact_id){
             break;
         }
     }
+    
+    //find out if they are in the active contributors group
     $params = array('version' => 3, 'contact_id' => $contact_id);
     $groups=civicrm_api('GroupContact', 'get', $params);
     foreach($groups['values'] as $group){
         if($group['group_id']==131){
             $badges[]='active-contributor';
+            break;
+        }
+    }
+    //find out if they are in the technology partners group
+    $params = array('version' => 3, 'contact_id' => $contact_id);
+    $groups=civicrm_api('GroupContact', 'get', $params);
+    foreach($groups['values'] as $group){
+        if($group['group_id']==267){
+            $badges[]='technology-partner';
             break;
         }
     }
