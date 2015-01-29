@@ -12,7 +12,7 @@ function civicrm_org_providers_civicrm_post($op, $objectName, $objectId, $Object
     if($objectName == 'Membership'){
         civicrm_org_providers_update_provider($ObjectRef->contact_id);
     }
-    if($objectName == 'ContactGroup' && $objectId == 131){
+    if($objectName == 'GroupContact' && in_array($objectId, array(131,140,267))){
         foreach($ObjectRef as $contact);
         if(is_object($contact)){
             civicrm_org_providers_update_provider($contact->id);
@@ -23,7 +23,6 @@ function civicrm_org_providers_civicrm_post($op, $objectName, $objectId, $Object
 }
 
 function civicrm_org_providers_update_provider($contact_id){
-
     //check that the contact is a service provider contact subtype
     civicrm_initialize();
 
@@ -52,6 +51,7 @@ function civicrm_org_providers_update_provider($contact_id){
             break;
         }
     }
+    
     //find out if they are in the technology partners group
     $params = array('version' => 3, 'contact_id' => $contact_id);
     $groups=civicrm_api('GroupContact', 'get', $params);
