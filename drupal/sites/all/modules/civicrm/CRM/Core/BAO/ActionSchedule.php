@@ -540,7 +540,6 @@ WHERE   cas.entity_value = $id AND
 
         CRM_Activity_BAO_Activity::sendSMSMessage($contactId,
           $sms_text,
-          $html,
           $smsParams,
           $activity->id,
           $userID
@@ -775,7 +774,7 @@ LEFT JOIN civicrm_phone phone ON phone.id = lb.phone_id
       $entityJoinClause .= $extraOn;
 
       $query = "
-SELECT reminder.id as reminderID, reminder.contact_id as contactID, reminder.*, e.id as entityID, e.* {$extraSelect}
+SELECT reminder.id as reminderID, reminder.contact_id as contactID, reminder.entity_table as entityTable, reminder.*, e.id as entityID, e.* {$extraSelect}
 FROM  civicrm_action_log reminder
 {$entityJoinClause}
 {$extraJoin}
@@ -808,9 +807,14 @@ WHERE reminder.action_schedule_id = %1 AND reminder.action_date_time IS NULL
             $entityTokenParams["{$tokenEntity}." . $field] = CRM_Utils_Date::customFormat($dao->$field);
           }
           elseif ($field == 'balance') {
-            $info = CRM_Contribute_BAO_Contribution::getPaymentInfo($dao->entityID, 'event');
-            $balancePay = CRM_Utils_Array::value('balance', $info);
-            $balancePay = CRM_Utils_Money::format($balancePay);
+            if ($dao->entityTable == 'civicrm_contact') {
+              $balancePay = 'N/A';
+            }
+            elseif (!empty($dao->entityID)) {
+              $info = CRM_Contribute_BAO_Contribution::getPaymentInfo($dao->entityID, 'event');
+              $balancePay = CRM_Utils_Array::value('balance', $info);
+              $balancePay = CRM_Utils_Money::format($balancePay);
+            }
             $entityTokenParams["{$tokenEntity}." . $field] = $balancePay;
           }
           elseif ($field == 'fee_amount') {
@@ -870,7 +874,7 @@ WHERE reminder.action_schedule_id = %1 AND reminder.action_date_time IS NULL
         CRM_Core_BAO_ActionLog::create($logParams);
 
         // insert activity log record if needed
-        if ($actionSchedule->record_activity) {
+        if ($actionSchedule->record_activity && !$isError) {
           $activityParams = array(
             'subject' => $actionSchedule->title,
             'details' => $actionSchedule->body_html,
@@ -882,7 +886,7 @@ WHERE reminder.action_schedule_id = %1 AND reminder.action_date_time IS NULL
             'activity_type_id' => $activityTypeID,
             'source_record_id' => $dao->entityID,
           );
-          $activity = CRM_Activity_BAO_Activity::create($activityParams);
+          CRM_Activity_BAO_Activity::create($activityParams);
         }
       }
 
@@ -1205,7 +1209,7 @@ LEFT JOIN {$reminderJoinClause}
 ";
       CRM_Core_DAO::executeQuery($query, array(1 => array($actionSchedule->id, 'Integer')));
 
-      if ($limitTo == 0) {
+      if ($limitTo == 0 && (!empty($addGroup) || !empty($addWhere))) {
         $additionWhere = ' WHERE ';
         if ($actionSchedule->start_action_date) {
           $additionWhere = $whereClause . ' AND ';
@@ -1265,11 +1269,16 @@ GROUP BY c.id
         $havingClause = "HAVING TIMEDIFF({$now}, latest_log_time) >= TIME('{$hrs}:00:00')";
         $groupByClause = 'GROUP BY reminder.contact_id, reminder.entity_id, reminder.entity_table';
         $selectClause .= ', MAX(reminder.action_date_time) as latest_log_time';
+        //CRM-15376 - do not send our reminders if original criteria no longer applies
+        // the first part of the startDateClause array is the earliest the reminder can be sent. If the
+        // event (e.g membership_end_date) has changed then the reminder may no longer apply
+        // @todo - this only handles events that get moved later. Potentially they might get moved earlier
+        $originalEventStartDateClause = empty($startDateClause) ? '' : 'AND' . $startDateClause[0];
         $sqlInsertValues = "{$selectClause}
 {$fromClause}
 {$joinClause}
 INNER JOIN {$reminderJoinClause}
-{$whereClause} {$limitWhereClause} AND {$repeatEventClause} {$notINClause}
+{$whereClause} {$limitWhereClause} AND {$repeatEventClause} {$originalEventStartDateClause} {$notINClause}
 {$groupByClause}
 {$havingClause}";
 

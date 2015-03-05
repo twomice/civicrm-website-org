@@ -137,6 +137,7 @@
 {if empty($snippet)}
 {literal}
 <script type="text/javascript">
+
   showOnBehalf({/literal}"{$onBehalfRequired}"{literal});
 
   cj( "#mode" ).hide( );

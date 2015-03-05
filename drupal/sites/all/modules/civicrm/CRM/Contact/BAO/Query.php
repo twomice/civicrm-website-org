@@ -2891,7 +2891,7 @@ WHERE  id IN ( $groupIDs )
         $tableAlias = "civicrm_group_contact_cache_{$groupIDsFiltered}";
       }
 
-      $this->_tables[$tableAlias] = $this->_whereTables[$tableAlias] = " LEFT JOIN civicrm_group_contact_cache `{$tableAlias}` ON {$joinTable}.id = `{$tableAlias}`.contact_id ";
+      $this->_tables["`{$tableAlias}`"] = $this->_whereTables["`{$tableAlias}`"] = " LEFT JOIN civicrm_group_contact_cache `{$tableAlias}` ON {$joinTable}.id = `{$tableAlias}`.contact_id ";
 
       return "`{$tableAlias}`.group_id IN (" . $groupIDsFiltered . ")";
     }
@@ -4059,7 +4059,7 @@ WHERE  id IN ( $groupIDs )
       $params = array('id' => $rel[0]);
       $rType = CRM_Contact_BAO_RelationshipType::retrieve($params, $rTypeValues);
     }
-    if (empty($rTypeValues)) {
+    if (!empty($rTypeValues) && $rTypeValues['name_a_b'] == $rTypeValues['name_b_a']) {
       // if we don't know which end of the relationship we are dealing with we'll create a temp table
       //@todo unless we are dealing with a target group
       self::$_relType = 'reciprocal';

@@ -100,17 +100,24 @@ function _civicrm_api3_contribution_create_spec(&$params) {
   );
   $params['soft_credit_to'] = array(
     'name' => 'soft_credit_to',
-    'title' => 'Soft Credit contact ID',
+    'title' => 'Soft Credit contact ID (legacy)',
     'type' => 1,
-    'description' => 'ID of Contact to be Soft credited to',
+    'description' => 'ID of Contact to be Soft credited to (deprecated - use contribution_soft api)',
     'FKClassName' => 'CRM_Contact_DAO_Contact',
   );
   $params['honor_contact_id'] = array(
     'name' => 'honor_contact_id',
-    'title' => 'Honoree contact ID',
+    'title' => 'Honoree contact ID (legacy)',
     'type' => 1,
-    'description' => 'ID of honoree contact',
+    'description' => 'ID of honoree contact (deprecated - use contribution_soft api)',
     'FKClassName' => 'CRM_Contact_DAO_Contact',
+  );
+  $params['honor_type_id'] = array(
+    'name' => 'honor_type_id',
+    'title' => 'Honoree Type (legacy)',
+    'type' => 1,
+    'description' => 'Type of honoree contact (deprecated - use contribution_soft api)',
+    'pseudoconstant' => TRUE,
   );
   // note this is a recommended option but not adding as a default to avoid
   // creating unnecessary changes for the dev
@@ -143,16 +150,18 @@ function _civicrm_api3_contribution_create_spec(&$params) {
 function _civicrm_api3_contribution_create_legacy_support_45(&$params){
   //legacy soft credit handling - recommended approach is chaining
   if(!empty($params['soft_credit_to'])){
-    $params['soft_credit'] = array(array(
+    $params['soft_credit'][] = array(
       'contact_id'          => $params['soft_credit_to'],
       'amount'              => $params['total_amount'],
-      'soft_credit_type_id' => CRM_Core_OptionGroup::getDefaultValue("soft_credit_type")));
+      'soft_credit_type_id' => CRM_Core_OptionGroup::getDefaultValue("soft_credit_type")
+    );
   }
   if(!empty($params['honor_contact_id'])){
-    $params['soft_credit'] = array(array(
+    $params['soft_credit'][] = array(
       'contact_id'          => $params['honor_contact_id'],
       'amount'              => $params['total_amount'],
-      'soft_credit_type_id' => CRM_Core_OptionGroup::getValue('soft_credit_type', 'in_honor_of', 'name')));
+      'soft_credit_type_id' => CRM_Utils_Array::value('honor_type_id', $params, CRM_Core_OptionGroup::getValue('soft_credit_type', 'in_honor_of', 'name'))
+    );
   }
 }
 
@@ -425,7 +434,7 @@ function civicrm_api3_contribution_completetransaction(&$params) {
     // @todo required for base ipn but problematic as api layer handles this
     $transaction = new CRM_Core_Transaction();
     $ipn = new CRM_Core_Payment_BaseIPN();
-    $ipn->completeTransaction($input, $ids, $objects, $transaction);
+    $ipn->completeTransaction($input, $ids, $objects, $transaction, !empty($contribution->contribution_recur_id));
   }
   catch(Exception $e) {
     throw new API_Exception('failed to load related objects' . $e->getMessage() . "\n" . $e->getTraceAsString());
@@ -433,9 +442,10 @@ function civicrm_api3_contribution_completetransaction(&$params) {
 }
 
 /**
+ * provide function metadata
  * @param $params
  */
-function _civicrm_api3_contribution_completetransaction(&$params) {
+function _civicrm_api3_contribution_completetransaction_spec(&$params) {
   $params['id'] = array(
     'title' => 'Contribution ID',
     'type' => CRM_Utils_Type::T_INT,

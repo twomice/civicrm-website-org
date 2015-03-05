@@ -138,7 +138,9 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
     }
 
     //CRM-5001
-    if (!empty($this->_values['is_for_organization'])) {
+    //CRM-15787
+    $member = CRM_Member_BAO_Membership::getMembershipBlock($this->_id);
+    if (!empty($this->_values['is_for_organization']) && empty($member['is_active'])) {
       $msg = ts('Mixed profile not allowed for on behalf of registration/sign up.');
       $ufJoinParams = array(
         'module' => 'onBehalf',
@@ -1188,7 +1190,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
     if (($this->_values['is_pay_later'] &&
         empty($this->_paymentProcessor) &&
         !array_key_exists('hidden_processor', $params)) ||
-      CRM_Utils_Array::value('payment_processor', $params) == 0) {
+      (!empty($params['payment_processor']) && $params['payment_processor'] == 0)) {
       $params['is_pay_later'] = 1;
     }
     else {
@@ -1322,6 +1324,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
           $params['cancelURL'] = CRM_Utils_System::url('civicrm/contribute/transact', "_qf_Main_display=1&qfKey={$params['qfKey']}", TRUE, NULL, FALSE);
           $params['returnURL'] = CRM_Utils_System::url('civicrm/contribute/transact', "_qf_Confirm_display=1&rfp=1&qfKey={$params['qfKey']}", TRUE, NULL, FALSE);
           $params['invoiceID'] = $invoiceID;
+          $params['description'] = ts('Online Contribution') . ': ' . (($this->_pcpInfo['title']) ? $this->_pcpInfo['title'] : $this->_values['title']);
 
           //default action is Sale
           $params['payment_action'] = 'Sale';

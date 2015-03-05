@@ -1549,7 +1549,7 @@ WHERE   id IN ( ' . implode(' , ', array_keys($membershipType)) . ' )';
         $result = CRM_Contribute_BAO_Contribution::transitionComponents($params, TRUE);
         if (!empty($result) && !empty($params['contribution_id'])) {
           $lineItem = array();
-          $lineItems = CRM_Price_BAO_LineItem::getLineItems($params['contribution_id'], 'contribution');
+          $lineItems = CRM_Price_BAO_LineItem::getLineItems($params['contribution_id'], 'contribution', NULL, TRUE, TRUE);
           $itemId = key($lineItems);
           $priceSetId = CRM_Core_DAO::getFieldValue('CRM_Price_DAO_PriceField', $lineItems[$itemId]['price_field_id'], 'price_set_id');
           $fieldType = NULL;
@@ -1562,6 +1562,7 @@ WHERE   id IN ( ' . implode(' , ', array_keys($membershipType)) . ' )';
           $lineItem[$priceSetId] = $lineItems;
           $contributionBAO = new CRM_Contribute_BAO_Contribution();
           $contributionBAO->id = $params['contribution_id'];
+          $contributionBAO->contact_id = $params['contact_id'];
           $contributionBAO->find();
           CRM_Price_BAO_LineItem::processPriceSet($params['contribution_id'], $lineItem, $contributionBAO, 'civicrm_membership');
 
@@ -1586,10 +1587,10 @@ WHERE   id IN ( ' . implode(' , ', array_keys($membershipType)) . ' )';
           //display end date w/ status message.
           $endDate = $membership->end_date;
 
-          $membershipStatues = CRM_Member_PseudoConstant::membershipStatus();
           if (!in_array($membership->status_id, array(
-            array_search('Cancelled', $membershipStatues),
-            array_search('Expired', $membershipStatues),
+            // CRM-15475
+            array_search('Cancelled', CRM_Member_PseudoConstant::membershipStatus(NULL, " name = 'Cancelled' ", 'name', FALSE, TRUE)),
+            array_search('Expired', CRM_Member_PseudoConstant::membershipStatus()),
           ))
           ) {
             $cancelled = FALSE;
