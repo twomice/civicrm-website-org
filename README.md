@@ -54,7 +54,19 @@ Drupal and CiviCRM databases can be encrypted on www-test.civicrm.org before bei
 
 # Upgrades
 
-Upgrades (especially CiviCRM upgrades) should be tested locally and on the test infrastructure before being carried out on the production server.
+Upgrades (especially CiviCRM upgrades) should be
+
+1) tested on a local copy first, then commited to the repo, then
+2) tested on www-test
+
+If all went smoothly in both instances, they can be carried out on the production server.
+
+Notes:
+* The drush command 'drush updb' is useful for just applying db upgrades when the code upgrade has already been done with a git pull (as is the case on www-test and www-prod).
+* The drush command 'civicrm-upgrade' is useful for upgrading CiviCRM from the command line
+
+Needless to say, if you do notice anything going wrong 
+and on the test infrastructure before being carried out on the production server.
 
 Put the site into maintanence mode before upgrading
 
