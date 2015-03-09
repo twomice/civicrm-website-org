@@ -782,17 +782,17 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task {
     $notificationStatusIds = implode(',', array_keys(array_intersect($participantStatusName, $notificationStatuses)));
     $this->assign('notificationStatusIds', $notificationStatusIds);
 
-    $this->_participantStatuses = CRM_Event_PseudoConstant::participantStatus(NULL, NULL, 'label');
-    $this->addSelect('status_id', $checkCancelledJs + array('option_url' => 'civicrm/admin/participant_status'), TRUE);
+    $this->_participantStatuses = $statusOptions = CRM_Event_BAO_Participant::buildOptions('status_id', 'create');
 
-    $enableCart = CRM_Core_BAO_Setting::getItem(CRM_Core_BAO_Setting::EVENT_PREFERENCES_NAME,
-      'enable_cart'
-    );
-    $pendingInCartStatusId = array_search('Pending in cart', $participantStatusName);
-    $this->assign('pendingInCartStatusId', $pendingInCartStatusId);
-    $this->assign('enableCart', $enableCart);
-    $pendingRefundStatusId = array_search('Pending refund', $participantStatusName);
-    $this->assign('pendingRefundStatusId', $pendingRefundStatusId);
+    // Only show refund status when editing
+    if ($this->_action & CRM_Core_Action::ADD) {
+      $pendingRefundStatusId = array_search('Pending refund', $participantStatusName);
+      if ($pendingRefundStatusId) {
+        unset($statusOptions[$pendingRefundStatusId]);
+      }
+    }
+
+    $this->addSelect('status_id', $checkCancelledJs + array('options' => $statusOptions, 'option_url' => 'civicrm/admin/participant_status'), TRUE);
 
     $this->addElement('checkbox', 'is_notify', ts('Send Notification'), NULL);
 
@@ -953,13 +953,17 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task {
     // (See above in formRule()). When adding more than one contact, the duplicates are
     // removed automatically and the user receives one notification.
     if ($this->_action & CRM_Core_Action::ADD) {
-      if(!$this->_single && !empty($this->_eventId)) {
+      $event_id = $this->_eventId;
+      if(empty($event_id) && !empty($params['event_id'])) {
+        $event_id = $params['event_id'];
+      }
+      if(!$this->_single && !empty($event_id)) {
         $duplicateContacts = 0;
         while(list($k,$dupeCheckContactId) = each($this->_contactIds)) {
           // Eliminate contacts that have already been assigned to this event.
           $dupeCheck = new CRM_Event_BAO_Participant;
           $dupeCheck->contact_id = $dupeCheckContactId;
-          $dupeCheck->event_id = $this->_eventId;
+          $dupeCheck->event_id = $event_id;
           $dupeCheck->find(TRUE);
           if(!empty($dupeCheck->id)) {
             $duplicateContacts++;
@@ -1244,6 +1248,8 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task {
 
       $payment = CRM_Core_Payment::singleton($this->_mode, $this->_paymentProcessor, $this);
 
+      // CRM-15622: fix for incorrect contribution.fee_amount
+      $paymentParams['fee_amount'] = NULL;
       $result = $payment->doDirectPayment($paymentParams);
 
       if (is_a($result, 'CRM_Core_Error')) {

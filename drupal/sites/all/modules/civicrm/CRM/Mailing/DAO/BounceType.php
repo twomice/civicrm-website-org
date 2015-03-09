@@ -142,8 +142,8 @@ class CRM_Mailing_DAO_BounceType extends CRM_Core_DAO
           'type' => CRM_Utils_Type::T_STRING,
           'title' => ts('Name') ,
           'required' => true,
-          'maxlength' => 8,
-          'size' => CRM_Utils_Type::EIGHT,
+          'maxlength' => 24,
+          'size' => CRM_Utils_Type::MEDIUM,
         ) ,
         'description' => array(
           'name' => 'description',

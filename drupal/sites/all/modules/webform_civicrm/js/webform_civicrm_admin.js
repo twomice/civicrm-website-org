@@ -210,7 +210,7 @@ var wfCiviAdmin = (function ($, D) {
   }
 
   // Toggle the "multiple" attribute of a select
-  function changeSelect() {
+  function changeSelect(e) {
     var $el = $(this).siblings('select');
     var triggerChange;
     var val = $el.val();
@@ -232,13 +232,11 @@ var wfCiviAdmin = (function ($, D) {
       $el.attr('multiple', 'multiple');
       $('option[value=""]', $el).remove();
     }
-    // For the sake of Drupal.setSummary
-    $el.click();
     // For ajax fields
     if (triggerChange) {
       $el.change();
     }
-    return false;
+    e.preventDefault();
   }
 
   // HTML multiselect elements are awful. This is a simple/lightweight way to make them better.
@@ -292,12 +290,21 @@ var wfCiviAdmin = (function ($, D) {
       $('#edit-participant, #edit-contribution', context).once('wf-civi').drupalSetSummary(function (context) {
         return $('select:first option:selected', context).text();
       });
-      $('fieldset#edit-act', context).once('wf-civi').drupalSetSummary(function (context) {
-        var label = $('select[name="activity_type_id"] option:selected', context).text();
-        if ($('select[name="case_type_id"] option:selected', context).val() > 0) {
-          label = $('select[name="case_type_id"] option:selected', context).text() + ' ' + label;
-        }
-        return label;
+      $('fieldset#edit-activitytab', context).once('wf-civi').drupalSetSummary(function (context) {
+        var label = [];
+        $('fieldset.activity-wrapper', context).each(function() {
+          var caseType = $('select[name$=case_type_id]', this).val();
+          var prefix = caseType != '0' ? $('select[name$=case_type_id] option:selected', this).text() + ': ' : '';
+          label.push(prefix + $('select[name$=activity_type_id] option:selected', this).text());
+        });
+        return label.join('<br />') || Drupal.t('- None -');
+      });
+      $('fieldset#edit-casetab', context).once('wf-civi').drupalSetSummary(function (context) {
+        var label = [];
+        $('select[name$=case_type_id]', context).each(function() {
+          label.push($(this).find('option:selected').text());
+        });
+        return label.join('<br />') || Drupal.t('- None -');
       });
       $('fieldset#edit-membership', context).once('wf-civi').drupalSetSummary(function (context) {
         var memberships = [];
@@ -305,7 +312,14 @@ var wfCiviAdmin = (function ($, D) {
           var label = getContactLabel($(this).attr('name').split('_')[1]);
           memberships.push(label + ': ' + $(this).find('option:selected').text());
         });
-        return memberships.join('<br>') || Drupal.t('- None -');
+        return memberships.join('<br />') || Drupal.t('- None -');
+      });
+      $('#edit-granttab', context).once('wf-civi').drupalSetSummary(function (context) {
+        var label = [];
+        $('select[name$=grant_type_id]', context).each(function() {
+          label.push($(this).find('option:selected').text());
+        });
+        return label.join('<br />') || Drupal.t('- None -');
       });
       $('fieldset#edit-options', context).once('wf-civi').drupalSetSummary(function (context) {
         var label = '';
@@ -332,12 +346,18 @@ var wfCiviAdmin = (function ($, D) {
         }
       }).change();
 
+      // Show/hide 'Not you?' message settings
+      if ($('#edit-toggle-message').not(':checked')) {
+        $('#edit-st-message .form-item-message').hide();
+      };
       $('#edit-toggle-message', context).once('wf-civi').change(function() {
         if($(this).is(':checked')) {
           $('#edit-message').removeAttr('disabled');
+          $('#edit-st-message .form-item-message').show('fast');
         }
         else {
           $('#edit-message').attr('disabled','disabled');
+          $('#edit-st-message .form-item-message').hide('fast');
         }
       }).change();
 
@@ -414,15 +434,6 @@ var wfCiviAdmin = (function ($, D) {
         employerOptions();
       });
 
-      // Change activity subject to match survey/petition
-      $('select[name$="_activity_survey_id"]', context).once('wf-civi').change(function() {
-        var val = $(this).val();
-        if (val != '0' && val != 'create_civicrm_webform_element') {
-          var label = $(this).find('option[value=' + val + ']').text();
-          $('#wf-crm-configure-form input[name=activity_subject]').val(label);
-        }
-      });
-
       // Contact label change events
       $('input[name$=_webform_label]', context).once('wf-keyup').keyup(changeContactLabel);
       $('input[name$=_webform_label]', context).once('wf-change').change(function() {
@@ -475,7 +486,12 @@ var wfCiviAdmin = (function ($, D) {
         if ($pageSelect.val() !== '0' && ($('[name=civicrm_1_contact_1_email_email]:checked').length < 1 || $('[name=contact_1_number_of_email]').val() == '0')) {
           var msg = Drupal.t('You must enable an email field for !contact in order to process transactions.', {'!contact': getContactLabel(1)});
           if (!$('.wf-crm-billing-email-alert').length) {
-            $pageSelect.after('<div class="messages error wf-crm-billing-email-alert">' + msg + '</div>');
+            $pageSelect.after('<div class="messages error wf-crm-billing-email-alert">' + msg + ' <button>' + Drupal.t('Enable It') + '</button></div>');
+            $('.wf-crm-billing-email-alert button').click(function() {
+              $('input[name=civicrm_1_contact_1_email_email]').attr('checked', 'checked').change();
+              $('select[name=contact_1_number_of_email]').val('1').change();
+              return false;
+            });
             if ($('.wf-crm-billing-email-alert').is(':hidden')) {
               billingEmailMsg = CRM.alert(msg, Drupal.t('Email Required'), 'error');
             }

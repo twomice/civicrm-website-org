@@ -371,8 +371,8 @@ class CRM_Core_DAO_ActionSchedule extends CRM_Core_DAO
           'name' => 'entity_value',
           'type' => CRM_Utils_Type::T_STRING,
           'title' => ts('Entity Value') ,
-          'maxlength' => 64,
-          'size' => CRM_Utils_Type::BIG,
+          'maxlength' => 255,
+          'size' => CRM_Utils_Type::HUGE,
         ) ,
         'entity_status' => array(
           'name' => 'entity_status',

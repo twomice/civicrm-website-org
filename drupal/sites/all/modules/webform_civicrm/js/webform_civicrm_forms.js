@@ -83,7 +83,7 @@ var wfCivi = (function ($, D) {
 
   pub.initFileField = function(field, info) {
     info = info || {};
-    var container = $('div.webform-component.[class$="--' + field.replace(/_/g, '-') + '"] div.civicrm-enabled');
+    var container = $('div.webform-component[class$="--' + field.replace(/_/g, '-') + '"] div.civicrm-enabled');
     if (container.length > 0) {
       if ($('.file', container).length > 0) {
         if ($('.file', container).is(':visible')) {
@@ -103,7 +103,7 @@ var wfCivi = (function ($, D) {
   };
 
   pub.clearFileField = function(field) {
-    var container = $('div.webform-component.[class$="--' + field.replace(/_/g, '-') + '"] div.civicrm-enabled');
+    var container = $('div.webform-component[class$="--' + field.replace(/_/g, '-') + '"] div.civicrm-enabled');
     $('.civicrm-remove-file, .civicrm-file-icon', container).remove();
     $('input[type=file], input[type=submit]', container).show();
   };
@@ -310,12 +310,11 @@ var wfCivi = (function ($, D) {
     var value = $el.val(),
       classes = $el.attr('class').replace('text', 'select'),
       id = $el.attr('id'),
-      $form = $el.closest('form'),
-      disabled = $el.is(':disabled') ? ' disabled="disabled"' : '';
+      $form = $el.closest('form');
     if (value !== '') {
       classes = classes + ' has-default';
     }
-    $el.replaceWith('<select id="'+$el.attr('id')+'" name="'+$el.attr('name')+'"' + disabled + ' class="' + classes + ' civicrm-processed" data-val="' + value + '"></select>');
+    $el.replaceWith('<select id="'+$el.attr('id')+'" name="'+$el.attr('name')+'"' + ' class="' + classes + ' civicrm-processed" data-val="' + value + '"></select>');
     return $('#' + id, $form).change(function() {
       $(this).attr('data-val', '');
     });
@@ -335,20 +334,24 @@ var wfCivi = (function ($, D) {
         var key = parseName($el.attr('name'));
         var countrySelect = $el.parents('form').find('.civicrm-enabled[name*="['+(key.replace('state_province', 'country'))+']"]');
         var $county = $el.parents('form').find('.civicrm-enabled[name*="['+(key.replace('state_province', 'county'))+']"]');
-        $el = makeSelect($el);
-        $county.length && ($county = makeSelect($county));
+        if (!$el.attr('readonly')) {
+          $el = makeSelect($el);
+          if ($county.length && !$county.attr('readonly')) {
+            $county = makeSelect($county);
+            $el.change(populateCounty);
+          }
 
-        var countryVal = 'default';
-        if (countrySelect.length === 1) {
-          countryVal = $(countrySelect).val();
-        }
-        else if (countrySelect.length > 1) {
-          countryVal = $(countrySelect).filter(':checked').val();
-        }
-        countryVal || (countryVal = '');
+          var countryVal = 'default';
+          if (countrySelect.length === 1) {
+            countryVal = $(countrySelect).val();
+          }
+          else if (countrySelect.length > 1) {
+            countryVal = $(countrySelect).filter(':checked').val();
+          }
+          countryVal || (countryVal = '');
 
-        $county.length && $el.change(populateCounty);
-        populateStates($el, countryVal);
+          populateStates($el, countryVal);
+        }
       });
 
       // Add handler to country field to trigger ajax refresh of corresponding state/prov

@@ -979,7 +979,7 @@ CREATE TABLE `civicrm_mailing_bounce_type` (
 
 
      `id` int unsigned NOT NULL AUTO_INCREMENT  ,
-     `name` varchar(8) NOT NULL   COMMENT 'Type of bounce',
+     `name` varchar(24) NOT NULL   COMMENT 'Type of bounce',
      `description` varchar(255)    COMMENT 'A description of this bounce type',
      `hold_threshold` int unsigned NOT NULL   COMMENT 'Number of bounces of this type required before the email address is put on bounce hold' 
 ,
@@ -3766,7 +3766,7 @@ CREATE TABLE `civicrm_action_schedule` (
      `title` varchar(64)    COMMENT 'Title of the action(reminder)',
      `recipient` varchar(64)    COMMENT 'Recipient',
      `limit_to` tinyint   DEFAULT 1 COMMENT 'Is this the recipient criteria limited to OR in addition to?',
-     `entity_value` varchar(64)    COMMENT 'Entity value',
+     `entity_value` varchar(255)    COMMENT 'Entity value',
      `entity_status` varchar(64)    COMMENT 'Entity status',
      `start_action_offset` int unsigned    COMMENT 'Reminder Interval.',
      `start_action_unit` varchar(8)    COMMENT 'Time units for reminder.',

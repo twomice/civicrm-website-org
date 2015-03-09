@@ -25,15 +25,17 @@ function location_location_ctools_contexts() {
 /**
  * Create a context, either from configuration or an argument on the URL.
  *
- * @param $empty
+ * @param bool $empty
  *   If true, just return an empty context.
- * @param $data
+ *
+ * @param array $data
  *   If from settings form, a form values array. If from argument, a string.
- * @param $conf
+ *
+ * @param bool $conf
  *   TRUE if the $data is coming from admin configuration, FALSE if it's
  *   from a URL arg.
  *
- * @return
+ * @return object
  *   a Context object
  */
 function location_context_create_location($empty, $data = NULL, $conf = FALSE) {
@@ -47,21 +49,24 @@ function location_context_create_location($empty, $data = NULL, $conf = FALSE) {
   if ($conf) {
     $lid = is_array($data) && isset($data['lid']) ? $data['lid'] : (is_object($data) ? $data->lid : 0);
     if (is_array($data) || !empty($reload)) {
-      $nid = $data['nid'];
+      $nid = isset($data['nid']) ? $data['nid'] : NULL;
       $data = location_load_location($lid);
-      $data['nid'] = $nid;
+      $data['nid'] = is_null($nid) ? FALSE : $nid;
     }
   }
 
   if (!empty($data)) {
     $context->data = $data;
-    $context->title = $data['city'];
+    $context->title = isset($data['city']) ? $data['city'] : '';
     $context->argument = $data['lid'];
 
     return $context;
   }
 }
 
+/**
+ * Settings form.
+ */
 function location_settings_form($conf, $external = FALSE) {
   return array();
 }

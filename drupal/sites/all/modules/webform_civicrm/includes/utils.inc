@@ -62,7 +62,7 @@ function wf_crm_field_options($field, $context, $data) {
       }
     }
     elseif ($name === 'survey_id') {
-      $ret = wf_crm_get_surveys(wf_crm_aval($data, 'activity:1:activity:1', array()));
+      $ret = wf_crm_get_surveys(wf_crm_aval($data, "activity:$c:activity:1", array()));
     }
     elseif ($name == 'event_id') {
       $ret = wf_crm_get_events($data['reg_options'], $context);
@@ -250,14 +250,7 @@ function wf_crm_format_event($event, $format) {
  * @return array
  */
 function wf_crm_get_surveys($act = array()) {
-  $params = array();
-  if (!empty($act['activity_campaign_id'])) {
-    $params['campaign_id'] = $act['activity_campaign_id'];
-  }
-  if (!empty($act['activity_type_id'])) {
-    $params['activity_type_id'] = $act['activity_type_id'];
-  }
-  return wf_crm_apivalues('survey', 'get', $params, 'title');
+  return wf_crm_apivalues('survey', 'get', array_filter($act), 'title');
 }
 
 /**
@@ -299,6 +292,25 @@ function wf_crm_get_activity_types($case_type_name, &$campaign_act_types) {
 }
 
 /**
+ * Get activity types related to CiviCampaign
+ * @return array
+ */
+function wf_crm_get_campaign_activity_types() {
+  $ret = array();
+  if (array_key_exists('activity_survey_id', wf_crm_get_fields())) {
+    $vals = wf_crm_apivalues('option_value', 'get', array(
+      'option_group_id' => 'activity_type',
+      'is_active' => 1,
+      'component_id' => 'CiviCampaign',
+    ));
+    foreach ($vals as $val) {
+      $ret[$val['value']] = $val['label'];
+    }
+  }
+  return $ret;
+}
+
+/**
  * Get contact types and sub-types
  * Unlike pretty much every other option list CiviCRM wants "name" instead of "id"
  *
@@ -333,6 +345,7 @@ function wf_crm_get_privacy_options() {
     'do_not_mail' => ts('Do not mail'),
     'do_not_sms' => ts('Do not sms'),
     'do_not_trade' => ts('Do not trade'),
+    'is_opt_out' => ts('NO BULK EMAILS (User Opt Out)'),
   );
 }
 
@@ -464,21 +477,33 @@ function wf_crm_get_fields($var = 'fields') {
       'email' => array('entity_type' => 'contact', 'label' => t('Email'), 'max_instances' => 9),
       'website' => array('entity_type' => 'contact', 'label' => t('Website'), 'max_instances' => 9),
       'im' => array('entity_type' => 'contact', 'label' => t('Instant Message'), 'max_instances' => 9),
-      'activity' => array('entity_type' => 'activity', 'label' => t('Activity')),
+      'activity' => array('entity_type' => 'activity', 'label' => t('Activity'), 'max_instances' => 30,  'attachments' => TRUE),
       'relationship' => array('entity_type' => 'contact', 'label' => t('Relationship'), 'help_text' => TRUE),
     );
-    if (in_array('CiviCase', $components)) {
-      $sets['case'] = array('entity_type' => 'case', 'label' => t('Case Settings'));
+    $conditional_sets = array(
+      'CiviCase' => array('entity_type' => 'case', 'label' => t('Case Settings'), 'max_instances' => 30),
+      'CiviEvent' => array('entity_type' => 'participant', 'label' => t('Participant'), 'max_instances' => 9),
+      'CiviContribute' => array('entity_type' => 'contribution', 'label' => t('Contribution')),
+      'CiviMember' => array('entity_type' => 'membership', 'label' => t('Membership')),
+      'CiviGrant' => array('entity_type' => 'grant', 'label' => t('Grant'), 'max_instances' => 30, 'attachments' => TRUE),
+    );
+    foreach ($conditional_sets as $component => $set) {
+      if (in_array($component, $components)) {
+        $sets[$set['entity_type']] = $set;
+      }
     }
-    if (in_array('CiviEvent', $components)) {
-      $sets['participant'] = array('entity_type' => 'participant', 'label' => t('Participant'), 'max_instances' => 9);
-    }
-    if (in_array('CiviContribute', $components)) {
-      $sets['contribution'] = array('entity_type' => 'contribution', 'label' => t('Contribution'));
-    }
-    if (in_array('CiviMember', $components)) {
-      $sets['membership'] = array('entity_type' => 'membership', 'label' => t('Membership'));
-    }
+
+    $moneyDefaults = array(
+      'type' => 'number',
+      'data_type' => 'Money',
+      'extra' => array(
+        'field_prefix' => wf_crm_aval($config, 'defaultCurrencySymbol', '$'),
+        'point' => wf_crm_aval($config, 'monetaryDecimalPoint', '.'),
+        'separator' => wf_crm_aval($config, 'monetaryThousandSeparator', ','),
+        'decimals' => 2,
+        'min' => 0,
+      ),
+    );
 
     // Field keys are in the format table_column
     // Use a # sign as a placeholder for field number in the title (or by default it will be appended to the end)
@@ -577,6 +602,10 @@ function wf_crm_get_fields($var = 'fields') {
     $fields['contact_external_identifier'] = array(
       'name' => t('External ID'),
       'type' => 'hidden',
+    );
+    $fields['contact_source'] = array(
+      'name' => t('Source'),
+      'type' => 'textfield',
     );
     $fields['contact_cs'] = array(
       'name' => t('Checksum'),
@@ -720,54 +749,71 @@ function wf_crm_get_fields($var = 'fields') {
         'expose_list' => TRUE,
       );
     }
+    $fields['activity_activity_type_id'] = array(
+      'name' => t('Activity # Type'),
+      'type' => 'select',
+      'expose_list' => TRUE,
+    );
     $fields['activity_target_contact_id'] = array(
-      'name' => t('Activity Participant(s)'),
+      'name' => t('Activity # Participant(s)'),
       'type' => 'select',
       'expose_list' => TRUE,
       'extra' => array(
         'multiple' => 1,
+        'required' => 1,
       ),
       'data_type' => 'ContactReference',
     );
+    $fields['activity_source_contact_id'] = array(
+      'name' => t('Activity # Creator'),
+      'type' => 'select',
+      'expose_list' => TRUE,
+      'data_type' => 'ContactReference',
+      'exposed_empty_option' => '- ' . t('Automatic') . ' -',
+    );
     $fields['activity_subject'] = array(
-      'name' => t('Activity Subject'),
+      'name' => t('Activity # Subject'),
       'type' => 'textfield',
     );
     $fields['activity_details'] = array(
-      'name' => t('Activity Details'),
+      'name' => t('Activity # Details'),
       'type' => module_exists('webform_html_textarea') ? 'html_textarea' : 'textarea',
     );
-    foreach (array('status' => t('Activity Status'), 'priority' => t('Activity Priority')) as $key => $label) {
-      $fields['activity_' . $key . '_id'] = array(
-        'name' => $label,
-        'type' => 'select',
-        'value' => '2',
-        'expose_list' => TRUE,
-      );
-    }
+    $fields['activity_status_id'] = array(
+      'name' => t('Activity # Status'),
+      'type' => 'select',
+      'expose_list' => TRUE,
+      'exposed_empty_option' => '- ' . t('Automatic') . ' -',
+    );
+    $fields['activity_priority_id'] = array(
+      'name' => t('Activity # Priority'),
+      'type' => 'select',
+      'expose_list' => TRUE,
+      'exposed_empty_option' => '- ' . t('Automatic') . ' -',
+    );
     $fields['activity_assignee_contact_id'] = array(
-      'name' => t('Assign Activity to'),
+      'name' => t('Assign Activity # to'),
       'type' => 'select',
       'expose_list' => TRUE,
       'empty_option' => t('No One'),
       'data_type' => 'ContactReference',
     );
     $fields['activity_location'] = array(
-      'name' => t('Activity Location'),
+      'name' => t('Activity # Location'),
       'type' => 'textfield',
     );
     $fields['activity_activity_date_time'] = array(
-      'name' => t('Activity Date'),
+      'name' => t('Activity # Date'),
       'type' => 'date',
       'value' => 'now',
     );
     $fields['activity_activity_date_time_timepart'] = array(
-      'name' => t('Activity Time'),
+      'name' => t('Activity # Time'),
       'type' => 'time',
       'value' => 'now',
     );
     $fields['activity_duration'] = array(
-      'name' => t('Duration'),
+      'name' => t('Activity # Duration'),
       'type' => 'number',
       'extra' => array(
         'field_suffix' => t('min.'),
@@ -778,8 +824,13 @@ function wf_crm_get_fields($var = 'fields') {
     );
     if (isset($sets['case'])) {
       $case_info = new CRM_Case_XMLProcessor_Process();
+      $fields['case_case_type_id'] = array(
+        'name' => t('Case # Type'),
+        'type' => 'select',
+        'expose_list' => TRUE,
+      );
       $fields['case_client_id'] = array(
-        'name' => t('Case Client'),
+        'name' => t('Case # Client'),
         'type' => 'select',
         'expose_list' => TRUE,
         'extra' => array('required' => 1, 'multiple' => $case_info->getAllowMultipleCaseClients()),
@@ -787,9 +838,10 @@ function wf_crm_get_fields($var = 'fields') {
         'value' => 1,
       );
       $fields['case_status_id'] = array(
-        'name' => t('Case Status'),
+        'name' => t('Case # Status'),
         'type' => 'select',
         'expose_list' => TRUE,
+        'exposed_empty_option' => '- ' . t('Automatic') . ' -',
       );
       $fields['case_medium_id'] = array(
         'name' => t('Medium'),
@@ -797,14 +849,15 @@ function wf_crm_get_fields($var = 'fields') {
         'expose_list' => TRUE,
       );
       $fields['case_subject'] = array(
-        'name' => t('Case Subject'),
+        'name' => t('Case # Subject'),
         'type' => 'textfield',
       );
       $fields['case_creator_id'] = array(
-        'name' => t('Case Manager'),
+        'name' => t('Case # Manager'),
         'type' => 'select',
         'expose_list' => TRUE,
         'data_type' => 'ContactReference',
+        'exposed_empty_option' => '- ' . t('Automatic') . ' -',
       );
     }
     $fields['relationship_relationship_type_id'] = array(
@@ -861,17 +914,8 @@ function wf_crm_get_fields($var = 'fields') {
       );
       $fields['contribution_total_amount'] = array(
         'name' => t('Contribution Amount'),
-        'type' => 'number',
-        'extra' => array(
-          'field_prefix' => wf_crm_aval($config, 'defaultCurrencySymbol', '$'),
-          'point' => wf_crm_aval($config, 'monetaryDecimalPoint', '.'),
-          'separator' => wf_crm_aval($config, 'monetaryThousandSeparator', ','),
-          'decimals' => 2,
-          'min' => 0,
-        ),
-        'data_type' => 'Money',
         'weight' => 9991,
-      );
+      ) + $moneyDefaults;
       $fields['contribution_payment_processor_id'] = array(
         'name' => t('Payment Processor'),
         'type' => 'select',
@@ -934,10 +978,10 @@ function wf_crm_get_fields($var = 'fields') {
         'value' => 0,
         'exposed_empty_option' => '- ' . t('Automatic') . ' -',
       );
-      if (isset($fields['contribution_total_amount'])) {
-        $fields['participant_fee_amount'] = $fields['contribution_total_amount'];
-        $fields['participant_fee_amount']['name'] = t('Participant Fee');
-        unset($fields['participant_fee_amount']['weight']);
+      if (isset($sets['contribution'])) {
+        $fields['participant_fee_amount'] = array(
+          'name' => t('Participant Fee'),
+        ) + $moneyDefaults;
       }
     }
     if (isset($sets['membership'])) {
@@ -999,6 +1043,82 @@ function wf_crm_get_fields($var = 'fields') {
         );
       }
     }
+    // CiviGrant fields
+    if (isset($sets['grant'])) {
+      $fields['grant_contact_id'] = array(
+        'name' => t('Grant Applicant'),
+        'type' => 'select',
+        'expose_list' => TRUE,
+        'data_type' => 'ContactReference',
+      );
+      $fields['grant_grant_type_id'] = array(
+        'name' => t('Grant Type'),
+        'type' => 'select',
+        'expose_list' => TRUE,
+        'extra' => array('civicrm_live_options' => 1),
+      );
+      $fields['grant_status_id'] = array(
+        'name' => t('Grant Status'),
+        'type' => 'select',
+        'expose_list' => TRUE,
+        'value' => 0,
+        'exposed_empty_option' => '- ' . t('Automatic') . ' -',
+      );
+      $fields['grant_application_received_date'] = array(
+        'name' => t('Application Received Date'),
+        'type' => 'date',
+      );
+      $fields['grant_decision_date'] = array(
+        'name' => t('Decision Date'),
+        'type' => 'date',
+      );
+      $fields['grant_money_transfer_date'] = array(
+        'name' => t('Money Transfer Date'),
+        'type' => 'date',
+      );
+      $fields['grant_grant_due_date'] = array(
+        'name' => t('Grant Report Due'),
+        'type' => 'date',
+      );
+      $fields['grant_grant_report_received'] = array(
+        'name' => t('Grant Report Received?'),
+        'type' => 'select',
+        'extra' => array('aslist' => 0),
+      );
+      $fields['grant_rationale'] = array(
+        'name' => t('Grant Rationale'),
+        'type' => 'textarea',
+      );
+      $fields['grant_note'] = array(
+        'name' => t('Grant Notes'),
+        'type' => 'textarea',
+      );
+      $fields['grant_amount_total'] = array(
+        'name' => t('Amount Requested'),
+      ) + $moneyDefaults;
+      $fields['grant_amount_granted'] = array(
+        'name' => t('Amount Granted'),
+      ) + $moneyDefaults;
+    }
+
+    // File attachment fields
+    $numAttachments = CRM_Core_BAO_Setting::getItem(CRM_Core_BAO_Setting::SYSTEM_PREFERENCES_NAME, 'max_attachments');
+    foreach ($sets as $ent => $set) {
+      if (!empty($set['attachments']) && $numAttachments) {
+        $sets["{$ent}upload"] = array(
+          'label' => t('File Attachments'),
+          'entity_type' => $ent,
+        );
+        for ($i = 1; $i <= $numAttachments; $i++) {
+          $fields["{$ent}upload_file_$i"] = array(
+            'name' => t('Attachment !num', array('!num' => $i)),
+            'type' => 'file',
+            'data_type' => 'File',
+          );
+        }
+      }
+    }
+
     $tokens = array(
       'display_name' => t('display name'),
       'first_name' => t('first name'),
@@ -1084,6 +1204,9 @@ function wf_crm_get_fields($var = 'fields') {
         }
         $id = $set . '_custom_' . $dao->id;
         $fields[$id] = $custom_types[$dao->html_type];
+        if ($dao->html_type == 'Text' && $dao->data_type == 'Money') {
+          $fields[$id] = $moneyDefaults;
+        }
         $fields[$id]['name'] = $dao->label;
         $fields[$id]['required'] = $dao->is_required;
         $fields[$id]['extra']['description'] = $dao->help_pre;
@@ -1413,4 +1536,13 @@ function wf_crm_explode_multivalue_str($str) {
     return $str;
   }
   return explode($sp, trim((string) $str, $sp));
+}
+
+/**
+ * Check if value is a positive integer
+ * @param mixed $val
+ * @return bool
+ */
+function wf_crm_is_positive($val) {
+  return is_numeric($val) && $val > 0 && round($val) == $val;
 }
