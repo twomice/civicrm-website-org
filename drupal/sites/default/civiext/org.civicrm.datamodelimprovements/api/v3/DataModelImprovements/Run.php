@@ -74,22 +74,32 @@ function DataModelImprovements_Change_Entity($custom_group_id, $contact_type){
 
 function DataModelImprovements_preWebformRegSite(){
 
-    //0. Update all organistions to end users where the contact subtype is NULL and they are in the Org group
+    //Improvements that convert data collected on registered site before we had the webform to the same format that would be expected now that the webform is in place.
+    //These are needed because we are going to ask all registered sites to update via the webform.
+    //
+    //Specifically, we want the ensure the following
+    //
+    // * All registered sites are all End Users
+    // * All registered sites have a register your site activitiy recorded for them (at an appropriate time)
+    // * All registered sites are no longer in the Registered site Organisations group (since we now track this with an activity)
+    //
+
+    //Update the contact sub type for all Organisations in the Register your site Organisations group where the contact subtype is NULL and they areto 'End users'
     $query = "UPDATE civicrm_contact AS cc
         JOIN civicrm_group_contact AS cgc ON cgc.contact_id = cc.id AND cgc.group_id=15
         SET contact_sub_type = 'End_user'
         WHERE contact_sub_type IS NULL";
     CRM_Core_DAO::singleValueQuery($query);
-    //1. Remove all organisations that are just service providers from the list of registered sites
-    
-    //a. mark all ServiceProvider EndUsers as actual ServiceProvider
+
+    //Remove all organisations that are service providers from the list of registered sites
+    //a. Mark all organisations that are tagged as ServiceProvider and EndUsers as just ServiceProvider
     $query = "UPDATE civicrm_contact AS cc
         JOIN civicrm_value_civicrm_site_registration_4 AS cd ON cd.entity_id = cc.id
         SET contact_sub_type ='Service_provider'
         WHERE contact_sub_type = 'Service_providerEnd_user'";
     $result = CRM_Core_DAO::ExecuteQuery($query);
 
-    //b. Then delete the contact_group records for all contacts in the group with id 15
+    //b. Remove all service providers from the group 'Register your site Organisations' (id 15)
     $query = "DELETE cgc
         FROM civicrm_contact AS cc
         JOIN civicrm_group_contact AS cgc
@@ -97,9 +107,9 @@ function DataModelImprovements_preWebformRegSite(){
         WHERE group_id=15 AND contact_sub_type LIKE '%Service%'";
     $result = CRM_Core_DAO::ExecuteQuery($query);
     
-    // 2. Create registered site relationships for all organisations in the registered group
+    //Create 'Registered site' (id 12) relationships for all organisations in the group 'Register your site Organisations' (id 15)
     
-    // a. For all orgs that have exactly one employee, assume this is the person that entered the site
+    // a. For all orgs that have exactly one employee, assume this is the person that entered the site and create the relationship
     $query = "
         INSERT INTO civicrm_relationship(
         SELECT
@@ -123,9 +133,7 @@ function DataModelImprovements_preWebformRegSite(){
     )";
     $result = CRM_Core_DAO::ExecuteQuery($query);
 
-    // b. For all orgs where there is more than one individual, see if one of those is in the registered sites individuals
-
-    //Create a registered by relationship for the most likely candidate for all orgs with more than one employee
+    // b. For all orgs where there is more than one individual, see if one of those is in the registered sites individuals, find the individual that is in the Register your site Individuals list
     $query = "
         SELECT
             cr.contact_id_b as id
@@ -146,9 +154,16 @@ function DataModelImprovements_preWebformRegSite(){
             ";
         $ind = CRM_Core_DAO::ExecuteQuery($query);
 
-        if($ind->N==1){
+        if($ind->N > 0){
             $ind->fetch();
-            echo $org->id.' '.$ind->N.', ';
+        }else{
+            $query = "SELECT cc.id FROM civicrm_contact AS cc WHERE employer_id={$org->id} ";
+            $ind = CRM_Core_DAO::ExecuteQuery($query);
+            if($ind->N > 0){
+                $ind->fetch();
+            }
+        }
+        if($ind->N > 0){
             $params = array(
                 'version' => 3,
                 'sequential' => 1,
@@ -156,12 +171,13 @@ function DataModelImprovements_preWebformRegSite(){
                 'contact_id_b' => $org->id,
                 'relationship_type_id' => 12,
             );
-        $result = civicrm_api('Relationship', 'create', $params);
-        print_r($params);
-        print_r($result);
+            $result = civicrm_api('Relationship', 'create', $params);
         }else{
-            echo $org->id.' '.$ind->N.', ';
+            print_r($org_id);
         }
+        //print_r($params);
+        //print_r($result);
+
     }
 
     //ensure all registered by relationships are permissioned

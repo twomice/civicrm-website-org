@@ -2,7 +2,7 @@ drupal/sites/*/settings.php
 drupal/sites/*/civicrm.settings.php
 drupal/sites/*/files
 
-extensions/cache
+drupal/sites/default/civiext/cache
 
 .DS_Store
 *~
