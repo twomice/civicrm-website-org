@@ -23,6 +23,8 @@ function _civicrm_api3_involvement_Update_spec(&$spec) {
  */
 function civicrm_api3_involvement_Update($params) {
 
+    $score = 0;
+
     //is the contact a member? - what type? Give a score based on the amount of $ that their membership cost / 10
     $membershipScores = array(
         '1' => '2',
