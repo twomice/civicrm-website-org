@@ -23,9 +23,9 @@ function civicrm_org_providers_civicrm_post($op, $objectName, $objectId, $Object
 }
 
 function civicrm_org_providers_update_provider($contact_id){
-    //check that the contact is a service provider contact subtype
     civicrm_initialize();
 
+    //check that the contact is a service provider contact subtype
     $params = array('version' => 3, 'contact_id' => $contact_id);
     $contact=civicrm_api('Contact', 'getsingle', $params);
     if(!is_array($contact['contact_sub_type']) OR !in_array('Service_provider', $contact['contact_sub_type'])){
@@ -73,6 +73,7 @@ function civicrm_org_providers_update_provider($contact_id){
     }
     $updateParams = array('version' => 3, 'contact_id' => $contact_id, 'custom_160' => json_encode($badges));
     $result=civicrm_api('contact', 'update', $updateParams);
+    $result=civicrm_api('involvement', 'update', array('contact_id' =>$contact_id));
     return;
 }
 
