@@ -56,7 +56,7 @@ function civicrm_api3_involvement_Update($params) {
     civicrm_api3('CustomValue', 'create', array(
     'sequential' => 1,
     'entity_id' => $params['contact_id'],
-    'custom_158' => $score
+    'custom_183' => $score
     ));
     return civicrm_api3_create_success();
 }
