@@ -48,7 +48,6 @@ function civicrm_api3_involvement_Update($params) {
     //are they an active contributor? add 1 to their score
     foreach($gr['values'] as $group) {
         if($group['group_id']==131){
-        echo '-';
             $score ++;
         }
     }
