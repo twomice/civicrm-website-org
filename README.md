@@ -63,7 +63,7 @@ If all went smoothly in both instances, they can be carried out on the productio
 
 Notes:
 * The drush command 'drush updb' is useful for just applying db upgrades when the code upgrade has already been done with a git pull (as is the case on www-test and www-prod).
-* The drush command 'civicrm-upgrade' is useful for upgrading CiviCRM from the command line
+* The drush command 'civicrm-upgrade-db' is useful for upgrading CiviCRM from the command line
 
 Needless to say, if you do notice anything going wrong 
 and on the test infrastructure before being carried out on the production server.
