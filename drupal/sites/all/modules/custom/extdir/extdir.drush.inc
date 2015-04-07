@@ -408,7 +408,12 @@ function _extdir_git_getfile($giturl, $tag, $file) {
 
 function _extdir_git_getdurl($giturl, $tag) {
   if (substr($giturl, 0, 19) == 'https://github.com/') {
-    return substr($giturl, 0, -4)."/archive/$tag.zip";
+    $projUrl = $giturl;
+    if (preg_match('/\.git$/', $projUrl)) {
+      // In github URLs, the '.git' extension is optional.
+      $projUrl = substr($giturl, 0, -4);
+    }
+    return "$projUrl/archive/$tag.zip";
   }
   return FALSE;
 }
