@@ -117,7 +117,7 @@
       </div>
       <br/>
       <div class="crm-levels">
-        <span class="crm-level-1">$10</span>
+        <span class="crm-level-1">$65</span>
         <span class="crm-level-2">$250</span>
         <span class="crm-level-3">$500</span>
         <span class="crm-level-4">$750</span>

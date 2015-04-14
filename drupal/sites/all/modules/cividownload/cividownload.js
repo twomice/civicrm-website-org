@@ -3,9 +3,9 @@
     if ($("#slider").length) {
       $("#slider").slider({
         value: 250,
-        min: 10,
+        min: 65,
         max: 1000,
-        step: 10,
+        step: 5,
         slide: function (event, ui) {
           $('.other_amount-content input').val(ui.value);
           setDonationMessage(ui.value);
