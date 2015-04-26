@@ -8,7 +8,13 @@
   <div class="crm-download-listing">
     <?php foreach ($content['download_urls'] as $key => $values) { ?>
       <div class="crm-download-buttons">
-        <a class="download-link" href="<?php echo $values['url'];?>">Download</a>
+<?php
+$url = $values['url'];
+if (arg(1) == 'list' && variable_get('cividownload_mode') == 2 ) {
+  $url = "https://download.civicrm.org/civicrm-{$civicrm_version}-" . $values['filename'] . "?src=donate"; 
+}
+?>
+        <a class="download-link" href="<?php echo $url;?>">Download</a>
         &nbsp;CiviCRM <?php echo $civicrm_version; ?> <?php echo 'for ' . $values['title']; ?></strong>
       </div>
       <br/>
@@ -25,7 +31,13 @@
     <div class="crm-download-listing">
     <?php foreach ($content['download_urls'] as $key => $values) { ?>
       <div class="crm-download-buttons">
-        <a class="download-link" href="<?php echo $values['url'];?>&rtype=lts">Download</a>
+<?php
+$url = $values['url'];
+if (arg(1) == 'list' && variable_get('cividownload_mode') == 2 ) {
+  $url = "https://download.civicrm.org/civicrm-{$civicrm_lts_version}-" . $values['filename'] . "?src=donate"; 
+}
+?>
+        <a class="download-link" href="<?php echo $url;?>&rtype=lts">Download</a>
         &nbsp;CiviCRM <?php echo $civicrm_lts_version; ?> <?php echo 'for ' . $values['title']; ?></strong>
       </div>
       <br/>
