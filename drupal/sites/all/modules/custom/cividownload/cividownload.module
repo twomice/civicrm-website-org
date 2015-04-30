@@ -68,7 +68,33 @@ function cividownload_download_list() {
       'filename' => 'wordpress.zip',
     ),
   );
-  
+
+  // Get current Stable and LTS versions from json
+  $json = file_get_contents('http://latest.civicrm.org/versions.json');
+  $versions = json_decode($json, TRUE);
+
+  // Sort major versions in reverse, so we can start with the newest.
+  $major_versions = array_keys($versions);
+  usort($major_versions, 'version_compare');
+  $sorted_major_versions = array_reverse($major_versions);
+
+  // Starting with newest major version, find the first 'stable' one.
+  foreach ($sorted_major_versions as $major_version) {
+    if ($versions[$major_version]['status'] == 'stable') {
+      // Get the latest release in this version.
+      $content['civicrm_version'] = _cividownload_get_latest_release($versions[$major_version]['releases']);
+      break;
+    }
+  }
+  // Starting with newest major version, find the first 'lts' one.
+  foreach ($sorted_major_versions as $major_version) {
+    if ($versions[$major_version]['status'] == 'lts') {
+      // Get the latest release in this version.
+      $content['civicrm_lts_version'] = _cividownload_get_latest_release($versions[$major_version]['releases']);
+      break;
+    }
+  }
+
   return $content;
 }
 
@@ -251,4 +277,22 @@ function cividownload_civicrm_buildForm($formName, &$form) {
 
     }
   } 
+}
+
+/**
+ * Determine the greatest version number among a given set of releases from
+ * a version in versions.json
+ *
+ * @param Array $releases An array generated from the 'releases' property of
+ *  a version in versions.json
+ * 
+ * @return String
+ */
+function _cividownload_get_latest_release($releases) {
+  $release_versions = array();
+  foreach($releases as $release) {
+    $release_versions[] = $release['version'];
+  }
+  usort($release_versions, 'version_compare');
+  return array_pop($release_versions);
 }
